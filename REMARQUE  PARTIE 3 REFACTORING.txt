@@ -1,0 +1,1 @@
+REMARQUE : le git a été créé avant de commencer le refactoring, voir le commit à partir duquel on a fini d'éditer les tests et commencé le refactoring pour la PARTIE 3

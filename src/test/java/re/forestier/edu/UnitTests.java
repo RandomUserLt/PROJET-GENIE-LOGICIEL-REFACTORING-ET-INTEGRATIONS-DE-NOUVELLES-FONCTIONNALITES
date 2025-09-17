@@ -414,4 +414,194 @@ public class UnitTests {
             assertNotNull(map.get(cls).get(5));
         }
     }
+
+    // Pour essayer d'augmenter avec PIT
+    // 1) Archer à 50% PV AVEC Arc magique : ne soigne pas (tue < -> <=)
+    @Test
+    @DisplayName("majFinDeTour : Archer à 50% PV avec Magic Bow → pas de soin")
+    void archer_magicbow_exactement_moitie_pas_de_soin() {
+        player p = new player("A", "Archer", "ARCHER", 0, new ArrayList<>());
+        p.healthpoints = 100;
+        p.currenthealthpoints = 50; // exactement 50%
+        p.inventory.add("Magic Bow");
+        UpdatePlayer.majFinDeTour(p);
+        assertEquals(50, p.currenthealthpoints);
+    }
+
+    // 2) Nain à 50% PV AVEC Élixir : ne soigne pas (tue < -> <=)
+    @Test
+    @DisplayName("majFinDeTour : Nain à 50% PV avec Élixir sacré → pas de soin")
+    void nain_elixir_exactement_moitie_pas_de_soin() {
+        player p = new player("D", "Dwarf", "DWARF", 0, new ArrayList<>());
+        p.healthpoints = 100;
+        p.currenthealthpoints = 50; // exactement 50%
+        p.inventory.add("Holy Elixir");
+        UpdatePlayer.majFinDeTour(p);
+        assertEquals(50, p.currenthealthpoints);
+    }
+
+    // 3) Seuils d’XP : juste avant / juste après 10, 27, 57 (tue >= / > et signale
+    // correctement leveled)
+    @Test
+    @DisplayName("addXp : croisement des seuils 10/27/57 → leveled vrai uniquement en franchissant")
+    void addXp_croisements_seuils() {
+        player p = new player("S", "Edge", "ADVENTURER", 0, new ArrayList<>());
+
+        boolean up;
+
+        up = UpdatePlayer.addXp(p, 9);
+        assertFalse(up);
+        assertEquals(1, p.retrieveLevel());
+        up = UpdatePlayer.addXp(p, 1);
+        assertTrue(up);
+        assertEquals(2, p.retrieveLevel()); // 10
+
+        up = UpdatePlayer.addXp(p, 16);
+        assertFalse(up);
+        assertEquals(2, p.retrieveLevel()); // 26
+        up = UpdatePlayer.addXp(p, 1);
+        assertTrue(up);
+        assertEquals(3, p.retrieveLevel()); // 27
+
+        up = UpdatePlayer.addXp(p, 29);
+        assertFalse(up);
+        assertEquals(3, p.retrieveLevel()); // 56
+        up = UpdatePlayer.addXp(p, 1);
+        assertTrue(up);
+        assertEquals(4, p.retrieveLevel()); // 57
+    }
+
+    // 4) Formule archer : vérifier le calcul exact (tue mutations MATH)
+    @Test
+    @DisplayName("majFinDeTour : Archer <50% avec Magic Bow, hp=48 → +6 (1 + (48/8 - 1))")
+    void archer_magicbow_calcul_bonus_precis() {
+        player p = new player("R", "Archer", "ARCHER", 0, new ArrayList<>());
+        p.healthpoints = 100;
+        p.currenthealthpoints = 48;
+        p.inventory.add("Magic Bow");
+        UpdatePlayer.majFinDeTour(p);
+        assertEquals(54, p.currenthealthpoints); // 48 + 1 + (6-1) = 54
+    }
+
+    // 5) Clamp au max : guérir pile jusqu’au max mais pas au-delà (tue > -> >=)
+    /*
+     * @Test
+     * 
+     * @DisplayName("majFinDeTour : soin qui atteint exactement le max → clampé au max"
+     * )
+     * void clamp_apres_soin_atteint_max() {
+     * player p = new player("C", "Any", "ADVENTURER", 0, new ArrayList<>());
+     * p.healthpoints = 50;
+     * p.currenthealthpoints = 49; // < 50% mais niveau 1 → +1
+     * UpdatePlayer.majFinDeTour(p);
+     * assertEquals(50, p.currenthealthpoints); // pas 51
+     * }
+     */
+
+    // 6) Seuil niveau 3 : comportements différents pour niv.2 vs niv.3 (tue < ->
+    // <=)
+    @Test
+    @DisplayName("Aventurier : niv.2 → +1 PV ; niv.3 → +2 PV (seuil exact)")
+    void aventurier_seuil_niveau3_differe() {
+        // niveau 2 (26 XP)
+        player p2 = new player("A", "Hero", "ADVENTURER", 0, new ArrayList<>());
+        p2.healthpoints = 100;
+        p2.currenthealthpoints = 40;
+        UpdatePlayer.addXp(p2, 26); // reste niv.2
+        UpdatePlayer.majFinDeTour(p2);
+        assertEquals(41, p2.currenthealthpoints);
+
+        // niveau 3 (27 XP)
+        player p3 = new player("B", "Hero", "ADVENTURER", 0, new ArrayList<>());
+        p3.healthpoints = 100;
+        p3.currenthealthpoints = 40;
+        UpdatePlayer.addXp(p3, 27); // passe niv.3
+        UpdatePlayer.majFinDeTour(p3);
+        assertEquals(42, p3.currenthealthpoints);
+    }
+
+    // --- Mutants "conditional boundary" & "math" ciblés ---
+
+    // Archer + Magic Bow : cas limites de division entière
+    // 7 -> 7 + 1 + (0-1) = 7 (pas de gain)
+    /*
+     * @Test
+     * 
+     * @DisplayName("majFinDeTour : Archer + Magic Bow, hp=7  → +0 (division entière)"
+     * )
+     * void archer_magicbow_hp7_pas_de_gain() {
+     * player p = new player("R", "Archer", "ARCHER", 0, new ArrayList<>());
+     * p.healthpoints = 100;
+     * p.currenthealthpoints = 7; // < 50%
+     * p.inventory.add("Magic Bow");
+     * UpdatePlayer.majFinDeTour(p);
+     * assertEquals(7, p.currenthealthpoints);
+     * }
+     */
+
+    // 8 -> 8 + 1 + (1-1) = 9
+    @Test
+    @DisplayName("majFinDeTour : Archer + Magic Bow, hp=8  → +1")
+    void archer_magicbow_hp8_plus1() {
+        player p = new player("R", "Archer", "ARCHER", 0, new ArrayList<>());
+        p.healthpoints = 100;
+        p.currenthealthpoints = 8; // < 50%
+        p.inventory.add("Magic Bow");
+        UpdatePlayer.majFinDeTour(p);
+        assertEquals(9, p.currenthealthpoints);
+    }
+
+    // 16 -> 16 + 1 + (2-1) = 18
+    @Test
+    @DisplayName("majFinDeTour : Archer + Magic Bow, hp=16 → +2")
+    void archer_magicbow_hp16_plus2() {
+        player p = new player("R", "Archer", "ARCHER", 0, new ArrayList<>());
+        p.healthpoints = 100;
+        p.currenthealthpoints = 16; // < 50%
+        p.inventory.add("Magic Bow");
+        UpdatePlayer.majFinDeTour(p);
+        assertEquals(18, p.currenthealthpoints);
+    }
+
+    // Seuil 50% pile : pas de soin (tue < -> <=) pour Aventurier
+    @Test
+    @DisplayName("majFinDeTour : Aventurier à 50% PV pile → pas de soin")
+    void aventurier_exactement_moitie_pas_de_soin() {
+        player p = new player("C", "Any", "ADVENTURER", 0, new ArrayList<>());
+        p.healthpoints = 50;
+        p.currenthealthpoints = 25; // exactement 50%
+        UpdatePlayer.majFinDeTour(p);
+        assertEquals(25, p.currenthealthpoints);
+    }
+
+    // Seuil niveau 3 : niv.2 → +1 ; niv.3 → +2 (tue < -> <=)
+    @Test
+    @DisplayName("Aventurier : seuil niveau 3 — niv.2:+1  vs  niv.3:+2")
+    void aventurier_seuil_niveau3() {
+        player p2 = new player("A", "Hero", "ADVENTURER", 0, new ArrayList<>());
+        p2.healthpoints = 100;
+        p2.currenthealthpoints = 40;
+        UpdatePlayer.addXp(p2, 26); // niveau 2
+        UpdatePlayer.majFinDeTour(p2);
+        assertEquals(41, p2.currenthealthpoints);
+
+        player p3 = new player("B", "Hero", "ADVENTURER", 0, new ArrayList<>());
+        p3.healthpoints = 100;
+        p3.currenthealthpoints = 40;
+        UpdatePlayer.addXp(p3, 27); // niveau 3
+        UpdatePlayer.majFinDeTour(p3);
+        assertEquals(42, p3.currenthealthpoints);
+    }
+
+    // Saut de plusieurs niveaux en un seul add (tue mutants sur la boucle de
+    // seuils)
+    @Test
+    @DisplayName("addXp : 0→120 en un coup → niveau 5")
+    void addXp_saut_multi_niveaux() {
+        player p = new player("S", "Edge", "ADVENTURER", 0, new ArrayList<>());
+        boolean leveled = UpdatePlayer.addXp(p, 120);
+        assertTrue(leveled);
+        assertEquals(5, p.retrieveLevel()); // 111+ → niv.5
+    }
+
 } // fin de code

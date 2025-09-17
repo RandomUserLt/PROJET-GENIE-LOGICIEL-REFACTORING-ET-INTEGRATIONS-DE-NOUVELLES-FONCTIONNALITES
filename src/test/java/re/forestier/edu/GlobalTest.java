@@ -15,9 +15,22 @@ import re.forestier.edu.rpg.player;
 public class GlobalTest {
 
     // Vérifie que l’affichage de base du joueur correspond bien au format attendu
+    /*
+     * @Test
+     * 
+     * @DisplayName("Global : Vérification de l’affichage de base")
+     * void testAffichageDeBase() {
+     * player player = new player("Florian", "Gnognak le Barbare", "ADVENTURER",
+     * 200, new ArrayList<>());
+     * UpdatePlayer.addXp(player, 20);
+     * player.inventory = new ArrayList<>();
+     * 
+     * verify(Affichage.afficherJoueur(player));
+     * }
+     */
+
     @Test
-    @DisplayName("Global : Vérification de l’affichage de base")
-    void testAffichageDeBase() {
+    void testAffichageBase() {
         player player = new player("Florian", "Gnognak le Barbare", "ADVENTURER", 200, new ArrayList<>());
         UpdatePlayer.addXp(player, 20);
         player.inventory = new ArrayList<>();

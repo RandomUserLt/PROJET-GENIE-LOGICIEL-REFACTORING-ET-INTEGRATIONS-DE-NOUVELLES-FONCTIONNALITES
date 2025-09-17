@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id "jacoco"
-    id 'info.solidsoft.pitest' version '1.7.4'
+    id 'jacoco'
+    id 'info.solidsoft.pitest' version '1.15.0' // plugin PIT récent compatible JDK 21
 }
 
 group = 're.forestier.edu'
@@ -12,17 +12,36 @@ repositories {
 }
 
 dependencies {
+    // JUnit 5 BOM pour garder tout cohérent
     testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-    testImplementation 'org.pitest:pitest-junit5-plugin:0.12'
-    testImplementation("com.approvaltests:approvaltests:15.6.0")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // ApprovalTests
+    testImplementation "com.approvaltests:approvaltests:15.6.0"
+
+    // Plugin PIT pour JUnit5 (récente)
+    testImplementation 'org.pitest:pitest-junit5-plugin:1.2.1'
+
+    // Hamcrest
     implementation 'org.hamcrest:hamcrest:2.2'
-    implementation("org.freemarker:freemarker:2.3.30")
 
-
+    // Freemarker
+    implementation "org.freemarker:freemarker:2.3.30"
 }
 
 test {
     useJUnitPlatform()
+}
+
+pitest {
+    pitestVersion = '1.15.8'       // cœur de PIT à jour (Java 21)
+    testPlugin = 'junit5'
+    junit5PluginVersion = '1.2.1'
+
+    targetClasses = ['re.forestier.edu.rpg.*']
+    targetTests   = ['re.forestier.edu.*']
+
+    outputFormats = ['HTML']
+    timestampedReports = false
 }
