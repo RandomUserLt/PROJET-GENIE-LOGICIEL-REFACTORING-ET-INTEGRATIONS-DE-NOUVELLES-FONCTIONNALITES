@@ -1,7 +1,5 @@
 package re.forestier.edu;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
@@ -13,11 +11,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import re.forestier.edu.rpg.Affichage;
 import re.forestier.edu.rpg.UpdatePlayer;
 import re.forestier.edu.rpg.player;
 
-public class UnitTests {
+public class UpdatePlayerTest {
     private ArrayList<String> inv;
 
     private ArrayList<String> emptyInv() {
@@ -36,88 +33,7 @@ public class UnitTests {
     }
 
     // Vérifie que le nom du joueur est correctement stocké
-    @Test
-    @DisplayName("Nom du joueur bien initialisé")
-    void testNomDuJoueur() {
-        player joueur = new player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
-        assertThat(joueur.playerName, is("Florian"));
-    }
 
-    // Vérifie qu’on ne peut pas avoir un montant d’argent négatif
-    @Test
-    @DisplayName("Impossible d’avoir un solde d’argent négatif")
-    void testArgentNegatif() {
-        player p = new player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
-
-        try {
-            p.removeMoney(200);
-        } catch (IllegalArgumentException e) {
-            return;
-        }
-        fail();
-    }
-
-    // Vérifie que le constructeur avec une classe valide initialise bien tous les
-    // champs
-    @Test
-    @DisplayName("Constructeur : classe valide → champs et capacités initialisés")
-    void constructeurClasseValideInitialise() {
-        player p = new player("Alice", "AliceAvatar", "ADVENTURER", 10, new ArrayList<>(inv));
-        assertEquals("Alice", p.playerName);
-        assertEquals("AliceAvatar", p.Avatar_name);
-        assertEquals("ADVENTURER", p.getAvatarClass());
-        assertNotNull(p.money);
-        assertEquals(10, p.money.intValue());
-        assertEquals(2, p.inventory.size());
-        assertNotNull(p.abilities, "Les capacités doivent être initialisées");
-    }
-
-    // Vérifie que le constructeur rejette une classe invalide (champ null)
-    @Test
-    @DisplayName("Constructeur : classe invalide → AvatarClass nul")
-    void constructeurClasseInvalideRefuse() {
-        player p = new player("Bob", "BobAvatar", "MAGE", 5, new ArrayList<>(inv));
-        assertNull(p.getAvatarClass(), "Classe invalide non acceptée");
-    }
-
-    // Vérifie que getAvatarClass renvoie bien la classe stockée
-    @Test
-    @DisplayName("getAvatarClass renvoie la classe du joueur")
-    void testGetAvatarClass() {
-        player p = new player("Cara", "CaraAvatar", "ARCHER", 0, new ArrayList<>(inv));
-        assertEquals("ARCHER", p.getAvatarClass());
-    }
-
-    // Vérifie que addMoney ajoute correctement de l’argent (y compris 0)
-    @Test
-    @DisplayName("addMoney : ajout d’argent positif ou nul")
-    void testAjoutArgent() {
-        player p = new player("Dan", "DanAvatar", "DWARF", 7, new ArrayList<>(inv));
-        p.addMoney(0);
-        assertEquals(7, p.money.intValue());
-        p.addMoney(5);
-        assertEquals(12, p.money.intValue());
-    }
-
-    // Vérifie que removeMoney retire l’argent si le solde est suffisant
-    @Test
-    @DisplayName("removeMoney : soustraction valide")
-    void testRetraitArgentOk() {
-        player p = new player("Eve", "EveAvatar", "ADVENTURER", 10, new ArrayList<>(inv));
-        p.removeMoney(4);
-        assertEquals(6, p.money.intValue());
-    }
-
-    // Vérifie que removeMoney lève une exception si le solde deviendrait négatif
-    @Test
-    @DisplayName("removeMoney : exception si résultat négatif")
-    void testRetraitArgentNegatif() {
-        player p = new player("Fred", "FredAvatar", "ARCHER", 3, new ArrayList<>(inv));
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> p.removeMoney(4));
-        assertTrue(ex.getMessage() == null || ex.getMessage().toLowerCase().contains("negative"));
-    }
-
-    // Vérifie que retrieveLevel renvoie le bon niveau en fonction de l’XP cumulée
     @Test
     @DisplayName("retrieveLevel : seuils d’XP → niveaux 1 à 5")
     void testNiveauxParSeuilsXp() {
@@ -136,6 +52,7 @@ public class UnitTests {
     }
 
     // Vérifie que getXp renvoie bien la valeur actuelle d’XP
+
     @Test
     @DisplayName("getXp : valeur renvoyée après ajout d’XP")
     void testGetXp() {
@@ -145,43 +62,7 @@ public class UnitTests {
     }
 
     // Vérifie l’affichage de base avec xp=20 et inventaire vide
-    @Test
-    @DisplayName("afficherJoueur : format de base avec xp=20, inventaire vide")
-    void testAffichageBase() {
-        ArrayList<String> inv = new ArrayList<>();
-        player p = new player("Florian", "Gnognak le Barbare", "ADVENTURER", 0, inv);
-        UpdatePlayer.addXp(p, 20);
-        p.inventory.clear();
-        String actual = Affichage.afficherJoueur(p);
 
-        String expected = "Joueur Gnognak le Barbare joué par Florian" +
-                "\nNiveau : 2 (XP totale : 20)" +
-                "\n\nCapacités :" +
-                "\n   DEF : 1" +
-                "\n   ATK : 3" +
-                "\n   CHA : 3" +
-                "\n   INT : 2" +
-                "\n\nInventaire :";
-        assertEquals(expected, actual);
-    }
-
-    // Vérifie que l’affichage de l’inventaire montre bien chaque item
-    @Test
-    @DisplayName("afficherJoueur : inventaire non vide → items affichés ligne par ligne")
-    void testAffichageInventaire() {
-        ArrayList<String> inv = new ArrayList<>();
-        inv.add("Torch");
-        inv.add("Magic Bow");
-        player p = new player("Alice", "Ranger", "ARCHER", 0, inv);
-        String s = Affichage.afficherJoueur(p);
-
-        assertTrue(s.contains("\n\nInventaire :"));
-        assertTrue(s.contains("\n   Torch"));
-        assertTrue(s.contains("\n   Magic Bow"));
-    }
-
-    // Vérifie que la map abilitiesPerTypeAndLevel contient bien les niveaux pour
-    // toutes les classes
     @Test
     @DisplayName("abilitiesPerTypeAndLevel : niveau 1 présent pour toutes les classes")
     void testAbilitiesNiveau1Present() {
@@ -196,6 +77,7 @@ public class UnitTests {
 
     // Vérifie qu’ajouter de l’XP sans franchir de seuil renvoie false et ne modifie
     // pas l’inventaire
+
     @Test
     @DisplayName("addXp : pas de montée de niveau → false, inventaire inchangé")
     void testAddXpSansNiveau() {
@@ -209,6 +91,7 @@ public class UnitTests {
 
     // Vérifie qu’une montée de niveau donne true, met à jour le niveau et ajoute un
     // item
+
     @Test
     @DisplayName("addXp : montée au niveau 2 → true, niveau=2, inventaire+1")
     void testAddXpMonteeNiveau2() {
@@ -222,6 +105,7 @@ public class UnitTests {
     }
 
     // Vérifie que majFinDeTour affiche "KO" si le joueur est à 0 PV
+
     @Test
     @DisplayName("majFinDeTour : joueur KO → message et aucun changement")
     void testMajFinDeTourKO() {
@@ -243,6 +127,7 @@ public class UnitTests {
     }
 
     // Vérifie que majFinDeTour rend bien +2 PV à un nain < 50% PV avec Élixir
+
     @Test
     @DisplayName("majFinDeTour : nain < 50% PV avec Élixir sacré → +2 PV")
     void testMajFinDeTourNainAvecElixir() {
@@ -256,6 +141,7 @@ public class UnitTests {
 
     // Vérifie que majFinDeTour rend bien +5 PV à un archer < 50% PV avec Arc
     // magique
+
     @Test
     @DisplayName("majFinDeTour : archer < 50% PV avec Arc magique → +5 PV")
     void testMajFinDeTourArcherAvecArcMagique() {
@@ -268,6 +154,7 @@ public class UnitTests {
     }
 
     // Vérifie que majFinDeTour limite bien les PV au maximum
+
     @Test
     @DisplayName("majFinDeTour : PV limités au maximum")
     void testMajFinDeTourClampPvMax() {
@@ -279,6 +166,7 @@ public class UnitTests {
     }
 
     // Vérifie que majFinDeTour donne +1 PV à un aventurier < 50% PV et niveau < 3
+
     @Test
     @DisplayName("majFinDeTour : aventurier < 50% PV, niveau < 3 → +1 PV")
     void testMajFinDeTourAventurierBasNiveau() {
@@ -290,6 +178,7 @@ public class UnitTests {
     }
 
     // Vérifie que majFinDeTour donne +2 PV à un aventurier < 50% PV et niveau ≥ 3
+
     @Test
     @DisplayName("majFinDeTour : aventurier < 50% PV, niveau ≥ 3 → +2 PV")
     void testMajFinDeTourAventurierHautNiveau() {
@@ -303,6 +192,7 @@ public class UnitTests {
     }
 
     // Vérifie que majFinDeTour donne +1 PV à un nain < 50% PV sans Élixir
+
     @Test
     @DisplayName("majFinDeTour : nain < 50% PV sans Élixir → +1 PV")
     void testMajFinDeTourNainSansElixir() {
@@ -314,6 +204,7 @@ public class UnitTests {
     }
 
     // Vérifie que majFinDeTour donne +1 PV à un archer < 50% PV sans Arc magique
+
     @Test
     @DisplayName("majFinDeTour : archer < 50% PV sans Arc magique → +1 PV")
     void testMajFinDeTourArcherSansArc() {
@@ -325,6 +216,7 @@ public class UnitTests {
     }
 
     // Vérifie qu’un joueur avec ≥ 50% PV et < PV max ne change pas
+
     @Test
     @DisplayName("majFinDeTour : PV ≥ 50% et < max → aucun changement")
     void testMajFinDeTourPasDeChangement() {
@@ -336,6 +228,7 @@ public class UnitTests {
     }
 
     // Vérifie que addXp fait monter un archer au niveau 2 et ajoute un item
+
     @Test
     @DisplayName("addXp : archer monte au niveau 2 → true + inventaire+1")
     void testAddXpArcherNiveau2() {
@@ -348,6 +241,7 @@ public class UnitTests {
     }
 
     // Vérifie que addXp fait monter un nain au niveau 2 et ajoute un item
+
     @Test
     @DisplayName("addXp : nain monte au niveau 2 → true + inventaire+1")
     void testAddXpNainNiveau2() {
@@ -360,6 +254,7 @@ public class UnitTests {
     }
 
     // Vérifie que majFinDeTour avec PV exactement au max ne change rien
+
     @Test
     @DisplayName("majFinDeTour : PV exactement au maximum → inchangé")
     void testMajFinDeTourPvMax() {
@@ -371,6 +266,7 @@ public class UnitTests {
     }
 
     // Vérifie que addXp avec 0 XP ne change rien
+
     @Test
     @DisplayName("addXp : 0 XP → false, XP et inventaire inchangés")
     void testAddXpZero() {
@@ -383,6 +279,7 @@ public class UnitTests {
     }
 
     // Vérifie les cas limites des seuils XP pour retrieveLevel
+
     @Test
     @DisplayName("retrieveLevel : valeurs limites 26→2, 56→3, 110→4")
     void testRetrieveLevelBords() {
@@ -401,6 +298,7 @@ public class UnitTests {
 
     // Vérifie que abilitiesPerTypeAndLevel contient bien les entrées jusqu’au
     // niveau 5
+
     @Test
     @DisplayName("abilitiesPerTypeAndLevel : entrées présentes jusqu’au niveau 5")
     void testAbilitiesNiveaux1a5() {
@@ -417,6 +315,7 @@ public class UnitTests {
 
     // Pour essayer d'augmenter avec PIT
     // 1) Archer à 50% PV AVEC Arc magique : ne soigne pas (tue < -> <=)
+
     @Test
     @DisplayName("majFinDeTour : Archer à 50% PV avec Magic Bow → pas de soin")
     void archer_magicbow_exactement_moitie_pas_de_soin() {
@@ -429,6 +328,7 @@ public class UnitTests {
     }
 
     // 2) Nain à 50% PV AVEC Élixir : ne soigne pas (tue < -> <=)
+
     @Test
     @DisplayName("majFinDeTour : Nain à 50% PV avec Élixir sacré → pas de soin")
     void nain_elixir_exactement_moitie_pas_de_soin() {
@@ -442,6 +342,7 @@ public class UnitTests {
 
     // 3) Seuils d’XP : juste avant / juste après 10, 27, 57 (tue >= / > et signale
     // correctement leveled)
+
     @Test
     @DisplayName("addXp : croisement des seuils 10/27/57 → leveled vrai uniquement en franchissant")
     void addXp_croisements_seuils() {
@@ -472,6 +373,7 @@ public class UnitTests {
     }
 
     // 4) Formule archer : vérifier le calcul exact (tue mutations MATH)
+
     @Test
     @DisplayName("majFinDeTour : Archer <50% avec Magic Bow, hp=48 → +6 (1 + (48/8 - 1))")
     void archer_magicbow_calcul_bonus_precis() {
@@ -500,6 +402,7 @@ public class UnitTests {
 
     // 6) Seuil niveau 3 : comportements différents pour niv.2 vs niv.3 (tue < ->
     // <=)
+
     @Test
     @DisplayName("Aventurier : niv.2 → +1 PV ; niv.3 → +2 PV (seuil exact)")
     void aventurier_seuil_niveau3_differe() {
@@ -540,6 +443,7 @@ public class UnitTests {
      */
 
     // 8 -> 8 + 1 + (1-1) = 9
+
     @Test
     @DisplayName("majFinDeTour : Archer + Magic Bow, hp=8  → +1")
     void archer_magicbow_hp8_plus1() {
@@ -552,6 +456,7 @@ public class UnitTests {
     }
 
     // 16 -> 16 + 1 + (2-1) = 18
+
     @Test
     @DisplayName("majFinDeTour : Archer + Magic Bow, hp=16 → +2")
     void archer_magicbow_hp16_plus2() {
@@ -564,6 +469,7 @@ public class UnitTests {
     }
 
     // Seuil 50% pile : pas de soin (tue < -> <=) pour Aventurier
+
     @Test
     @DisplayName("majFinDeTour : Aventurier à 50% PV pile → pas de soin")
     void aventurier_exactement_moitie_pas_de_soin() {
@@ -575,6 +481,7 @@ public class UnitTests {
     }
 
     // Seuil niveau 3 : niv.2 → +1 ; niv.3 → +2 (tue < -> <=)
+
     @Test
     @DisplayName("Aventurier : seuil niveau 3 — niv.2:+1  vs  niv.3:+2")
     void aventurier_seuil_niveau3() {
@@ -595,6 +502,7 @@ public class UnitTests {
 
     // Saut de plusieurs niveaux en un seul add (tue mutants sur la boucle de
     // seuils)
+
     @Test
     @DisplayName("addXp : 0→120 en un coup → niveau 5")
     void addXp_saut_multi_niveaux() {
@@ -605,3 +513,4 @@ public class UnitTests {
     }
 
 } // fin de code
+  // }
