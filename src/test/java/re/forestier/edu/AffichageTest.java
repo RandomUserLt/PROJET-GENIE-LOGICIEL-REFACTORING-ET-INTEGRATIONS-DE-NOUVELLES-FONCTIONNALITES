@@ -9,8 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import re.forestier.edu.rpg.Affichage;
+import re.forestier.edu.rpg.Player;
 import re.forestier.edu.rpg.UpdatePlayer;
-import re.forestier.edu.rpg.player;
 
 public class AffichageTest {
     private ArrayList<String> inv;
@@ -19,8 +19,8 @@ public class AffichageTest {
         return new ArrayList<>();
     }
 
-    private player creerJoueur(String nom, String avatar, String classe) {
-        return new player(nom, avatar, classe, 0, emptyInv());
+    private Player creerJoueur(String nom, String avatar, String classe) {
+        return new Player(nom, avatar, classe, 0, emptyInv());
     }
 
     @BeforeEach
@@ -36,9 +36,9 @@ public class AffichageTest {
     @DisplayName("afficherJoueur : format de base avec xp=20, inventaire vide")
     void testAffichageBase() {
         ArrayList<String> inv = new ArrayList<>();
-        player p = new player("Florian", "Gnognak le Barbare", "ADVENTURER", 0, inv);
+        Player p = new Player("Florian", "Gnognak le Barbare", "ADVENTURER", 0, inv);
         UpdatePlayer.addXp(p, 20);
-        p.inventory.clear();
+        p.getInventory().clear();
         String actual = Affichage.afficherJoueur(p);
 
         String expected = "Joueur Gnognak le Barbare joué par Florian" +
@@ -60,7 +60,7 @@ public class AffichageTest {
         ArrayList<String> inv = new ArrayList<>();
         inv.add("Torch");
         inv.add("Magic Bow");
-        player p = new player("Alice", "Ranger", "ARCHER", 0, inv);
+        Player p = new Player("Alice", "Ranger", "ARCHER", 0, inv);
         String s = Affichage.afficherJoueur(p);
 
         assertTrue(s.contains("\n\nInventaire :"));

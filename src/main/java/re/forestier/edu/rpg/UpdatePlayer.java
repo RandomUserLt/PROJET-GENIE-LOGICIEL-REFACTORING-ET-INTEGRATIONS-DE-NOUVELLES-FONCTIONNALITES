@@ -5,7 +5,11 @@ import java.util.Random;
 
 public class UpdatePlayer {
 
-    private final static String[] objectList = {"Lookout Ring : Prevents surprise attacks","Scroll of Stupidity : INT-2 when applied to an enemy", "Draupnir : Increases XP gained by 100%", "Magic Charm : Magic +10 for 5 rounds", "Rune Staff of Curse : May burn your ennemies... Or yourself. Who knows?", "Combat Edge : Well, that's an edge", "Holy Elixir : Recover your HP"
+    private final static String[] objectList = { "Lookout Ring : Prevents surprise attacks",
+            "Scroll of Stupidity : INT-2 when applied to an enemy", "Draupnir : Increases XP gained by 100%",
+            "Magic Charm : Magic +10 for 5 rounds",
+            "Rune Staff of Curse : May burn your ennemies... Or yourself. Who knows?",
+            "Combat Edge : Well, that's an edge", "Holy Elixir : Recover your HP"
     };
 
     public static HashMap<String, HashMap<Integer, HashMap<String, Integer>>> abilitiesPerTypeAndLevel() {
@@ -40,7 +44,6 @@ public class UpdatePlayer {
 
         abilitiesPerTypeAndLevel.put("ADVENTURER", adventurerMap);
 
-
         HashMap<Integer, HashMap<String, Integer>> archerMap = new HashMap<>();
         HashMap<String, Integer> archerLevel1 = new HashMap<>();
         archerLevel1.put("INT", 1);
@@ -67,7 +70,6 @@ public class UpdatePlayer {
         archerMap.put(5, archerLevel5);
 
         abilitiesPerTypeAndLevel.put("ARCHER", archerMap);
-
 
         HashMap<Integer, HashMap<String, Integer>> dwarf = new HashMap<>();
         HashMap<String, Integer> dwarfLevel1 = new HashMap<>();
@@ -98,9 +100,10 @@ public class UpdatePlayer {
         return abilitiesPerTypeAndLevel;
     }
 
-    public static boolean addXp(player player, int xp) {
+    public static boolean addXp(Player player, int xp) {
         int currentLevel = player.retrieveLevel();
-        player.xp += xp;
+        player.setXp(player.getXp() + xp);
+
         int newLevel = player.retrieveLevel();
 
         if (newLevel != currentLevel) {
@@ -108,59 +111,72 @@ public class UpdatePlayer {
             // Give a random object
             ;
             Random random = new Random();
-            player.inventory.add(objectList[random.nextInt(objectList.length - 0) + 0]);
+            // player.inventory.add(objectList[random.nextInt(objectList.length - 0) + 0]);
+            player.getInventory().add(objectList[random.nextInt(objectList.length)]);
 
             // Add/upgrade abilities to player
             HashMap<String, Integer> abilities = abilitiesPerTypeAndLevel().get(player.getAvatarClass()).get(newLevel);
             abilities.forEach((ability, level) -> {
-                player.abilities.put(ability, abilities.get(ability));
+                // player.abilities.put(ability, abilities.get(ability));
+                player.getAbilities().put(ability, abilities.get(ability));
+
             });
             return true;
         }
         return false;
     }
 
-    // majFinDeTour met à jour les points de vie
-    public static void majFinDeTour(player player) {
-        if(player.currenthealthpoints == 0) {
+    // majFinDeTour met à jour les points de vie // Trop d'imbrications
+    public static void majFinDeTour(Player p) {
+
+        if (p.getCurrenthealthpoints() == 0) {
             System.out.println("Le joueur est KO !");
             return;
         }
 
-        if(player.currenthealthpoints < player.healthpoints/2) {
-            if(!player.getAvatarClass().equals("ADVENTURER")) {
-                if(player.getAvatarClass().equals("DWARF")) {
-                    if(player.inventory.contains("Holy Elixir")) {
-                        player.currenthealthpoints+=1;
-                    }
-                    player.currenthealthpoints+=1;
-                } else if(player.getAvatarClass().equals("ADVENTURER")) {
-                    player.currenthealthpoints+=2;
-                }
-
-
-                if(player.getAvatarClass().equals("ARCHER")) {
-                    player.currenthealthpoints+=1;
-                    if(player.inventory.contains("Magic Bow")) {
-                        player.currenthealthpoints+=player.currenthealthpoints/8-1;
-                    }
-                }
-            } else {
-                player.currenthealthpoints+=2;
-                if(player.retrieveLevel() < 3) {
-                    player.currenthealthpoints-=1;
-                }
-            }
-        } else if(player.currenthealthpoints >= player.healthpoints/2){
-            if(player.currenthealthpoints >= player.healthpoints) {
-                player.currenthealthpoints = player.healthpoints;
-                return;
-            }
+        if (p.getCurrenthealthpoints() < p.getHealthpoints() / 2) {
+            int gain = calculGainFinDeTour(p);
+            // p.setCurrenthealthpoints() += gain;
+            int h = gain + p.getCurrenthealthpoints();
+            p.setCurrenthealthpoints(h);
         }
 
-
-        if(player.currenthealthpoints >= player.healthpoints) {
-            player.currenthealthpoints = player.healthpoints;
+        if (p.getCurrenthealthpoints() >= p.getHealthpoints()) {
+            p.setCurrenthealthpoints(p.getHealthpoints());
         }
     }
-}
+
+    private static int calculGainFinDeTour(Player p) {
+        String cls = p.getAvatarClass();
+        switch (cls) {
+            case "DWARF":
+                int gain = 1;
+                if (p.getInventory().contains("Holy Elixir")) {
+                    gain += 1;
+                }
+                return gain;
+
+            case "ADVENTURER":
+                int adv = 2;
+                if (p.retrieveLevel() < 3) {
+                    adv -= 1;
+                }
+                return adv;
+
+            case "ARCHER":
+
+                int hpApresPlusUn = p.getCurrenthealthpoints() + 1;
+                int archer = 1;
+
+                if (p.getInventory().contains("Magic Bow")) {
+                    archer += (hpApresPlusUn / 8) - 1;
+                }
+                return archer;
+
+            default:
+
+                return 0;
+        }
+    }
+
+} // fin de code

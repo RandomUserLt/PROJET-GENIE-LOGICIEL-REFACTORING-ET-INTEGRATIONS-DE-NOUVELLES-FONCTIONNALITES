@@ -3,85 +3,159 @@ package re.forestier.edu.rpg;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class player {
-    public String playerName;
-    public String Avatar_name;
-    private String AvatarClass;
+public class Player { // la visibilité des attributs c'est n'importe quoi
+    // liste des attributs
+    private String playerName;
+    private String Avatar_name;
+    // protected String avatarName;
+    private String avatarClass;
 
-    public Integer money;
-    private Float __real_money__;
+    private Integer money;
+    private Float realMoney;
 
+    private int level;
+    private int healthpoints;
+    private int currenthealthpoints;
+    private int xp;
 
-    public int level;
-    public int healthpoints;
-    public int currenthealthpoints;
-    protected int xp;
+    private HashMap<String, Integer> abilities;
+    private ArrayList<String> inventory;
 
-
-    public HashMap<String, Integer> abilities;
-    public ArrayList<String> inventory;
-    public player(String playerName, String avatar_name, String avatarClass, int money, ArrayList<String> inventory) {
-        if (!avatarClass.equals("ARCHER") && !avatarClass.equals("ADVENTURER") && !avatarClass.equals("DWARF") ) {
+    // constructeur
+    public Player(String playerName, String avatarName, String avatarClass, int money, ArrayList<String> inventory) {
+        if (!avatarClass.equals("ARCHER") && !avatarClass.equals("ADVENTURER") && !avatarClass.equals("DWARF")) {
             return;
         }
 
         this.playerName = playerName;
-        Avatar_name = avatar_name;
-        AvatarClass = avatarClass;
-        this.money = Integer.valueOf(money);
+        this.Avatar_name = avatarName;
+        this.avatarClass = avatarClass;
+        this.money = money;
         this.inventory = inventory;
-        this.abilities = UpdatePlayer.abilitiesPerTypeAndLevel().get(AvatarClass).get(1);
+        this.abilities = UpdatePlayer.abilitiesPerTypeAndLevel().get(avatarClass).get(1);
     }
 
-    public String getAvatarClass () {
-        return AvatarClass;
+    // ---- Getters & Setters ----
+    public String getPlayerName() {
+        return playerName;
     }
 
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public String getAvatarName() {
+        return Avatar_name;
+    }
+
+    public void setAvatarName(String avatarName) {
+        this.Avatar_name = avatarName;
+    }
+
+    public String getAvatarClass() {
+        return avatarClass;
+    }
+
+    public void setAvatarClass(String avatarClass) {
+        this.avatarClass = avatarClass;
+    }
+
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
+
+    public Float getRealMoney() {
+        return realMoney;
+    }
+
+    public void setRealMoney(Float realMoney) {
+        this.realMoney = realMoney;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getHealthpoints() {
+        return healthpoints;
+    }
+
+    public void setHealthpoints(int healthpoints) {
+        this.healthpoints = healthpoints;
+    }
+
+    public int getCurrenthealthpoints() {
+        return currenthealthpoints;
+    }
+
+    public void setCurrenthealthpoints(int currenthealthpoints) {
+        this.currenthealthpoints = currenthealthpoints;
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    public HashMap<String, Integer> getAbilities() {
+        return abilities;
+    }
+
+    public void setAbilities(HashMap<String, Integer> abilities) {
+        this.abilities = abilities;
+    }
+
+    public ArrayList<String> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(ArrayList<String> inventory) {
+        this.inventory = inventory;
+    }
+
+    // ---- voir plus tard si judicieux de fusionner les deux méthodes
     public void removeMoney(int amount) throws IllegalArgumentException {
         if (money - amount < 0) {
             throw new IllegalArgumentException("Player can't have a negative money!");
         }
-
-        money = Integer.parseInt(money.toString()) - amount;
+        money = money - amount;
     }
+
     public void addMoney(int amount) {
-        var value = Integer.valueOf(amount);
-        money = money + (value != null ? value : 0);
+        money += amount;
     }
-    public int retrieveLevel() {
-        // (lvl-1) * 10 + round((lvl * xplvl-1)/4)
-        HashMap<Integer, Integer> levels = new HashMap<>();
-        levels.put(2,10); // 1*10 + ((2*0)/4)
-        levels.put(3,27); // 2*10 + ((3*10)/4)
-        levels.put(4,57); // 3*10 + ((4*27)/4)
-        levels.put(5,111); // 4*10 + ((5*57)/4)
-        //TODO : ajouter les prochains niveaux
 
-        if (xp < levels.get(2)) {
+    public int retrieveLevel() {
+
+        HashMap<
+
+                Integer, Integer> levels = new HashMap<>();
+        levels.put(2, 10);
+        levels.put(3, 27);
+        levels.put(4, 57);
+        levels.put(5, 111);
+        // TODO : ajouter les prochains niveaux
+
+        if (xp < levels.get(2))
             return 1;
-        }
-        else if (xp < levels.get(3)) {return 2;
-        }
-        if (xp < levels.get(4)) {
+        else if (xp < levels.get(3))
+            return 2;
+        else if (xp < levels.get(4))
             return 3;
-        }
-        if (xp < levels.get(5)) return 4;
+        else if (xp < levels.get(5))
+            return 4;
         return 5;
     }
-
-    public int getXp() {
-        return this.xp;
-    }
-
-    /*
-    Ингредиенты:
-        Для теста:
-
-            250 г муки
-            125 г сливочного масла (холодное)
-            70 г сахара
-            1 яйцо
-            1 щепотка соли
-     */
 
 }

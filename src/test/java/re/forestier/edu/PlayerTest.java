@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import re.forestier.edu.rpg.player;
+import re.forestier.edu.rpg.Player;
 
 public class PlayerTest {
     private ArrayList<String> inv;
@@ -19,8 +19,8 @@ public class PlayerTest {
         return new ArrayList<>();
     }
 
-    private player creerJoueur(String nom, String avatar, String classe) {
-        return new player(nom, avatar, classe, 0, emptyInv());
+    private Player creerJoueur(String nom, String avatar, String classe) {
+        return new Player(nom, avatar, classe, 0, emptyInv());
     }
 
     @BeforeEach
@@ -35,8 +35,8 @@ public class PlayerTest {
     @Test
     @DisplayName("Nom du joueur bien initialisé")
     void testNomDuJoueur() {
-        player joueur = new player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
-        assertThat(joueur.playerName, is("Florian"));
+        Player joueur = new Player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
+        assertThat(joueur.getPlayerName(), is("Florian"));
     }
 
     // Vérifie qu’on ne peut pas avoir un montant d’argent négatif
@@ -44,7 +44,7 @@ public class PlayerTest {
     @Test
     @DisplayName("Impossible d’avoir un solde d’argent négatif")
     void testArgentNegatif() {
-        player p = new player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
+        Player p = new Player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
 
         try {
             p.removeMoney(200);
@@ -60,14 +60,14 @@ public class PlayerTest {
     @Test
     @DisplayName("Constructeur : classe valide → champs et capacités initialisés")
     void constructeurClasseValideInitialise() {
-        player p = new player("Alice", "AliceAvatar", "ADVENTURER", 10, new ArrayList<>(inv));
-        assertEquals("Alice", p.playerName);
-        assertEquals("AliceAvatar", p.Avatar_name);
+        Player p = new Player("Alice", "AliceAvatar", "ADVENTURER", 10, new ArrayList<>(inv));
+        assertEquals("Alice", p.getPlayerName());
+        assertEquals("AliceAvatar", p.getAvatarName());
         assertEquals("ADVENTURER", p.getAvatarClass());
-        assertNotNull(p.money);
-        assertEquals(10, p.money.intValue());
-        assertEquals(2, p.inventory.size());
-        assertNotNull(p.abilities, "Les capacités doivent être initialisées");
+        assertNotNull(p.getMoney());
+        assertEquals(10, p.getMoney().intValue());
+        assertEquals(2, p.getInventory().size());
+        assertNotNull(p.getAbilities(), "Les capacités doivent être initialisées");
     }
 
     // Vérifie que le constructeur rejette une classe invalide (champ null)
@@ -75,7 +75,7 @@ public class PlayerTest {
     @Test
     @DisplayName("Constructeur : classe invalide → AvatarClass nul")
     void constructeurClasseInvalideRefuse() {
-        player p = new player("Bob", "BobAvatar", "MAGE", 5, new ArrayList<>(inv));
+        Player p = new Player("Bob", "BobAvatar", "MAGE", 5, new ArrayList<>(inv));
         assertNull(p.getAvatarClass(), "Classe invalide non acceptée");
     }
 
@@ -84,7 +84,7 @@ public class PlayerTest {
     @Test
     @DisplayName("getAvatarClass renvoie la classe du joueur")
     void testGetAvatarClass() {
-        player p = new player("Cara", "CaraAvatar", "ARCHER", 0, new ArrayList<>(inv));
+        Player p = new Player("Cara", "CaraAvatar", "ARCHER", 0, new ArrayList<>(inv));
         assertEquals("ARCHER", p.getAvatarClass());
     }
 
@@ -93,11 +93,11 @@ public class PlayerTest {
     @Test
     @DisplayName("addMoney : ajout d’argent positif ou nul")
     void testAjoutArgent() {
-        player p = new player("Dan", "DanAvatar", "DWARF", 7, new ArrayList<>(inv));
+        Player p = new Player("Dan", "DanAvatar", "DWARF", 7, new ArrayList<>(inv));
         p.addMoney(0);
-        assertEquals(7, p.money.intValue());
+        assertEquals(7, p.getMoney().intValue());
         p.addMoney(5);
-        assertEquals(12, p.money.intValue());
+        assertEquals(12, p.getMoney().intValue());
     }
 
     // Vérifie que removeMoney retire l’argent si le solde est suffisant
@@ -105,9 +105,9 @@ public class PlayerTest {
     @Test
     @DisplayName("removeMoney : soustraction valide")
     void testRetraitArgentOk() {
-        player p = new player("Eve", "EveAvatar", "ADVENTURER", 10, new ArrayList<>(inv));
+        Player p = new Player("Eve", "EveAvatar", "ADVENTURER", 10, new ArrayList<>(inv));
         p.removeMoney(4);
-        assertEquals(6, p.money.intValue());
+        assertEquals(6, p.getMoney().intValue());
     }
 
     // Vérifie que removeMoney lève une exception si le solde deviendrait négatif
@@ -115,7 +115,7 @@ public class PlayerTest {
     @Test
     @DisplayName("removeMoney : exception si résultat négatif")
     void testRetraitArgentNegatif() {
-        player p = new player("Fred", "FredAvatar", "ARCHER", 3, new ArrayList<>(inv));
+        Player p = new Player("Fred", "FredAvatar", "ARCHER", 3, new ArrayList<>(inv));
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> p.removeMoney(4));
         assertTrue(ex.getMessage() == null || ex.getMessage().toLowerCase().contains("negative"));
     }
