@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import re.forestier.edu.rpg.Affichage;
 import re.forestier.edu.rpg.Player;
 import re.forestier.edu.rpg.UpdatePlayer;
 
@@ -39,7 +38,7 @@ public class AffichageTest {
         Player p = new Player("Florian", "Gnognak le Barbare", "ADVENTURER", 0, inv);
         UpdatePlayer.addXp(p, 20);
         p.getInventory().clear();
-        String actual = Affichage.afficherJoueur(p);
+        String actual = p.toString();
 
         String expected = "Joueur Gnognak le Barbare joué par Florian" +
                 "\nNiveau : 2 (XP totale : 20)" +
@@ -61,7 +60,7 @@ public class AffichageTest {
         inv.add("Torch");
         inv.add("Magic Bow");
         Player p = new Player("Alice", "Ranger", "ARCHER", 0, inv);
-        String s = Affichage.afficherJoueur(p);
+        String s = p.toString();
 
         assertTrue(s.contains("\n\nInventaire :"));
         assertTrue(s.contains("\n   Torch"));

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import re.forestier.edu.rpg.Affichage;
 import re.forestier.edu.rpg.Player;
 import re.forestier.edu.rpg.UpdatePlayer;
 
@@ -36,7 +35,7 @@ public class GlobalTest {
         // player.inventory = new ArrayList<>();
         player.setInventory(new ArrayList<>());
 
-        verify(Affichage.afficherJoueur(player));
+        verify(player.toString());
     }
 
     // Vérifie qu’une montée de plusieurs niveaux (jusqu’au niveau 4) est
@@ -51,7 +50,7 @@ public class GlobalTest {
         UpdatePlayer.addXp(p, 57);
         assertEquals(4, p.retrieveLevel(), "Le joueur doit être niveau 4");
 
-        String out = Affichage.afficherJoueur(p);
+        String out = p.toString();
         assertTrue(out.contains("Niveau : 4"), "L'affichage doit indiquer le niveau 4");
         assertTrue(out.contains("\n\nInventaire :"), "La section Inventaire doit apparaître");
         assertTrue(out.split("\n").length >= 8, "L'affichage doit comporter des lignes d'items");
@@ -74,7 +73,7 @@ public class GlobalTest {
         // 40 -> +1 (archer) + (40/8 - 1) = +5 → 45
         assertEquals(45, p.getCurrenthealthpoints());
 
-        String out = Affichage.afficherJoueur(p);
+        String out = p.toString();
         assertTrue(out.contains("Niveau : 2"), "L'affichage doit indiquer le niveau 2");
         assertTrue(out.contains("\n\nInventaire :"));
         assertTrue(out.contains("Magic Bow"), "L'inventaire doit contenir Magic Bow");
@@ -96,7 +95,7 @@ public class GlobalTest {
         // +1 (élixir) +1 (bonus nain) = +2 → 21
         assertEquals(21, p.getCurrenthealthpoints());
 
-        String out = Affichage.afficherJoueur(p);
+        String out = p.toString();
         assertTrue(out.contains("Holy Elixir"));
         assertTrue(out.contains("Niveau : 2"));
     }
@@ -115,4 +114,4 @@ public class GlobalTest {
         assertEquals(50, p.getCurrenthealthpoints());
     }
 
-} // fin de code
+} // parenthèse de fin

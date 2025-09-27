@@ -35,6 +35,28 @@ public class Player { // la visibilité des attributs c'est n'importe quoi
         this.abilities = UpdatePlayer.abilitiesPerTypeAndLevel().get(avatarClass).get(1);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder affichage = new StringBuilder();
+        affichage.append("Joueur ").append(this.getAvatarName())
+                .append(" joué par ").append(this.getPlayerName());
+
+        affichage.append("\nNiveau : ").append(this.retrieveLevel())
+                .append(" (XP totale : ").append(this.getXp()).append(")");
+
+        affichage.append("\n\nCapacités :");
+        this.getAbilities().forEach((name, level) -> {
+            affichage.append("\n   ").append(name).append(" : ").append(level);
+        });
+
+        affichage.append("\n\nInventaire :");
+        this.getInventory().forEach(item -> {
+            affichage.append("\n   ").append(item);
+        });
+
+        return affichage.toString();
+    }
+
     // ---- Getters & Setters ----
     public String getPlayerName() {
         return playerName;

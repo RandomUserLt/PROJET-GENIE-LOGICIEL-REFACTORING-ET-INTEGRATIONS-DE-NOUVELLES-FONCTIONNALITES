@@ -120,5 +120,4 @@ public class PlayerTest {
         assertTrue(ex.getMessage() == null || ex.getMessage().toLowerCase().contains("negative"));
     }
 
-    // Vérifie que retrieveLevel renvoie le bon niveau en fonction de l’XP cumulée
 }

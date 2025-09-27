@@ -2,7 +2,6 @@ package re.forestier.edu;
 
 import java.util.ArrayList;
 
-import re.forestier.edu.rpg.Affichage;
 import re.forestier.edu.rpg.Player;
 import re.forestier.edu.rpg.UpdatePlayer;
 
@@ -12,9 +11,9 @@ public class Main {
         firstPlayer.addMoney(400);
 
         UpdatePlayer.addXp(firstPlayer, 15);
-        System.out.println(Affichage.afficherJoueur(firstPlayer));
+        System.out.println(firstPlayer);
         System.out.println("------------------");
         UpdatePlayer.addXp(firstPlayer, 20);
-        System.out.println(Affichage.afficherJoueur(firstPlayer));
+        System.out.println(firstPlayer);
     }
 }
