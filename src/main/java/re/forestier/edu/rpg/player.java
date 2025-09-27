@@ -158,26 +158,44 @@ public class Player { // la visibilité des attributs c'est n'importe quoi
         money += amount;
     }
 
+    /*
+     * public int retrieveLevel() {
+     * 
+     * HashMap<
+     * 
+     * Integer, Integer> levels = new HashMap<>();
+     * levels.put(2, 10);
+     * levels.put(3, 27);
+     * levels.put(4, 57);
+     * levels.put(5, 111);
+     * // TODO : ajouter les prochains niveaux
+     * 
+     * if (xp < levels.get(2))
+     * return 1;
+     * else if (xp < levels.get(3))
+     * return 2;
+     * else if (xp < levels.get(4))
+     * return 3;
+     * else if (xp < levels.get(5))
+     * return 4;
+     * return 5;
+     * }
+     */
+
+    private static final java.util.NavigableMap<Integer, Integer> XP_TO_LEVEL = new java.util.TreeMap<>();
+    static {
+        XP_TO_LEVEL.put(0, 1);
+        XP_TO_LEVEL.put(10, 2);
+        XP_TO_LEVEL.put(27, 3);
+        XP_TO_LEVEL.put(57, 4);
+        XP_TO_LEVEL.put(111, 5);
+
+    }
+
     public int retrieveLevel() {
 
-        HashMap<
-
-                Integer, Integer> levels = new HashMap<>();
-        levels.put(2, 10);
-        levels.put(3, 27);
-        levels.put(4, 57);
-        levels.put(5, 111);
-        // TODO : ajouter les prochains niveaux
-
-        if (xp < levels.get(2))
-            return 1;
-        else if (xp < levels.get(3))
-            return 2;
-        else if (xp < levels.get(4))
-            return 3;
-        else if (xp < levels.get(5))
-            return 4;
-        return 5;
+        int safeXp = Math.max(0, this.xp);
+        return XP_TO_LEVEL.floorEntry(safeXp).getValue();
     }
 
 }

@@ -12,6 +12,7 @@ public class UpdatePlayer {
             "Combat Edge : Well, that's an edge", "Holy Elixir : Recover your HP"
     };
 
+    // code dupliqué ça ...
     public static HashMap<String, HashMap<Integer, HashMap<String, Integer>>> abilitiesPerTypeAndLevel() {
         HashMap<String, HashMap<Integer, HashMap<String, Integer>>> abilitiesPerTypeAndLevel = new HashMap<>();
 
