@@ -22,7 +22,7 @@ public class UpdatePlayer {
         adventurerLevel1.put("ATK", 3);
         adventurerLevel1.put("CHA", 2);
         adventurerMap.put(1, adventurerLevel1);
-
+        // ici vit un bug ...
         HashMap<String, Integer> adventurerLevel2 = new HashMap<>();
         adventurerLevel1.put("INT", 2);
         adventurerLevel1.put("CHA", 3);
@@ -179,4 +179,4 @@ public class UpdatePlayer {
         }
     }
 
-} // fin de code
+} // parenthèse de fin
