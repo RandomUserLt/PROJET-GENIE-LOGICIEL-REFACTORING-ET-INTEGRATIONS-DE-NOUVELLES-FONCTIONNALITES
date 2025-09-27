@@ -22,10 +22,10 @@ public class UpdatePlayer {
         adventurerLevel1.put("ATK", 3);
         adventurerLevel1.put("CHA", 2);
         adventurerMap.put(1, adventurerLevel1);
-        // ici vit un bug ...
-        HashMap<String, Integer> adventurerLevel2 = new HashMap<>();
-        adventurerLevel1.put("INT", 2);
-        adventurerLevel1.put("CHA", 3);
+        // ici git un bug ...
+        HashMap<String, Integer> adventurerLevel2 = new HashMap<>(); // il passe au niveau 2
+        adventurerLevel2.put("INT", 2); // on doit écrire dans la hashmap 2
+        adventurerLevel2.put("CHA", 3);
         adventurerMap.put(2, adventurerLevel2);
 
         HashMap<String, Integer> adventurerLevel3 = new HashMap<>();
@@ -101,15 +101,23 @@ public class UpdatePlayer {
     }
 
     public static boolean addXp(Player player, int xp) {
+        // if (player == null)
+        // return false;
+
+        // Sécuriser l'inventaire s'il n'a pas été initialisé
+        if (player.getInventory() == null) {
+            player.setInventory(new java.util.ArrayList<>());
+        }
         int currentLevel = player.retrieveLevel();
         player.setXp(player.getXp() + xp);
 
         int newLevel = player.retrieveLevel();
 
+        // if (newLevel == currentLevel)
+        // return false;
+
         if (newLevel != currentLevel) {
-            // Player leveled-up!
-            // Give a random object
-            ;
+
             Random random = new Random();
             // player.inventory.add(objectList[random.nextInt(objectList.length - 0) + 0]);
             player.getInventory().add(objectList[random.nextInt(objectList.length)]);
