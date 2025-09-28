@@ -3,11 +3,11 @@ package re.forestier.edu.rpg;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Player { // la visibilité des attributs c'est n'importe quoi
-    // liste des attributs
+public class Player {
+
     private String playerName;
     private String Avatar_name;
-    // protected String avatarName;
+
     private String avatarClass;
 
     private Integer money;
@@ -21,7 +21,6 @@ public class Player { // la visibilité des attributs c'est n'importe quoi
     private HashMap<String, Integer> abilities;
     private ArrayList<String> inventory;
 
-    // constructeur
     public Player(String playerName, String avatarName, String avatarClass, int money, ArrayList<String> inventory) {
         if (!avatarClass.equals("ARCHER") && !avatarClass.equals("ADVENTURER") && !avatarClass.equals("DWARF")) {
             return;
@@ -146,7 +145,6 @@ public class Player { // la visibilité des attributs c'est n'importe quoi
         this.inventory = inventory;
     }
 
-    // ---- voir plus tard si judicieux de fusionner les deux méthodes
     public void removeMoney(int amount) throws IllegalArgumentException {
         if (money - amount < 0) {
             throw new IllegalArgumentException("Player can't have a negative money!");
@@ -157,30 +155,6 @@ public class Player { // la visibilité des attributs c'est n'importe quoi
     public void addMoney(int amount) {
         money += amount;
     }
-
-    /*
-     * public int retrieveLevel() {
-     * 
-     * HashMap<
-     * 
-     * Integer, Integer> levels = new HashMap<>();
-     * levels.put(2, 10);
-     * levels.put(3, 27);
-     * levels.put(4, 57);
-     * levels.put(5, 111);
-     * // TODO : ajouter les prochains niveaux
-     * 
-     * if (xp < levels.get(2))
-     * return 1;
-     * else if (xp < levels.get(3))
-     * return 2;
-     * else if (xp < levels.get(4))
-     * return 3;
-     * else if (xp < levels.get(5))
-     * return 4;
-     * return 5;
-     * }
-     */
 
     private static final java.util.NavigableMap<Integer, Integer> XP_TO_LEVEL = new java.util.TreeMap<>();
     static {

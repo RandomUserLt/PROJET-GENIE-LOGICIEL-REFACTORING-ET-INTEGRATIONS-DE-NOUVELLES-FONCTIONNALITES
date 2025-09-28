@@ -67,6 +67,4 @@ public class AffichageTest {
         assertTrue(s.contains("\n   Magic Bow"));
     }
 
-    // Vérifie que la map abilitiesPerTypeAndLevel contient bien les niveaux pour
-    // toutes les classes
 }
