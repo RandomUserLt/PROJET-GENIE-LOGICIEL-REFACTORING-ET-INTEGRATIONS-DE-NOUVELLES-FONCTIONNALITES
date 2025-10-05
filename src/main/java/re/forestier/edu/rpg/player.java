@@ -6,12 +6,12 @@ import java.util.HashMap;
 public class Player {
 
     private String playerName;
-    private String Avatar_name;
+    private String avatarName;
 
     private String avatarClass;
 
     private Integer money;
-    private Float realMoney;
+    // private Float realMoney; // n'est jamais utilisé
 
     private int level;
     private int healthpoints;
@@ -27,7 +27,7 @@ public class Player {
         }
 
         this.playerName = playerName;
-        this.Avatar_name = avatarName;
+        this.avatarName = avatarName;
         this.avatarClass = avatarClass;
         this.money = money;
         this.inventory = inventory;
@@ -61,49 +61,49 @@ public class Player {
         return playerName;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
+    // public void setPlayerName(String playerName) {
+    // this.playerName = playerName;
+    // }
 
     public String getAvatarName() {
-        return Avatar_name;
+        return avatarName;
     }
 
-    public void setAvatarName(String avatarName) {
-        this.Avatar_name = avatarName;
-    }
+    // public void setAvatarName(String avatarName) {
+    // this.avatarName = avatarName;
+    // }
 
     public String getAvatarClass() {
         return avatarClass;
     }
 
-    public void setAvatarClass(String avatarClass) {
-        this.avatarClass = avatarClass;
-    }
+    // public void setAvatarClass(String avatarClass) {
+    // this.avatarClass = avatarClass;
+    // }
 
     public Integer getMoney() {
         return money;
     }
 
-    public void setMoney(Integer money) {
-        this.money = money;
-    }
+    // public void setMoney(Integer money) {
+    // this.money = money;
+    // }
 
-    public Float getRealMoney() {
-        return realMoney;
-    }
+    // public Float getRealMoney() {
+    // return realMoney;
+    // }
 
-    public void setRealMoney(Float realMoney) {
-        this.realMoney = realMoney;
-    }
+    // public void setRealMoney(Float realMoney) {
+    // this.realMoney = realMoney;
+    // }
 
-    public int getLevel() {
-        return level;
-    }
+    // public int getLevel() {
+    // return level;
+    // }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
+    // public void setLevel(int level) {
+    // this.level = level;
+    // }
 
     public int getHealthpoints() {
         return healthpoints;
@@ -133,9 +133,9 @@ public class Player {
         return abilities;
     }
 
-    public void setAbilities(HashMap<String, Integer> abilities) {
-        this.abilities = abilities;
-    }
+    // public void setAbilities(HashMap<String, Integer> abilities) {
+    // this.abilities = abilities;
+    // }
 
     public ArrayList<String> getInventory() {
         return inventory;
