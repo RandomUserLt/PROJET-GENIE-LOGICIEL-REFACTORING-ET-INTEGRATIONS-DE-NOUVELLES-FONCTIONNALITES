@@ -5,6 +5,14 @@ import java.util.HashMap;
 
 public class Player {
 
+    // tentative de gestion des "magic strings"
+    // pour les différents types de joueurs
+    // l'alternative était une enum mais cela introduisait
+    // trop de modification notamment sur les tests
+    private static final String ARCHER = "ARCHER";
+    private static final String ADVENTURER = "ADVENTURER";
+    private static final String DWARF = "DWARF";
+
     private String playerName;
     private String avatarName;
 
@@ -22,7 +30,11 @@ public class Player {
     private ArrayList<String> inventory;
 
     public Player(String playerName, String avatarName, String avatarClass, int money, ArrayList<String> inventory) {
-        if (!avatarClass.equals("ARCHER") && !avatarClass.equals("ADVENTURER") && !avatarClass.equals("DWARF")) {
+        // if (!avatarClass.equals("ARCHER") && !avatarClass.equals("ADVENTURER") &&
+        // !avatarClass.equals("DWARF")) {
+        // return;
+        // }
+        if (!ARCHER.equals(avatarClass) && !ADVENTURER.equals(avatarClass) && !DWARF.equals(avatarClass)) {
             return;
         }
 
@@ -30,8 +42,12 @@ public class Player {
         this.avatarName = avatarName;
         this.avatarClass = avatarClass;
         this.money = money;
-        this.inventory = inventory;
-        this.abilities = UpdatePlayer.abilitiesPerTypeAndLevel().get(avatarClass).get(1);
+        // this.inventory = inventory;
+        this.inventory = (inventory != null) ? inventory : new ArrayList<>();
+        // this.abilities =
+        // UpdatePlayer.abilitiesPerTypeAndLevel().get(avatarClass).get(1);
+        var perType = UpdatePlayer.abilitiesPerTypeAndLevel().get(avatarClass);
+        this.abilities = (perType != null && perType.get(1) != null) ? perType.get(1) : new java.util.HashMap<>();
     }
 
     @Override
