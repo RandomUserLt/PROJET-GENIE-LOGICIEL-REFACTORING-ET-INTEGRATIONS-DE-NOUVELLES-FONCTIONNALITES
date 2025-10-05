@@ -84,24 +84,61 @@ public class UpdatePlayer {
     }
 
     // majFinDeTour met à jour les points de vie // Trop d'imbrications
-    public static void majFinDeTour(Player p) {
+    // extract method sur cette methode , on la découpe en plusieurs petites
+    // méthodes
+    // ces méthodes iront peut-etre dans une classe à elles seules ... à voir
+    // public static void majFinDeTour(Player p) {
 
-        if (p.getCurrenthealthpoints() == 0) {
-            System.out.println("Le joueur est KO !");
+    // if (p.getCurrenthealthpoints() == 0) {
+    // System.out.println("Le joueur est KO !");
+    // return;
+    // }
+
+    // if (p.getCurrenthealthpoints() < p.getHealthpoints() / 2) {
+    // int gain = calculGainFinDeTour(p);
+    // p.setCurrenthealthpoints() += gain;
+    // int h = gain + p.getCurrenthealthpoints();
+    // p.setCurrenthealthpoints(h);
+    // }
+
+    // if (p.getCurrenthealthpoints() >= p.getHealthpoints()) {
+    // p.setCurrenthealthpoints(p.getHealthpoints());
+    // }
+    // }
+
+    // nouvelle version
+    private static boolean estKo(Player joueur) {
+        return joueur.getCurrenthealthpoints() == 0;
+    }
+
+    private static void afficherMessageKo() {
+        System.out.println("Le joueur est KO !");
+    }
+
+    private static void regenererSiBlesse(Player joueur) {
+        if (joueur.getCurrenthealthpoints() < joueur.getHealthpoints() / 2) {
+            int gain = calculGainFinDeTour(joueur);
+            joueur.setCurrenthealthpoints(joueur.getCurrenthealthpoints() + gain);
+        }
+    }
+
+    private static void limiterPointsDeVie(Player joueur) {
+        if (joueur.getCurrenthealthpoints() >= joueur.getHealthpoints()) {
+            joueur.setCurrenthealthpoints(joueur.getHealthpoints());
+        }
+    }
+
+    public static void majFinDeTour(Player joueur) {
+        if (estKo(joueur)) {
+            afficherMessageKo();
             return;
         }
 
-        if (p.getCurrenthealthpoints() < p.getHealthpoints() / 2) {
-            int gain = calculGainFinDeTour(p);
-            // p.setCurrenthealthpoints() += gain;
-            int h = gain + p.getCurrenthealthpoints();
-            p.setCurrenthealthpoints(h);
-        }
-
-        if (p.getCurrenthealthpoints() >= p.getHealthpoints()) {
-            p.setCurrenthealthpoints(p.getHealthpoints());
-        }
+        regenererSiBlesse(joueur);
+        limiterPointsDeVie(joueur);
     }
+
+    // fin gestion majFinDeTour
 
     private static int calculGainFinDeTour(Player p) {
         String cls = p.getAvatarClass();
