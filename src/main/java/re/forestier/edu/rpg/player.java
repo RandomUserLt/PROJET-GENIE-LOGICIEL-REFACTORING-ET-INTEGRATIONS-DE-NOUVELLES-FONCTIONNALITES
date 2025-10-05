@@ -41,13 +41,18 @@ public class Player {
         this.playerName = playerName;
         this.avatarName = avatarName;
         this.avatarClass = avatarClass;
+        var perType_A = UpdatePlayer.abilitiesPerTypeAndLevel().get(this.avatarClass);
+        this.abilities = (perType_A != null && perType_A.get(1) != null)
+                ? perType_A.get(1)
+                : new java.util.HashMap<>(); // import java.util.HashMap si besoin
+
         this.money = money;
         // this.inventory = inventory;
         this.inventory = (inventory != null) ? inventory : new ArrayList<>();
         // this.abilities =
         // UpdatePlayer.abilitiesPerTypeAndLevel().get(avatarClass).get(1);
-        var perType = UpdatePlayer.abilitiesPerTypeAndLevel().get(avatarClass);
-        this.abilities = (perType != null && perType.get(1) != null) ? perType.get(1) : new java.util.HashMap<>();
+        var perType_B = UpdatePlayer.abilitiesPerTypeAndLevel().get(avatarClass);
+        this.abilities = (perType_B != null && perType_B.get(1) != null) ? perType_B.get(1) : new java.util.HashMap<>();
     }
 
     @Override
@@ -172,20 +177,45 @@ public class Player {
         money += amount;
     }
 
-    private static final java.util.NavigableMap<Integer, Integer> XP_TO_LEVEL = new java.util.TreeMap<>();
-    static {
-        XP_TO_LEVEL.put(0, 1);
-        XP_TO_LEVEL.put(10, 2);
-        XP_TO_LEVEL.put(27, 3);
-        XP_TO_LEVEL.put(57, 4);
-        XP_TO_LEVEL.put(111, 5);
+    // private static final java.util.NavigableMap<Integer, Integer> XP_TO_LEVEL =
+    // new java.util.TreeMap<>();
+    // static {
+    // XP_TO_LEVEL.put(0, 1);
+    // XP_TO_LEVEL.put(10, 2);
+    // XP_TO_LEVEL.put(27, 3);
+    // XP_TO_LEVEL.put(57, 4);
+    // XP_TO_LEVEL.put(111, 5);
 
+    // }
+
+    // public int retrieveLevel() {
+
+    // int safeXp = Math.max(0, this.xp);
+    // return XP_TO_LEVEL.floorEntry(safeXp).getValue();
+    // }
+
+    private static final java.util.NavigableMap<Integer, Integer> XP_TO_LEVEL = new java.util.TreeMap<>();
+
+    static {
+        enregistrerPalier(0, 1);
+        enregistrerPalier(10, 2);
+        enregistrerPalier(27, 3);
+        enregistrerPalier(57, 4);
+        enregistrerPalier(111, 5);
+        // TODO : les niveaux suivants
+    }
+
+    private static void enregistrerPalier(int xpMinInclus, int niveau) {
+        XP_TO_LEVEL.put(xpMinInclus, niveau);
+    }
+
+    public static int obtenirNiveauDepuisXp(int xp) {
+        int safeXp = Math.max(0, xp);
+        return XP_TO_LEVEL.floorEntry(safeXp).getValue();
     }
 
     public int retrieveLevel() {
-
-        int safeXp = Math.max(0, this.xp);
-        return XP_TO_LEVEL.floorEntry(safeXp).getValue();
+        return obtenirNiveauDepuisXp(this.xp);
     }
 
 }
