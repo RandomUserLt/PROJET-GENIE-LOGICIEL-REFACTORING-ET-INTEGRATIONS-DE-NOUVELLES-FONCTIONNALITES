@@ -2,12 +2,9 @@ package re.forestier.edu.rpg;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import static re.forestier.edu.rpg.Literaux.*;
 
 public class Player {
-
-    private static final String ARCHER = "ARCHER";
-    private static final String ADVENTURER = "ADVENTURER";
-    private static final String DWARF = "DWARF";
 
     private String playerName;
     private String avatarName;
@@ -47,20 +44,20 @@ public class Player {
     @Override
     public String toString() {
         StringBuilder affichage = new StringBuilder();
-        affichage.append("Joueur ").append(this.getAvatarName())
-                .append(" joué par ").append(this.getPlayerName());
+        affichage.append(JOUEUR_MOT).append(this.getAvatarName())
+                .append(JOUE_PAR).append(this.getPlayerName());
 
-        affichage.append("\nNiveau : ").append(this.retrieveLevel())
-                .append(" (XP totale : ").append(this.getXp()).append(")");
+        affichage.append(NIVEAU).append(this.retrieveLevel())
+                .append(XP_TOTALE).append(this.getXp()).append(")");
 
-        affichage.append("\n\nCapacités :");
+        affichage.append(CAPACITE);
         this.getAbilities().forEach((name, level) -> {
-            affichage.append("\n   ").append(name).append(" : ").append(level);
+            affichage.append(BLANK).append(name).append(COLUMN).append(level);
         });
 
-        affichage.append("\n\nInventaire :");
+        affichage.append(INVENTAIRE_MOT);
         this.getInventory().forEach(item -> {
-            affichage.append("\n   ").append(item);
+            affichage.append(BLANK).append(item);
         });
 
         return affichage.toString();
@@ -120,7 +117,7 @@ public class Player {
 
     public void removeMoney(int amount) throws IllegalArgumentException {
         if (money - amount < 0) {
-            throw new IllegalArgumentException("Player can't have a negative money!");
+            throw new IllegalArgumentException(NEGATIVE_MONEY_EXCEPTION);
         }
         money = money - amount;
     }

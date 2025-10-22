@@ -2,14 +2,18 @@ package re.forestier.edu.rpg;
 
 import java.util.HashMap;
 import java.util.Random;
+import static re.forestier.edu.rpg.Literaux.*;
 
 public class UpdatePlayer {
 
-    private final static String[] objectList = { "Lookout Ring : Prevents surprise attacks",
-            "Scroll of Stupidity : INT-2 when applied to an enemy", "Draupnir : Increases XP gained by 100%",
-            "Magic Charm : Magic +10 for 5 rounds",
-            "Rune Staff of Curse : May burn your ennemies... Or yourself. Who knows?",
-            "Combat Edge : Well, that's an edge", "Holy Elixir : Recover your HP"
+    private final static String[] objectList = {
+            OBJECT_LOOKOUT_RING,
+            OBJECT_SCROLL_OF_STUPIDITY,
+            OBJECT_DAUPNIR,
+            OBJECT_MAGIC_BOW,
+            OBJECT_RUNE,
+            OBJECT_COMBAT_EDGE,
+            OBJECT_HOLY_ELIXIR
     };
 
     private static HashMap<String, Integer> createAbilityMap(Object[][] data) {
@@ -31,28 +35,28 @@ public class UpdatePlayer {
     public static HashMap<String, HashMap<Integer, HashMap<String, Integer>>> abilitiesPerTypeAndLevel() {
         HashMap<String, HashMap<Integer, HashMap<String, Integer>>> allAbilities = new HashMap<>();
 
-        allAbilities.put("ADVENTURER", createClassAbilities(new Object[][][] {
-                { { "INT", 1 }, { "DEF", 1 }, { "ATK", 3 }, { "CHA", 2 } },
-                { { "INT", 2 }, { "CHA", 3 } },
-                { { "ATK", 5 }, { "ALC", 1 } },
-                { { "DEF", 3 } },
-                { { "VIS", 1 }, { "DEF", 4 } }
+        allAbilities.put(ADVENTURER, createClassAbilities(new Object[][][] {
+                { { INT, 1 }, { DEF, 1 }, { ATK, 3 }, { CHA, 2 } },
+                { { INT, 2 }, { CHA, 3 } },
+                { { ATK, 5 }, { ALC, 1 } },
+                { { DEF, 3 } },
+                { { VIS, 1 }, { DEF, 4 } }
         }));
 
-        allAbilities.put("ARCHER", createClassAbilities(new Object[][][] {
-                { { "INT", 1 }, { "ATK", 3 }, { "CHA", 1 }, { "VIS", 3 } },
-                { { "DEF", 1 }, { "CHA", 2 } },
-                { { "ATK", 3 } },
-                { { "DEF", 2 } },
-                { { "ATK", 4 } }
+        allAbilities.put(ARCHER, createClassAbilities(new Object[][][] {
+                { { INT, 1 }, { ATK, 3 }, { CHA, 1 }, { VIS, 3 } },
+                { { DEF, 1 }, { CHA, 2 } },
+                { { ATK, 3 } },
+                { { DEF, 2 } },
+                { { ATK, 4 } }
         }));
 
-        allAbilities.put("DWARF", createClassAbilities(new Object[][][] {
-                { { "ALC", 4 }, { "INT", 1 }, { "ATK", 3 } },
-                { { "DEF", 1 }, { "ALC", 5 } },
-                { { "ATK", 4 } },
-                { { "DEF", 2 } },
-                { { "CHA", 1 } }
+        allAbilities.put(DWARF, createClassAbilities(new Object[][][] {
+                { { ALC, 4 }, { INT, 1 }, { ATK, 3 } },
+                { { DEF, 1 }, { ALC, 5 } },
+                { { ATK, 4 } },
+                { { DEF, 2 } },
+                { { CHA, 1 } }
         }));
 
         return allAbilities;
@@ -88,7 +92,7 @@ public class UpdatePlayer {
     }
 
     private static void afficherMessageKo() {
-        System.out.println("Le joueur est KO !");
+        System.out.println(MSG_IS_KO);
     }
 
     private static void regenererSiBlesse(Player joueur) {
@@ -114,29 +118,32 @@ public class UpdatePlayer {
         limiterPointsDeVie(joueur);
     }
 
-    private static int calculGainFinDeTour(Player p) {
-        String cls = p.getAvatarClass();
-        switch (cls) {
-            case "DWARF":
+    private static int calculGainFinDeTour(Player p) { // En soi, les tests décrits dans cette méthodes tels que donné
+                                                       // de base ne passeront pas
+        String cls = p.getAvatarClass(); // car les objets sont des chaines de caractère avec le nom et la description
+                                         // des objets
+        switch (cls) { // sans modifier la liste d'objets, on va simplement separer la description du
+                       // nom
+            case DWARF:
                 int gain = 1;
-                if (p.getInventory().contains("Holy Elixir")) {
+                if (p.getInventory().contains(OBJECT_HOLY_ELIXIR)) {
                     gain += 1;
                 }
                 return gain;
 
-            case "ADVENTURER":
+            case ADVENTURER:
                 int adv = 2;
                 if (p.retrieveLevel() < 3) {
                     adv -= 1;
                 }
                 return adv;
 
-            case "ARCHER":
+            case ARCHER:
 
                 int hpApresPlusUn = p.getCurrenthealthpoints() + 1;
                 int archer = 1;
 
-                if (p.getInventory().contains("Magic Bow")) {
+                if (p.getInventory().contains(OBJECT_MAGIC_BOW)) {
                     archer += (hpApresPlusUn / 8) - 1;
                 }
                 return archer;
