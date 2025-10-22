@@ -6,15 +6,7 @@ import static re.forestier.edu.rpg.Literaux.*;
 
 public class UpdatePlayer {
 
-    private final static String[] objectList = {
-            OBJECT_LOOKOUT_RING,
-            OBJECT_SCROLL_OF_STUPIDITY,
-            OBJECT_DAUPNIR,
-            OBJECT_MAGIC_BOW,
-            OBJECT_RUNE,
-            OBJECT_COMBAT_EDGE,
-            OBJECT_HOLY_ELIXIR
-    };
+    private static final String[] objectList = OBJECT_LIST;
 
     private static HashMap<String, Integer> createAbilityMap(Object[][] data) {
         HashMap<String, Integer> map = new HashMap<>();

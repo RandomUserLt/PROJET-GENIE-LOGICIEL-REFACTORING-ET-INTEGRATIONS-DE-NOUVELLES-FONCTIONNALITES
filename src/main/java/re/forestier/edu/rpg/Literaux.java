@@ -39,4 +39,15 @@ public class Literaux {
     public static final String ALC = "ALC";
     public static final String VIS = "VIS";
     public static final String MSG_IS_KO = "Le joueur est KO !";
+
+    public final static String[] OBJECT_LIST = {
+            OBJECT_LOOKOUT_RING,
+            OBJECT_SCROLL_OF_STUPIDITY,
+            OBJECT_DAUPNIR,
+            OBJECT_MAGIC_BOW,
+            OBJECT_RUNE,
+            OBJECT_COMBAT_EDGE,
+            OBJECT_HOLY_ELIXIR
+    };
+
 }
