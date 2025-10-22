@@ -31,28 +31,28 @@ public class UpdatePlayer {
     public static HashMap<String, HashMap<Integer, HashMap<String, Integer>>> abilitiesPerTypeAndLevel() {
         HashMap<String, HashMap<Integer, HashMap<String, Integer>>> allAbilities = new HashMap<>();
 
-        allAbilities.put("ADVENTURER", createClassAbilities(new Object[][][] { // abilities de l'aventurier
-                { { "INT", 1 }, { "DEF", 1 }, { "ATK", 3 }, { "CHA", 2 } }, // niv 1 ok
-                { { "INT", 2 }, { "CHA", 3 } }, // niveau 2 ok
-                { { "ATK", 5 }, { "ALC", 1 } }, // niveau 3 ok
-                { { "DEF", 3 } }, // niveau 4 ok
-                { { "VIS", 1 }, { "DEF", 4 } }// niveau 5 ok
+        allAbilities.put("ADVENTURER", createClassAbilities(new Object[][][] {
+                { { "INT", 1 }, { "DEF", 1 }, { "ATK", 3 }, { "CHA", 2 } },
+                { { "INT", 2 }, { "CHA", 3 } },
+                { { "ATK", 5 }, { "ALC", 1 } },
+                { { "DEF", 3 } },
+                { { "VIS", 1 }, { "DEF", 4 } }
         }));
 
-        allAbilities.put("ARCHER", createClassAbilities(new Object[][][] { // pareil pour l'archer
-                { { "INT", 1 }, { "ATK", 3 }, { "CHA", 1 }, { "VIS", 3 } }, // ok
-                { { "DEF", 1 }, { "CHA", 2 } }, // ok
-                { { "ATK", 3 } }, // ok
-                { { "DEF", 2 } }, // ok
-                { { "ATK", 4 } }// ok
+        allAbilities.put("ARCHER", createClassAbilities(new Object[][][] {
+                { { "INT", 1 }, { "ATK", 3 }, { "CHA", 1 }, { "VIS", 3 } },
+                { { "DEF", 1 }, { "CHA", 2 } },
+                { { "ATK", 3 } },
+                { { "DEF", 2 } },
+                { { "ATK", 4 } }
         }));
 
-        allAbilities.put("DWARF", createClassAbilities(new Object[][][] { // meme logique pour le nain
-                { { "ALC", 4 }, { "INT", 1 }, { "ATK", 3 } }, // ok
-                { { "DEF", 1 }, { "ALC", 5 } }, // ok
-                { { "ATK", 4 } }, // ok
-                { { "DEF", 2 } }, // ok
-                { { "CHA", 1 } }// ok
+        allAbilities.put("DWARF", createClassAbilities(new Object[][][] {
+                { { "ALC", 4 }, { "INT", 1 }, { "ATK", 3 } },
+                { { "DEF", 1 }, { "ALC", 5 } },
+                { { "ATK", 4 } },
+                { { "DEF", 2 } },
+                { { "CHA", 1 } }
         }));
 
         return allAbilities;
@@ -83,30 +83,6 @@ public class UpdatePlayer {
         return false;
     }
 
-    // majFinDeTour met à jour les points de vie // Trop d'imbrications
-    // extract method sur cette methode , on la découpe en plusieurs petites
-    // méthodes
-    // ces méthodes iront peut-etre dans une classe à elles seules ... à voir
-    // public static void majFinDeTour(Player p) {
-
-    // if (p.getCurrenthealthpoints() == 0) {
-    // System.out.println("Le joueur est KO !");
-    // return;
-    // }
-
-    // if (p.getCurrenthealthpoints() < p.getHealthpoints() / 2) {
-    // int gain = calculGainFinDeTour(p);
-    // p.setCurrenthealthpoints() += gain;
-    // int h = gain + p.getCurrenthealthpoints();
-    // p.setCurrenthealthpoints(h);
-    // }
-
-    // if (p.getCurrenthealthpoints() >= p.getHealthpoints()) {
-    // p.setCurrenthealthpoints(p.getHealthpoints());
-    // }
-    // }
-
-    // nouvelle version
     private static boolean estKo(Player joueur) {
         return joueur.getCurrenthealthpoints() == 0;
     }
@@ -137,8 +113,6 @@ public class UpdatePlayer {
         regenererSiBlesse(joueur);
         limiterPointsDeVie(joueur);
     }
-
-    // fin gestion majFinDeTour
 
     private static int calculGainFinDeTour(Player p) {
         String cls = p.getAvatarClass();
@@ -173,4 +147,4 @@ public class UpdatePlayer {
         }
     }
 
-} // parenthèse de fin
+}
