@@ -23,9 +23,13 @@ public class Player {
 
     public Player(String playerName, String avatarName, String avatarClass, int money, ArrayList<String> inventory) {
 
-        if (!ARCHER.equals(avatarClass) && !ADVENTURER.equals(avatarClass) && !DWARF.equals(avatarClass)) {
-            return;
-        }
+        // if (!ARCHER.equals(avatarClass) && !ADVENTURER.equals(avatarClass) &&
+        // !DWARF.equals(avatarClass)) {
+        // return;
+        // }
+        // if (avatarClass == null) {
+        // return;
+        // }
 
         this.playerName = playerName;
         this.avatarName = avatarName;

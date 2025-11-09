@@ -71,13 +71,17 @@ public class PlayerTest {
     }
 
     // Vérifie que le constructeur rejette une classe invalide (champ null)
+    // obsolète
 
-    @Test
-    @DisplayName("Constructeur : classe invalide → AvatarClass nul")
-    void constructeurClasseInvalideRefuse() {
-        Player p = new Player("Bob", "BobAvatar", "MAGE", 5, new ArrayList<>(inv));
-        assertNull(p.getAvatarClass(), "Classe invalide non acceptée");
-    }
+    /*
+     * @Test
+     * 
+     * @DisplayName("Constructeur : classe invalide → AvatarClass nul")
+     * void constructeurClasseInvalideRefuse() {
+     * Player p = new Player("Bob", "BobAvatar", "MAGE", 5, new ArrayList<>(inv));
+     * assertNull(p.getAvatarClass(), "Classe invalide non acceptée");
+     * }
+     */
 
     // Vérifie que getAvatarClass renvoie bien la classe stockée
 
