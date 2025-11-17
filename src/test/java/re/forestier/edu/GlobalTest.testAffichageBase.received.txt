@@ -6,6 +6,5 @@ Capacités :
    DEFENSE : 1
    ATTACK : 3
    CHANCE : 3
-   
 
 Inventaire :

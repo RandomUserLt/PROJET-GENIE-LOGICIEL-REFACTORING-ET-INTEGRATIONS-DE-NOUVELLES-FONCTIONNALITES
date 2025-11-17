@@ -1,19 +1,82 @@
 package re.forestier.edu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import re.forestier.edu.rpg.Player;
 import re.forestier.edu.rpg.UpdatePlayer;
 
 public class Main {
     public static void main(String[] args) {
-        Player firstPlayer = new Player("Florian", "Ruzberg de Rivehaute", "DWARF", 200, new ArrayList<>());
-        firstPlayer.addMoney(400);
+        /*
+         * Player firstPlayer = new Player("Florian", "Ruzberg de Rivehaute", "DWARF",
+         * 200, new ArrayList<>());
+         * firstPlayer.addMoney(400);
+         * 
+         * UpdatePlayer.addXp(firstPlayer, 15);
+         * System.out.println(firstPlayer);
+         * System.out.println("------------------");
+         * UpdatePlayer.addXp(firstPlayer, 20);
+         * System.out.println(firstPlayer);
+         * // AUTRE VISUALISATION
+         * ArrayList<String> inventory = new ArrayList<>();
+         * Player p = new Player("Florian", "Gnognak le Barbare", "ADVENTURER", 0,
+         * inventory);
+         * 
+         * // Simuler un gain d'expérience comme dans ton test
+         * UpdatePlayer.addXp(p, 20);
+         * 
+         * // Vider l'inventaire comme dans ton test
+         * p.getInventory().clear();
+         * 
+         * // Afficher le résultat de toString()
+         * System.out.println("=== Affichage réel de p.toString() ===");
+         * System.out.println(p.toString());
+         */
 
-        UpdatePlayer.addXp(firstPlayer, 15);
-        System.out.println(firstPlayer);
-        System.out.println("------------------");
-        UpdatePlayer.addXp(firstPlayer, 20);
-        System.out.println(firstPlayer);
+        // Création du joueur
+        Player player = new Player("Florian", "Gnognak le Barbare", "ADVENTURER", 200, new ArrayList<>());
+        player.setXp(200);
+        UpdatePlayer.addXp(player, 100);
+        player.setInventory(new ArrayList<>());
+
+        // Valeur réelle
+        String actual = player.toString();
+
+        // Chaîne attendue
+        String expected = "Joueur Gnognak le Barbare joué par Florian\n" +
+                "Niveau : 5 (XP totale : 300)\n\n" +
+                "Capacités :\n" +
+                "   INTELLIGENCE : 1\n" +
+                "   DEFENSE : 1\n" +
+                "   ATTACK : 3\n" +
+                "   CHANCE : 2\n\n" +
+                "Inventaire :";
+
+        // Normaliser les chaînes : trim et suppression des lignes vides superflues
+        String normalizedActual = Arrays.stream(actual.split("\\R"))
+                .map(String::trim)
+                .filter(line -> !line.isEmpty())
+                .collect(Collectors.joining("\n"));
+
+        String normalizedExpected = Arrays.stream(expected.split("\\R"))
+                .map(String::trim)
+                .filter(line -> !line.isEmpty())
+                .collect(Collectors.joining("\n"));
+
+        // Affichage pour debug
+        System.out.println("=== Actual ===");
+        System.out.println(normalizedActual);
+        System.out.println("\n=== Expected ===");
+        System.out.println(normalizedExpected);
+
+        // Vérification simple
+        if (normalizedActual.equals(normalizedExpected)) {
+            System.out.println("\nTest réussi !");
+        } else {
+            System.out.println("\nTest échoué !");
+        }
+
     }
 }

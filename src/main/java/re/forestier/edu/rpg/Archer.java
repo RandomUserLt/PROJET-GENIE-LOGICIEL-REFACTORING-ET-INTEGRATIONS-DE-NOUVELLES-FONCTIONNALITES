@@ -16,4 +16,3 @@ public final class Archer extends Player {
         super(playerName, avatarName, ARCHER, money, inventory);
     }
 }
-

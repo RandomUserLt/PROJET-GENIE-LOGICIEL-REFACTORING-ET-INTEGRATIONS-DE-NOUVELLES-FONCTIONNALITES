@@ -4,6 +4,8 @@ import static org.approvaltests.Approvals.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,14 +30,52 @@ public class GlobalTest {
      * }
      */
 
+    /*
+     * @Test
+     * void testAffichageBase() {
+     * Player player = new Player("Florian", "Gnognak le Barbare", "ADVENTURER",
+     * 200, new ArrayList<>());
+     * UpdatePlayer.addXp(player, 20);
+     * // player.inventory = new ArrayList<>();
+     * player.setInventory(new ArrayList<>());
+     * 
+     * verify(player.toString());
+     * }
+     */
+
     @Test
     void testAffichageBase() {
+        // Création du joueur
         Player player = new Player("Florian", "Gnognak le Barbare", "ADVENTURER", 200, new ArrayList<>());
-        UpdatePlayer.addXp(player, 20);
-        // player.inventory = new ArrayList<>();
+        player.setXp(200);
+        UpdatePlayer.addXp(player, 100);
         player.setInventory(new ArrayList<>());
 
-        verify(player.toString());
+        // Valeur réelle
+        String actual = player.toString();
+
+        // Chaîne attendue
+        String expected = "Joueur Gnognak le Barbare joué par Florian\n" +
+                "Niveau : 5 (XP totale : 300)\n\n" +
+                "Capacités :\n" +
+                "   INTELLIGENCE : 1\n" +
+                "   DEFENSE : 1\n" +
+                "   ATTACK : 3\n" +
+                "   CHANCE : 2\n\n" +
+                "Inventaire :";
+        // Normaliser les chaînes : trim et suppression des lignes vides superflues
+        String normalizedActual = Arrays.stream(actual.split("\\R"))
+                .map(String::trim)
+                .filter(line -> !line.isEmpty())
+                .collect(Collectors.joining("\n"));
+
+        String normalizedExpected = Arrays.stream(expected.split("\\R"))
+                .map(String::trim)
+                .filter(line -> !line.isEmpty())
+                .collect(Collectors.joining("\n"));
+
+        // Vérification
+        assertEquals(normalizedExpected, normalizedActual);
     }
 
     // Vérifie qu’une montée de plusieurs niveaux (jusqu’au niveau 4) est

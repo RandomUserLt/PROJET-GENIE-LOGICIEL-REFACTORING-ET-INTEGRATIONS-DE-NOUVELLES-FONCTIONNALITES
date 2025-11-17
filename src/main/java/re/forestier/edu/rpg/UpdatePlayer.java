@@ -28,27 +28,27 @@ public class UpdatePlayer {
         HashMap<String, HashMap<Integer, HashMap<String, Integer>>> allAbilities = new HashMap<>();
 
         allAbilities.put(ADVENTURER, createClassAbilities(new Object[][][] {
-                { { INT, 1 }, { DEF, 1 }, { ATK, 3 }, { CHA, 2 } },
-                { { INT, 2 }, { CHA, 3 } },
-                { { ATK, 5 }, { ALC, 1 } },
-                { { DEF, 3 } },
-                { { VIS, 1 }, { DEF, 4 } }
+                { { INTELLIGENCE, 1 }, { DEFENSE, 1 }, { ATTACK, 3 }, { CHANCE, 2 } },
+                { { INTELLIGENCE, 2 }, { CHANCE, 3 } },
+                { { ATTACK, 5 }, { ALCHEMY, 1 } },
+                { { DEFENSE, 3 } },
+                { { VISION, 1 }, { DEFENSE, 4 } }
         }));
 
         allAbilities.put(ARCHER, createClassAbilities(new Object[][][] {
-                { { INT, 1 }, { ATK, 3 }, { CHA, 1 }, { VIS, 3 } },
-                { { DEF, 1 }, { CHA, 2 } },
-                { { ATK, 3 } },
-                { { DEF, 2 } },
-                { { ATK, 4 } }
+                { { INTELLIGENCE, 1 }, { ATTACK, 3 }, { CHANCE, 1 }, { VISION, 3 } },
+                { { DEFENSE, 1 }, { CHANCE, 2 } },
+                { { ATTACK, 3 } },
+                { { DEFENSE, 2 } },
+                { { ATTACK, 4 } }
         }));
 
         allAbilities.put(DWARF, createClassAbilities(new Object[][][] {
-                { { ALC, 4 }, { INT, 1 }, { ATK, 3 } },
-                { { DEF, 1 }, { ALC, 5 } },
-                { { ATK, 4 } },
-                { { DEF, 2 } },
-                { { CHA, 1 } }
+                { { ALCHEMY, 4 }, { INTELLIGENCE, 1 }, { ATTACK, 3 } },
+                { { DEFENSE, 1 }, { ALCHEMY, 5 } },
+                { { ATTACK, 4 } },
+                { { DEFENSE, 2 } },
+                { { CHANCE, 1 } }
         }));
 
         return allAbilities;

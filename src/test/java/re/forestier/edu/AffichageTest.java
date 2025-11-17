@@ -40,14 +40,26 @@ public class AffichageTest {
         p.getInventory().clear();
         String actual = p.toString();
 
+        /*
+         * String expected = "Joueur Gnognak le Barbare joué par Florian" +
+         * "\nNiveau : 2 (XP totale : 20)" +
+         * "\n\nCapacités :" +
+         * "\n   DEFENSE : 1" +
+         * "\n   ATTACK : 3" +
+         * "\n   CHANCE : 3" +
+         * "\n   INTELLIGENCE : 2" +
+         * "\n\nInventaire :";
+         */
+
         String expected = "Joueur Gnognak le Barbare joué par Florian" +
                 "\nNiveau : 2 (XP totale : 20)" +
                 "\n\nCapacités :" +
-                "\n   DEF : 1" +
-                "\n   ATK : 3" +
-                "\n   CHA : 3" +
-                "\n   INT : 2" +
+                "\n   INTELLIGENCE : 2" +
+                "\n   DEFENSE : 1" +
+                "\n   ATTACK : 3" +
+                "\n   CHANCE : 3" +
                 "\n\nInventaire :";
+        // System.out.println(actual);
         assertEquals(expected, actual);
     }
 

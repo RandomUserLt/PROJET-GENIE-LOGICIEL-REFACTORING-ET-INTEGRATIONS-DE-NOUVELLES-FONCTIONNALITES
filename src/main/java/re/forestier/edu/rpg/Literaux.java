@@ -32,12 +32,13 @@ public class Literaux {
     public static final String DESC_COMBAT_EDGE = ": Well, that's an edge";
     public static final String DESC_HOLY_ELIXIR = ": Recover your HP";
 
-    public static final String INT = "INT";
-    public static final String DEF = "DEF";
-    public static final String CHA = "CHA";
-    public static final String ATK = "ATK";
-    public static final String ALC = "ALC";
-    public static final String VIS = "VIS";
+    public static final String INTELLIGENCE = "INTELLIGENCE";// réinterpretation des variables
+    // pour une meilleure comprehension
+    public static final String DEFENSE = "DEFENSE";
+    public static final String CHANCE = "CHANCE";
+    public static final String ATTACK = "ATTACK";
+    public static final String ALCHEMY = "ALCHEMY";
+    public static final String VISION = "VISION";
     public static final String MSG_IS_KO = "Le joueur est KO !";
 
     public final static String[] OBJECT_LIST = {
