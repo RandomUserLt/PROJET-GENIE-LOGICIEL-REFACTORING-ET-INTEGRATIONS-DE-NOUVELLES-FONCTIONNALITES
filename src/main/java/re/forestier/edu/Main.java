@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import re.forestier.edu.rpg.Player;
 import re.forestier.edu.rpg.UpdatePlayer;
+import re.forestier.edu.rpg.Archer;
+import re.forestier.edu.rpg.Dwarf;
+import re.forestier.edu.rpg.Adventurer;
 
 public class Main {
     public static void main(String[] args) {
@@ -36,9 +39,10 @@ public class Main {
          */
 
         // Création du joueur
-        Player player = new Player("Florian", "Gnognak le Barbare", "ADVENTURER", 200, new ArrayList<>());
+        Adventurer player = new Adventurer("Florian", "Gnognak le Barbare", "ADVENTURER", 200, new ArrayList<>());
         player.setXp(200);
-        UpdatePlayer.addXp(player, 100);
+        // UpdatePlayer.addXp(player, 100);
+        player.addXp(100);
         player.setInventory(new ArrayList<>());
 
         // Valeur réelle

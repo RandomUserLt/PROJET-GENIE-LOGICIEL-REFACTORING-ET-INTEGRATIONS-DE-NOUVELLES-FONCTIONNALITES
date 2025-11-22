@@ -2,48 +2,70 @@ package re.forestier.edu.rpg;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
 import static re.forestier.edu.rpg.Literaux.*;
 
-public class Player {
+public abstract class Player {
 
     private String playerName;
     private String avatarName;
-
     private String avatarClass;
 
     private Integer money;
 
-    private int level;
+    // Niveau interne (doit être synchronisé via onLevelUp)
+    protected int level;
+
     private int healthpoints;
     private int currenthealthpoints;
     private int xp;
 
-    private HashMap<String, Integer> abilities;
-    private ArrayList<String> inventory;
+    // Visibilité protégée pour permettre l’accès dans les sous-classes
+    protected HashMap<String, Integer> abilities;
+    protected ArrayList<String> inventory;
 
-    public Player(String playerName, String avatarName, String avatarClass, int money, ArrayList<String> inventory) {
-
-        // if (!ARCHER.equals(avatarClass) && !ADVENTURER.equals(avatarClass) &&
-        // !DWARF.equals(avatarClass)) {
-        // return;
-        // }
-        // if (avatarClass == null) {
-        // return;
-        // }
+    public Player(String playerName,
+            String avatarName,
+            String avatarClass,
+            int money,
+            ArrayList<String> inventory) {
 
         this.playerName = playerName;
         this.avatarName = avatarName;
         this.avatarClass = avatarClass;
-        var perType_A = UpdatePlayer.abilitiesPerTypeAndLevel().get(this.avatarClass);
-        this.abilities = (perType_A != null && perType_A.get(1) != null)
-                ? perType_A.get(1)
-                : new java.util.HashMap<>();
 
         this.money = money;
         this.inventory = (inventory != null) ? inventory : new ArrayList<>();
-        var perType_B = UpdatePlayer.abilitiesPerTypeAndLevel().get(avatarClass);
-        this.abilities = (perType_B != null && perType_B.get(1) != null) ? perType_B.get(1) : new java.util.HashMap<>();
+        this.abilities = new HashMap<>();
+
+        // Niveau initial basé sur l’XP
+        this.level = obtenirNiveauDepuisXp(this.xp);
     }
+
+    // --- MAJ FIN DE TOUR (template method) ------------------------------------
+
+    public final void majFinDeTour() {
+        if (getCurrenthealthpoints() == 0) {
+            System.out.println(MSG_IS_KO);
+            return;
+        }
+
+        // Régénération si < 50%
+        if (getCurrenthealthpoints() < getHealthpoints() / 2) {
+            int gain = calculGainFinDeTour();
+            setCurrenthealthpoints(getCurrenthealthpoints() + gain);
+        }
+
+        // Clamp HP au max
+        if (getCurrenthealthpoints() > getHealthpoints()) {
+            setCurrenthealthpoints(getHealthpoints());
+        }
+    }
+
+    protected abstract int calculGainFinDeTour();
+
+    // --- AFFICHAGE -------------------------------------------------------------
 
     @Override
     public String toString() {
@@ -66,6 +88,18 @@ public class Player {
 
         return affichage.toString();
     }
+
+    // --- ABILITIES PAR NIVEAU --------------------------------------------------
+
+    public Map<String, Integer> getLevelAbilities(int level) {
+        return getSubClassLevelAbilities(level);
+    }
+
+    protected Map<String, Integer> getSubClassLevelAbilities(int level) {
+        throw new UnsupportedOperationException("Chaque sous-classe doit implémenter getSubClassLevelAbilities");
+    }
+
+    // --- GETTERS SIMPLES -------------------------------------------------------
 
     public String getPlayerName() {
         return playerName;
@@ -95,8 +129,8 @@ public class Player {
         return currenthealthpoints;
     }
 
-    public void setCurrenthealthpoints(int currenthealthpoints) {
-        this.currenthealthpoints = currenthealthpoints;
+    public void setCurrenthealthpoints(int hp) {
+        this.currenthealthpoints = hp;
     }
 
     public int getXp() {
@@ -107,6 +141,50 @@ public class Player {
         this.xp = xp;
     }
 
+    public void setInventory(ArrayList<String> inventory) {
+        this.inventory = inventory;
+    }
+
+    // --- MONTÉE DE NIVEAU ------------------------------------------------------
+
+    private void levelUpIfNeeded() {
+        int currentLevel = this.level;
+        int newLevel = obtenirNiveauDepuisXp(getXp());
+
+        if (newLevel > currentLevel) {
+            for (int lvl = currentLevel + 1; lvl <= newLevel; lvl++) {
+                onLevelUp(lvl);
+            }
+            this.level = newLevel;
+        }
+    }
+
+    protected void onLevelUp(int lvl) {
+        // Surchargé dans chaque sous-classe
+    }
+
+    // --- XP --------------------------------------------------------------------
+
+    public void addXp(int xp) {
+        int oldLevel = retrieveLevel();
+        setXp(getXp() + xp);
+        int newLevel = retrieveLevel();
+
+        if (newLevel > oldLevel) {
+            for (int lvl = oldLevel + 1; lvl <= newLevel; lvl++) {
+                onLevelUp(lvl);
+            }
+        }
+    }
+
+    public boolean addXpWithLevelCheck(int xp) {
+        int oldLevel = retrieveLevel();
+        addXp(xp);
+        return retrieveLevel() > oldLevel;
+    }
+
+    // --- UTILITAIRES -----------------------------------------------------------
+
     public HashMap<String, Integer> getAbilities() {
         return abilities;
     }
@@ -115,20 +193,25 @@ public class Player {
         return inventory;
     }
 
-    public void setInventory(ArrayList<String> inventory) {
-        this.inventory = inventory;
+    public int getLevel() {
+        return this.level;
     }
 
-    public void removeMoney(int amount) throws IllegalArgumentException {
-        if (money - amount < 0) {
+    public void setLevel(int lvl) {
+        this.level = lvl;
+    }
+
+    public void removeMoney(int amount) {
+        if (money - amount < 0)
             throw new IllegalArgumentException(NEGATIVE_MONEY_EXCEPTION);
-        }
-        money = money - amount;
+        money -= amount;
     }
 
     public void addMoney(int amount) {
         money += amount;
     }
+
+    // --- TABLE XP → NIVEAU -----------------------------------------------------
 
     private static final java.util.NavigableMap<Integer, Integer> XP_TO_LEVEL = new java.util.TreeMap<>();
 
@@ -138,7 +221,6 @@ public class Player {
         enregistrerPalier(27, 3);
         enregistrerPalier(57, 4);
         enregistrerPalier(111, 5);
-        // TODO : les niveaux suivants
     }
 
     private static void enregistrerPalier(int xpMinInclus, int niveau) {
@@ -146,8 +228,7 @@ public class Player {
     }
 
     public static int obtenirNiveauDepuisXp(int xp) {
-        int safeXp = Math.max(0, xp);
-        return XP_TO_LEVEL.floorEntry(safeXp).getValue();
+        return XP_TO_LEVEL.floorEntry(Math.max(0, xp)).getValue();
     }
 
     public int retrieveLevel() {

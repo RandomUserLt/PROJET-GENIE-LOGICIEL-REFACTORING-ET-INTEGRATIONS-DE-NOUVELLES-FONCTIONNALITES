@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import re.forestier.edu.rpg.Player;
+import re.forestier.edu.rpg.*;
 
 public class PlayerTest {
     private ArrayList<String> inv;
@@ -19,8 +19,19 @@ public class PlayerTest {
         return new ArrayList<>();
     }
 
+    /*
+     * private Player creerJoueur(String nom, String avatar, String classe) {
+     * return new Player(nom, avatar, classe, 0, emptyInv());
+     * }
+     */
+
     private Player creerJoueur(String nom, String avatar, String classe) {
-        return new Player(nom, avatar, classe, 0, emptyInv());
+        return switch (classe.toUpperCase()) {
+            case "ADVENTURER" -> new Adventurer(nom, avatar, classe, 0, emptyInv());
+            case "ARCHER" -> new Archer(nom, avatar, classe, 0, emptyInv());
+            case "DWARF" -> new Dwarf(nom, avatar, classe, 0, emptyInv());
+            default -> throw new IllegalArgumentException("Classe inconnue : " + classe);
+        };
     }
 
     @BeforeEach
@@ -35,7 +46,7 @@ public class PlayerTest {
     @Test
     @DisplayName("Nom du joueur bien initialisé")
     void testNomDuJoueur() {
-        Player joueur = new Player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
+        Adventurer joueur = new Adventurer("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
         assertThat(joueur.getPlayerName(), is("Florian"));
     }
 
@@ -44,7 +55,7 @@ public class PlayerTest {
     @Test
     @DisplayName("Impossible d’avoir un solde d’argent négatif")
     void testArgentNegatif() {
-        Player p = new Player("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
+        Adventurer p = new Adventurer("Florian", "Grognak le barbare", "ADVENTURER", 100, new ArrayList<>());
 
         try {
             p.removeMoney(200);
@@ -60,7 +71,7 @@ public class PlayerTest {
     @Test
     @DisplayName("Constructeur : classe valide → champs et capacités initialisés")
     void constructeurClasseValideInitialise() {
-        Player p = new Player("Alice", "AliceAvatar", "ADVENTURER", 10, new ArrayList<>(inv));
+        Adventurer p = new Adventurer("Alice", "AliceAvatar", "ADVENTURER", 10, new ArrayList<>(inv));
         assertEquals("Alice", p.getPlayerName());
         assertEquals("AliceAvatar", p.getAvatarName());
         assertEquals("ADVENTURER", p.getAvatarClass());
@@ -88,7 +99,7 @@ public class PlayerTest {
     @Test
     @DisplayName("getAvatarClass renvoie la classe du joueur")
     void testGetAvatarClass() {
-        Player p = new Player("Cara", "CaraAvatar", "ARCHER", 0, new ArrayList<>(inv));
+        Archer p = new Archer("Cara", "CaraAvatar", "ARCHER", 0, new ArrayList<>(inv));
         assertEquals("ARCHER", p.getAvatarClass());
     }
 
@@ -97,7 +108,7 @@ public class PlayerTest {
     @Test
     @DisplayName("addMoney : ajout d’argent positif ou nul")
     void testAjoutArgent() {
-        Player p = new Player("Dan", "DanAvatar", "DWARF", 7, new ArrayList<>(inv));
+        Dwarf p = new Dwarf("Dan", "DanAvatar", "DWARF", 7, new ArrayList<>(inv));
         p.addMoney(0);
         assertEquals(7, p.getMoney().intValue());
         p.addMoney(5);
@@ -109,7 +120,7 @@ public class PlayerTest {
     @Test
     @DisplayName("removeMoney : soustraction valide")
     void testRetraitArgentOk() {
-        Player p = new Player("Eve", "EveAvatar", "ADVENTURER", 10, new ArrayList<>(inv));
+        Adventurer p = new Adventurer("Eve", "EveAvatar", "ADVENTURER", 10, new ArrayList<>(inv));
         p.removeMoney(4);
         assertEquals(6, p.getMoney().intValue());
     }
@@ -119,7 +130,7 @@ public class PlayerTest {
     @Test
     @DisplayName("removeMoney : exception si résultat négatif")
     void testRetraitArgentNegatif() {
-        Player p = new Player("Fred", "FredAvatar", "ARCHER", 3, new ArrayList<>(inv));
+        Archer p = new Archer("Fred", "FredAvatar", "ARCHER", 3, new ArrayList<>(inv));
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> p.removeMoney(4));
         assertTrue(ex.getMessage() == null || ex.getMessage().toLowerCase().contains("negative"));
     }

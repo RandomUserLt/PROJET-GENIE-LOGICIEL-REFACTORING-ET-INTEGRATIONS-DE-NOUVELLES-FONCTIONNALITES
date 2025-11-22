@@ -10,45 +10,17 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import re.forestier.edu.rpg.Player;
+import re.forestier.edu.rpg.*;
 import re.forestier.edu.rpg.UpdatePlayer;
 
 public class GlobalTest {
 
-    // Vérifie que l’affichage de base du joueur correspond bien au format attendu
-    /*
-     * @Test
-     * 
-     * @DisplayName("Global : Vérification de l’affichage de base")
-     * void testAffichageDeBase() {
-     * player player = new player("Florian", "Gnognak le Barbare", "ADVENTURER",
-     * 200, new ArrayList<>());
-     * UpdatePlayer.addXp(player, 20);
-     * player.inventory = new ArrayList<>();
-     * 
-     * verify(Affichage.afficherJoueur(player));
-     * }
-     */
-
-    /*
-     * @Test
-     * void testAffichageBase() {
-     * Player player = new Player("Florian", "Gnognak le Barbare", "ADVENTURER",
-     * 200, new ArrayList<>());
-     * UpdatePlayer.addXp(player, 20);
-     * // player.inventory = new ArrayList<>();
-     * player.setInventory(new ArrayList<>());
-     * 
-     * verify(player.toString());
-     * }
-     */
-
     @Test
     void testAffichageBase() {
         // Création du joueur
-        Player player = new Player("Florian", "Gnognak le Barbare", "ADVENTURER", 200, new ArrayList<>());
+        Adventurer player = new Adventurer("Florian", "Gnognak le Barbare", "ADVENTURER", 200, new ArrayList<>());
         player.setXp(200);
-        UpdatePlayer.addXp(player, 100);
+        player.addXp(100);
         player.setInventory(new ArrayList<>());
 
         // Valeur réelle
@@ -84,10 +56,10 @@ public class GlobalTest {
     @Test
     @DisplayName("Global : Chaîne de montées de niveau (jusqu’à 4) puis affichage")
     void scenarioMonteeNiveauJusqua4EtAffichage() {
-        Player p = new Player("Alice", "Héroïne", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p = new Adventurer("Alice", "Héroïne", "ADVENTURER", 0, new ArrayList<>());
 
         // 57 XP : seuils 10, 27, 57 → arrive niveau 4
-        UpdatePlayer.addXp(p, 57);
+        p.addXp(57);
         assertEquals(4, p.retrieveLevel(), "Le joueur doit être niveau 4");
 
         String out = p.toString();
@@ -102,13 +74,13 @@ public class GlobalTest {
     @Test
     @DisplayName("Global : Archer soigné avec Arc magique puis affichage")
     void scenarioArcherArcMagiqueSoinEtAffichage() {
-        Player p = new Player("Robin", "Ranger", "ARCHER", 0, new ArrayList<>());
+        Archer p = new Archer("Robin", "Ranger", "ARCHER", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(40); // < 50%
         p.getInventory().add("Magic Bow");
 
-        UpdatePlayer.addXp(p, 10); // passage au niveau 2 et ajout d’un objet
-        UpdatePlayer.majFinDeTour(p);
+        p.addXp(10); // passage au niveau 2 et ajout d’un objet
+        p.majFinDeTour();
 
         // 40 -> +1 (archer) + (40/8 - 1) = +5 → 45
         assertEquals(45, p.getCurrenthealthpoints());
@@ -124,13 +96,13 @@ public class GlobalTest {
     @Test
     @DisplayName("Global : Nain < 50% PV avec Élixir sacré → +2 PV")
     void scenarioNainElixirSoin() {
-        Player p = new Player("Gimli", "Nain", "DWARF", 0, new ArrayList<>());
+        Dwarf p = new Dwarf("Gimli", "Nain", "DWARF", 0, new ArrayList<>());
         p.setHealthpoints(41);
         p.setCurrenthealthpoints(19); // < 41/2 = 20
         p.getInventory().add("Holy Elixir");
 
-        UpdatePlayer.addXp(p, 10); // passage niveau 2
-        UpdatePlayer.majFinDeTour(p);
+        p.addXp(10); // passage niveau 2
+        p.majFinDeTour();
 
         // +1 (élixir) +1 (bonus nain) = +2 → 21
         assertEquals(21, p.getCurrenthealthpoints());
@@ -145,13 +117,13 @@ public class GlobalTest {
     @Test
     @DisplayName("Global : Limitation des PV au maximum autorisé")
     void scenarioClampPvAuMax() {
-        Player p = new Player("Any", "Héros", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p = new Adventurer("Any", "Héros", "ADVENTURER", 0, new ArrayList<>());
         p.setHealthpoints(50);
         p.setCurrenthealthpoints(60); // déjà au-dessus du max
 
-        UpdatePlayer.majFinDeTour(p);
+        p.majFinDeTour();
 
         assertEquals(50, p.getCurrenthealthpoints());
     }
 
-} // parenthèse de fin
+}
