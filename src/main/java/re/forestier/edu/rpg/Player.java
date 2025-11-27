@@ -167,18 +167,6 @@ public abstract class Player {
 
     // --- MONTÉE DE NIVEAU ------------------------------------------------------
 
-    private void levelUpIfNeeded() {
-        int currentLevel = this.level;
-        int newLevel = obtenirNiveauDepuisXp(getXp());
-
-        if (newLevel > currentLevel) {
-            for (int lvl = currentLevel + 1; lvl <= newLevel; lvl++) {
-                onLevelUp(lvl);
-            }
-            this.level = newLevel;
-        }
-    }
-
     protected void onLevelUp(int lvl) {
 
         Random random = new Random();
