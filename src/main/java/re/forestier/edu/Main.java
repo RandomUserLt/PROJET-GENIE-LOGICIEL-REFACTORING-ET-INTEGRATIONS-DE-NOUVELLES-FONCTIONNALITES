@@ -5,38 +5,12 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import re.forestier.edu.rpg.Player;
-import re.forestier.edu.rpg.UpdatePlayer;
 import re.forestier.edu.rpg.Archer;
 import re.forestier.edu.rpg.Dwarf;
 import re.forestier.edu.rpg.Adventurer;
 
 public class Main {
     public static void main(String[] args) {
-        /*
-         * Player firstPlayer = new Player("Florian", "Ruzberg de Rivehaute", "DWARF",
-         * 200, new ArrayList<>());
-         * firstPlayer.addMoney(400);
-         * 
-         * UpdatePlayer.addXp(firstPlayer, 15);
-         * System.out.println(firstPlayer);
-         * System.out.println("------------------");
-         * UpdatePlayer.addXp(firstPlayer, 20);
-         * System.out.println(firstPlayer);
-         * // AUTRE VISUALISATION
-         * ArrayList<String> inventory = new ArrayList<>();
-         * Player p = new Player("Florian", "Gnognak le Barbare", "ADVENTURER", 0,
-         * inventory);
-         * 
-         * // Simuler un gain d'expérience comme dans ton test
-         * UpdatePlayer.addXp(p, 20);
-         * 
-         * // Vider l'inventaire comme dans ton test
-         * p.getInventory().clear();
-         * 
-         * // Afficher le résultat de toString()
-         * System.out.println("=== Affichage réel de p.toString() ===");
-         * System.out.println(p.toString());
-         */
 
         // Création du joueur
         Adventurer player = new Adventurer("Florian", "Gnognak le Barbare", "ADVENTURER", 200, new ArrayList<>());

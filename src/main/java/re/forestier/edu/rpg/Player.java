@@ -52,16 +52,23 @@ public abstract class Player {
     }
 
     public final void majFinDeTour() {
-        if (getCurrenthealthpoints() == 0) {
+        if (estKo()) {
             System.out.println(MSG_IS_KO);
             return;
         }
 
+        regenererSiBlesse();
+        limiterPointsDeVieAuMax();
+    }
+
+    private void regenererSiBlesse() {
         if (getCurrenthealthpoints() < getHealthpoints() / 2) {
             int gain = calculGainFinDeTour();
             setCurrenthealthpoints(getCurrenthealthpoints() + gain);
         }
+    }
 
+    private void limiterPointsDeVieAuMax() {
         if (getCurrenthealthpoints() > getHealthpoints()) {
             setCurrenthealthpoints(getHealthpoints());
         }
