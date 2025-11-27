@@ -11,7 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import re.forestier.edu.rpg.*;
-import re.forestier.edu.rpg.UpdatePlayer;
 
 public class GlobalTest {
 
