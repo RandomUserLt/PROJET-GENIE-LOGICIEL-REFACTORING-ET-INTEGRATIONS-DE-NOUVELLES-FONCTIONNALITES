@@ -50,36 +50,12 @@ public final class Dwarf extends Player {
 
         super(playerName, avatarName, DWARF, money, inventory);
 
-        getAbilities().putAll(LEVEL_ABILITIES.get(1));
-
-        int computed = obtenirNiveauDepuisXp(getXp());
-        for (int lvl = 2; lvl <= computed; lvl++) {
-            onLevelUp(lvl);
-        }
-        setLevel(computed);
+        initBaseAbilities(LEVEL_ABILITIES);
     }
 
     @Override
     protected Map<String, Integer> getSubClassLevelAbilities(int level) {
         return LEVEL_ABILITIES.get(level);
-    }
-
-    @Override
-    protected void onLevelUp(int lvl) {
-
-        Random random = new Random();
-        getInventory().add(OBJECT_LIST[random.nextInt(OBJECT_LIST.length)]);
-
-        Map<String, Integer> abilitiesToAdd = LEVEL_ABILITIES.get(lvl);
-        if (abilitiesToAdd != null) {
-            abilitiesToAdd.forEach((ability, value) -> getAbilities().put(ability, value));
-        }
-
-        setLevel(lvl);
-    }
-
-    public boolean estKo() {
-        return getCurrenthealthpoints() == 0;
     }
 
     @Override

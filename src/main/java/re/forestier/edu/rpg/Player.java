@@ -3,6 +3,7 @@ package re.forestier.edu.rpg;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import static re.forestier.edu.rpg.Literaux.*;
 
@@ -23,6 +24,7 @@ public abstract class Player {
 
     // Visibilité protégée pour permettre l’accès dans les sous-classes
     protected HashMap<String, Integer> abilities;
+
     protected ArrayList<String> inventory;
 
     public Player(String playerName,
@@ -41,6 +43,20 @@ public abstract class Player {
 
         // Niveau initial basé sur l’XP
         this.level = obtenirNiveauDepuisXp(this.xp);
+    }
+
+    protected void initBaseAbilities(Map<Integer, ? extends Map<String, Integer>> levelAbilities) {
+        // Capacités de base niveau 1
+        Map<String, Integer> baseAbilities = levelAbilities.get(1);
+        if (baseAbilities != null) {
+            getAbilities().putAll(baseAbilities);
+        }
+
+        int current = obtenirNiveauDepuisXp(getXp());
+        for (int lvl = 2; lvl <= current; lvl++) {
+            onLevelUp(lvl);
+        }
+        setLevel(current);
     }
 
     // --- MAJ FIN DE TOUR (template method) ------------------------------------
@@ -64,6 +80,10 @@ public abstract class Player {
     }
 
     protected abstract int calculGainFinDeTour();
+
+    public boolean estKo() {
+        return getCurrenthealthpoints() == 0;
+    }
 
     // --- AFFICHAGE -------------------------------------------------------------
 
@@ -160,7 +180,16 @@ public abstract class Player {
     }
 
     protected void onLevelUp(int lvl) {
-        // Surchargé dans chaque sous-classe
+
+        Random random = new Random();
+        getInventory().add(OBJECT_LIST[random.nextInt(OBJECT_LIST.length)]);
+
+        Map<String, Integer> abilitiesToAdd = getSubClassLevelAbilities(lvl);
+        if (abilitiesToAdd != null) {
+            abilitiesToAdd.forEach((ability, value) -> getAbilities().put(ability, value));
+        }
+
+        setLevel(lvl);
     }
 
     // --- XP --------------------------------------------------------------------

@@ -59,28 +59,7 @@ public final class Archer extends Player {
             ArrayList<String> inventory) {
 
         super(playerName, avatarName, ARCHER, money, inventory);
-
-        getAbilities().putAll(LEVEL_ABILITIES.get(1));
-
-        int computed = obtenirNiveauDepuisXp(getXp());
-        for (int lvl = 2; lvl <= computed; lvl++) {
-            onLevelUp(lvl);
-        }
-        setLevel(computed);
-    }
-
-    @Override
-    protected void onLevelUp(int lvl) {
-
-        Random random = new Random();
-        getInventory().add(OBJECT_LIST[random.nextInt(OBJECT_LIST.length)]);
-
-        Map<String, Integer> abilitiesToAdd = LEVEL_ABILITIES.get(lvl);
-        if (abilitiesToAdd != null) {
-            abilitiesToAdd.forEach((ability, value) -> getAbilities().put(ability, value));
-        }
-
-        setLevel(lvl);
+        initBaseAbilities(LEVEL_ABILITIES);
     }
 
     @Override
