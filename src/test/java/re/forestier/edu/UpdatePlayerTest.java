@@ -29,9 +29,9 @@ public class UpdatePlayerTest {
      */
     private Player creerJoueur(String nom, String avatar, String classe) {
         return switch (classe.toUpperCase()) {
-            case "ADVENTURER" -> new Adventurer(nom, avatar, classe, 0, emptyInv());
-            case "ARCHER" -> new Archer(nom, avatar, classe, 0, emptyInv());
-            case "DWARF" -> new Dwarf(nom, avatar, classe, 0, emptyInv());
+            case "ADVENTURER" -> new Adventurer(nom, avatar, 0, emptyInv());
+            case "ARCHER" -> new Archer(nom, avatar, 0, emptyInv());
+            case "DWARF" -> new Dwarf(nom, avatar, 0, emptyInv());
             default -> throw new IllegalArgumentException("Classe inconnue : " + classe);
         };
     }
@@ -48,7 +48,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("retrieveLevel : seuils d’XP → niveaux 1 à 5")
     void testNiveauxParSeuilsXp() {
-        Adventurer p = new Adventurer("Gina", "GinaAvatar", "ADVENTURER", 0, new ArrayList<>(inv));
+        Adventurer p = new Adventurer("Gina", "GinaAvatar", 0, new ArrayList<>(inv));
 
         p.addXp(0);
         assertEquals(1, p.retrieveLevel());
@@ -67,7 +67,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("getXp : valeur renvoyée après ajout d’XP")
     void testGetXp() {
-        Dwarf p = new Dwarf("Hank", "HankAvatar", "DWARF", 0, new ArrayList<>(inv));
+        Dwarf p = new Dwarf("Hank", "HankAvatar", 0, new ArrayList<>(inv));
         p.addXp(42);
         assertEquals(42, p.getXp());
     }
@@ -101,9 +101,9 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("niveau 1 présent pour toutes les classes")
     void testAbilitiesNiveau1Present() {
-        Adventurer adv = new Adventurer("A", "Hero", Literaux.ADVENTURER, 0, new ArrayList<>());
-        Archer arch = new Archer("B", "Hero", Literaux.ARCHER, 0, new ArrayList<>());
-        Dwarf dwarf = new Dwarf("C", "Hero", Literaux.DWARF, 0, new ArrayList<>());
+        Adventurer adv = new Adventurer("A", "Hero", 0, new ArrayList<>());
+        Archer arch = new Archer("B", "Hero", 0, new ArrayList<>());
+        Dwarf dwarf = new Dwarf("C", "Hero", 0, new ArrayList<>());
 
         // Vérifier que le niveau 1 existe dans LEVEL_ABILITIES et est non vide
         assertNotNull(adv.getLevelAbilities(1));
@@ -177,7 +177,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("addXp : montée au niveau 2 → true, niveau=2, inventaire+1")
     void testAddXpMonteeNiveau2() {
-        Adventurer p = new Adventurer("Bee", "B", Literaux.ADVENTURER, 0, new ArrayList<>());
+        Adventurer p = new Adventurer("Bee", "B", 0, new ArrayList<>());
 
         int inv0 = p.getInventory().size();
         boolean leveled = p.addXpWithLevelCheck(10); // ajoute XP et update abilities
@@ -276,7 +276,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("majFinDeTour : aventurier < 50% PV, niveau < 3 → +1 PV")
     void testMajFinDeTourAventurierBasNiveau() {
-        Adventurer p = new Adventurer("A", "Hero", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p = new Adventurer("A", "Hero", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(40);
         p.majFinDeTour();
@@ -288,7 +288,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("majFinDeTour : aventurier < 50% PV, niveau ≥ 3 → +2 PV")
     void testMajFinDeTourAventurierHautNiveau() {
-        Adventurer p = new Adventurer("A", "Hero", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p = new Adventurer("A", "Hero", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(40);
         p.addXp(27);
@@ -302,7 +302,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("majFinDeTour : nain < 50% PV sans Élixir → +1 PV")
     void testMajFinDeTourNainSansElixir() {
-        Dwarf p = new Dwarf("D", "Dwarf", "DWARF", 0, new ArrayList<>());
+        Dwarf p = new Dwarf("D", "Dwarf", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(40);
         p.majFinDeTour();
@@ -314,7 +314,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("majFinDeTour : archer < 50% PV sans Arc magique → +1 PV")
     void testMajFinDeTourArcherSansArc() {
-        Archer p = new Archer("R", "Archer", "ARCHER", 0, new ArrayList<>());
+        Archer p = new Archer("R", "Archer", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(40);
         p.majFinDeTour();
@@ -326,7 +326,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("majFinDeTour : PV ≥ 50% et < max → aucun changement")
     void testMajFinDeTourPasDeChangement() {
-        Adventurer p = new Adventurer("X", "Any", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p = new Adventurer("X", "Any", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(60);
         p.majFinDeTour();
@@ -338,7 +338,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("addXp : archer monte au niveau 2 → true + inventaire+1")
     void testAddXpArcherNiveau2() {
-        Archer p = new Archer("R", "Archer", "ARCHER", 0, new ArrayList<>());
+        Archer p = new Archer("R", "Archer", 0, new ArrayList<>());
         int inv0 = p.getInventory().size();
         boolean up = p.addXpWithLevelCheck(10);
         assertTrue(up);
@@ -351,7 +351,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("addXp : nain monte au niveau 2 → true + inventaire+1")
     void testAddXpNainNiveau2() {
-        Dwarf p = new Dwarf("D", "Dwarf", "DWARF", 0, new ArrayList<>());
+        Dwarf p = new Dwarf("D", "Dwarf", 0, new ArrayList<>());
         int inv0 = p.getInventory().size();
         boolean up = p.addXpWithLevelCheck(10);
         assertTrue(up);
@@ -364,7 +364,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("majFinDeTour : PV exactement au maximum → inchangé")
     void testMajFinDeTourPvMax() {
-        Adventurer p = new Adventurer("Z", "Any", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p = new Adventurer("Z", "Any", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(100);
         p.majFinDeTour();
@@ -376,7 +376,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("addXp : 0 XP → false, XP et inventaire inchangés")
     void testAddXpZero() {
-        Dwarf p = new Dwarf("N", "None", "DWARF", 0, new ArrayList<>());
+        Dwarf p = new Dwarf("N", "None", 0, new ArrayList<>());
         int inv0 = p.getInventory().size();
         boolean up = p.addXpWithLevelCheck(0);
         assertFalse(up);
@@ -389,15 +389,15 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("retrieveLevel : valeurs limites 26→2, 56→3, 110→4")
     void testRetrieveLevelBords() {
-        Adventurer p1 = new Adventurer("E1", "Edge", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p1 = new Adventurer("E1", "Edge", 0, new ArrayList<>());
         p1.addXp(26);
         assertEquals(2, p1.retrieveLevel());
 
-        Adventurer p2 = new Adventurer("E2", "Edge", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p2 = new Adventurer("E2", "Edge", 0, new ArrayList<>());
         p2.addXp(56);
         assertEquals(3, p2.retrieveLevel());
 
-        Adventurer p3 = new Adventurer("E3", "Edge", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p3 = new Adventurer("E3", "Edge", 0, new ArrayList<>());
         p3.addXp(110);
         assertEquals(4, p3.retrieveLevel());
     }
@@ -426,16 +426,17 @@ public class UpdatePlayerTest {
     @DisplayName("abilities : entrées présentes jusqu’au niveau 5")
     void testAbilitiesNiveaux1a5() {
         Player[] players = {
-                new Adventurer("A", "Hero", Literaux.ADVENTURER, 0, new ArrayList<>()),
-                new Archer("B", "Hero", Literaux.ARCHER, 0, new ArrayList<>()),
-                new Dwarf("C", "Hero", Literaux.DWARF, 0, new ArrayList<>())
+                new Adventurer("A", "Hero", 0, new ArrayList<>()),
+                new Archer("B", "Hero", 0, new ArrayList<>()),
+                new Dwarf("C", "Hero", 0, new ArrayList<>())
         };
 
         for (Player p : players) {
+            String className = p.getClass().getSimpleName();
             for (int lvl = 1; lvl <= 5; lvl++) {
                 Map<String, Integer> abilities = p.getLevelAbilities(lvl);
-                assertNotNull(abilities, "Classe " + p.getAvatarClass() + " niveau " + lvl + " manquant");
-                assertFalse(abilities.isEmpty(), "Classe " + p.getAvatarClass() + " niveau " + lvl + " vide");
+                assertNotNull(abilities, "Classe " + className + " niveau " + lvl + " manquant");
+                assertFalse(abilities.isEmpty(), "Classe " + className + " niveau " + lvl + " vide");
             }
         }
     }
@@ -446,7 +447,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("majFinDeTour : Archer à 50% PV avec Magic Bow → pas de soin")
     void archer_magicbow_exactement_moitie_pas_de_soin() {
-        Archer p = new Archer("A", "Archer", "ARCHER", 0, new ArrayList<>());
+        Archer p = new Archer("A", "Archer", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(50); // exactement 50%
         p.getInventory().add("Magic Bow");
@@ -459,7 +460,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("majFinDeTour : Nain à 50% PV avec Élixir sacré → pas de soin")
     void nain_elixir_exactement_moitie_pas_de_soin() {
-        Dwarf p = new Dwarf("D", "Dwarf", "DWARF", 0, new ArrayList<>());
+        Dwarf p = new Dwarf("D", "Dwarf", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(50);// exactement 50%
         p.getInventory().add("Holy Elixir");
@@ -473,7 +474,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("addXp : croisement des seuils 10/27/57 → leveled vrai uniquement en franchissant")
     void addXp_croisements_seuils() {
-        Adventurer p = new Adventurer("S", "Edge", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p = new Adventurer("S", "Edge", 0, new ArrayList<>());
 
         boolean up;
 
@@ -504,7 +505,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("majFinDeTour : Archer <50% avec Magic Bow, hp=48 → +6 (1 + (48/8 - 1))")
     void archer_magicbow_calcul_bonus_precis() {
-        Archer p = new Archer("R", "Archer", "ARCHER", 0, new ArrayList<>());
+        Archer p = new Archer("R", "Archer", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(48);
         p.getInventory().add("Magic Bow");
@@ -516,7 +517,7 @@ public class UpdatePlayerTest {
     @DisplayName("Aventurier : niv.2 → +1 PV ; niv.3 → +2 PV (seuil exact)")
     void aventurier_seuil_niveau3_differe() {
         // niveau 2 (26 XP)
-        Adventurer p2 = new Adventurer("A", "Hero", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p2 = new Adventurer("A", "Hero", 0, new ArrayList<>());
         p2.setHealthpoints(100);
         p2.setCurrenthealthpoints(40);
         p2.addXp(26); // reste niv.2
@@ -524,7 +525,7 @@ public class UpdatePlayerTest {
         assertEquals(41, p2.getCurrenthealthpoints());
 
         // niveau 3 (27 XP)
-        Adventurer p3 = new Adventurer("B", "Hero", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p3 = new Adventurer("B", "Hero", 0, new ArrayList<>());
         p3.setHealthpoints(100);
         p3.setCurrenthealthpoints(40);
         p3.addXp(27); // passe niv.3
@@ -535,7 +536,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("majFinDeTour : Archer + Magic Bow, hp=8  → +1")
     void archer_magicbow_hp8_plus1() {
-        Archer p = new Archer("R", "Archer", "ARCHER", 0, new ArrayList<>());
+        Archer p = new Archer("R", "Archer", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(8); // < 50%
         p.getInventory().add("Magic Bow");
@@ -548,7 +549,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("majFinDeTour : Archer + Magic Bow, hp=16 → +2")
     void archer_magicbow_hp16_plus2() {
-        Archer p = new Archer("R", "Archer", "ARCHER", 0, new ArrayList<>());
+        Archer p = new Archer("R", "Archer", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(16);// < 50%
         p.getInventory().add("Magic Bow");
@@ -561,7 +562,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("majFinDeTour : Aventurier à 50% PV pile → pas de soin")
     void aventurier_exactement_moitie_pas_de_soin() {
-        Adventurer p = new Adventurer("C", "Any", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p = new Adventurer("C", "Any", 0, new ArrayList<>());
         p.setHealthpoints(50);
         p.setCurrenthealthpoints(25); // exactement 50%
         p.majFinDeTour();
@@ -573,14 +574,14 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("Aventurier : seuil niveau 3 — niv.2:+1  vs  niv.3:+2")
     void aventurier_seuil_niveau3() {
-        Adventurer p2 = new Adventurer("A", "Hero", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p2 = new Adventurer("A", "Hero", 0, new ArrayList<>());
         p2.setHealthpoints(100);
         p2.setCurrenthealthpoints(40);
         p2.addXp(26); // niveau 2
         p2.majFinDeTour();
         assertEquals(41, p2.getCurrenthealthpoints());
 
-        Adventurer p3 = new Adventurer("B", "Hero", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p3 = new Adventurer("B", "Hero", 0, new ArrayList<>());
         p3.setHealthpoints(100);
         ;
         p3.setCurrenthealthpoints(40);
@@ -595,7 +596,7 @@ public class UpdatePlayerTest {
     @Test
     @DisplayName("addXp : 0→120 en un coup → niveau 5")
     void addXp_saut_multi_niveaux() {
-        Adventurer p = new Adventurer("S", "Edge", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p = new Adventurer("S", "Edge", 0, new ArrayList<>());
         boolean leveled = p.addXpWithLevelCheck(120);
         assertTrue(leveled);
         assertEquals(5, p.retrieveLevel()); // 111+ → niv.5

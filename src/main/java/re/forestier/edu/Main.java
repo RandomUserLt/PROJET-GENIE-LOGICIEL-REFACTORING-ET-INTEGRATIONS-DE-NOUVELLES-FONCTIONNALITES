@@ -13,7 +13,9 @@ public class Main {
     public static void main(String[] args) {
 
         // Création du joueur
-        Adventurer player = new Adventurer("Florian", "Gnognak le Barbare", "ADVENTURER", 200, new ArrayList<>());
+        // Adventurer player = new Adventurer("Florian", "Gnognak le Barbare",
+        // "ADVENTURER", 200, new ArrayList<>());
+        Adventurer player = new Adventurer("Florian", "Gnognak le Barbare", 200, new ArrayList<>());
         player.setXp(200);
         // UpdatePlayer.addXp(player, 100);
         player.addXp(100);

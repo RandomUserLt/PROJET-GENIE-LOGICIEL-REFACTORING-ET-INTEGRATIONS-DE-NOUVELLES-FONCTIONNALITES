@@ -17,7 +17,7 @@ public class GlobalTest {
     @Test
     void testAffichageBase() {
         // Création du joueur
-        Adventurer player = new Adventurer("Florian", "Gnognak le Barbare", "ADVENTURER", 200, new ArrayList<>());
+        Adventurer player = new Adventurer("Florian", "Gnognak le Barbare", 200, new ArrayList<>());
         player.setXp(200);
         player.addXp(100);
         player.setInventory(new ArrayList<>());
@@ -55,7 +55,7 @@ public class GlobalTest {
     @Test
     @DisplayName("Global : Chaîne de montées de niveau (jusqu’à 4) puis affichage")
     void scenarioMonteeNiveauJusqua4EtAffichage() {
-        Adventurer p = new Adventurer("Alice", "Héroïne", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p = new Adventurer("Alice", "Héroïne", 0, new ArrayList<>());
 
         // 57 XP : seuils 10, 27, 57 → arrive niveau 4
         p.addXp(57);
@@ -73,7 +73,7 @@ public class GlobalTest {
     @Test
     @DisplayName("Global : Archer soigné avec Arc magique puis affichage")
     void scenarioArcherArcMagiqueSoinEtAffichage() {
-        Archer p = new Archer("Robin", "Ranger", "ARCHER", 0, new ArrayList<>());
+        Archer p = new Archer("Robin", "Ranger", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(40); // < 50%
         p.getInventory().add("Magic Bow");
@@ -95,7 +95,7 @@ public class GlobalTest {
     @Test
     @DisplayName("Global : Nain < 50% PV avec Élixir sacré → +2 PV")
     void scenarioNainElixirSoin() {
-        Dwarf p = new Dwarf("Gimli", "Nain", "DWARF", 0, new ArrayList<>());
+        Dwarf p = new Dwarf("Gimli", "Nain", 0, new ArrayList<>());
         p.setHealthpoints(41);
         p.setCurrenthealthpoints(19); // < 41/2 = 20
         p.getInventory().add("Holy Elixir");
@@ -116,7 +116,7 @@ public class GlobalTest {
     @Test
     @DisplayName("Global : Limitation des PV au maximum autorisé")
     void scenarioClampPvAuMax() {
-        Adventurer p = new Adventurer("Any", "Héros", "ADVENTURER", 0, new ArrayList<>());
+        Adventurer p = new Adventurer("Any", "Héros", 0, new ArrayList<>());
         p.setHealthpoints(50);
         p.setCurrenthealthpoints(60); // déjà au-dessus du max
 

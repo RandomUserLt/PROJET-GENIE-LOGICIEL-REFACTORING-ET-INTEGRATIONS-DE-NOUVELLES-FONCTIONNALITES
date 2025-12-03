@@ -47,11 +47,12 @@ public final class Adventurer extends Player {
 
     public Adventurer(String playerName,
             String avatarName,
-            String avatarClass,
+            // String avatarClass,
             int money,
             ArrayList<String> inventory) {
 
-        super(playerName, avatarName, ADVENTURER, money, inventory);
+        // super(playerName, avatarName, ADVENTURER, money, inventory);
+        super(playerName, avatarName, money, inventory);
         initBaseAbilities(LEVEL_ABILITIES);
     }
 

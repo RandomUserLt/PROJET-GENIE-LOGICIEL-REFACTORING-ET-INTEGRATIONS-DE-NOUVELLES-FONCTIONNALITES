@@ -10,7 +10,7 @@ import static re.forestier.edu.rpg.Literaux.*;
 public abstract class Player {
     private String playerName;
     private String avatarName;
-    private String avatarClass;
+    // private String avatarClass; // Est peut-etre devenu obsolète
     private Integer money;
     protected int level;
     private int xp;
@@ -23,13 +23,13 @@ public abstract class Player {
 
     public Player(String playerName,
             String avatarName,
-            String avatarClass,
+            // String avatarClass,
             int money,
             ArrayList<String> inventory) {
 
         this.playerName = playerName;
         this.avatarName = avatarName;
-        this.avatarClass = avatarClass;
+        // this.avatarClass = avatarClass;
 
         this.money = money;
         this.inventory = (inventory != null) ? inventory : new ArrayList<>();
@@ -150,9 +150,11 @@ public abstract class Player {
         return avatarName;
     }
 
-    public String getAvatarClass() {
-        return avatarClass;
-    }
+    /*
+     * public String getAvatarClass() {
+     * return avatarClass;
+     * }
+     */
 
     public Integer getMoney() {
         return money;

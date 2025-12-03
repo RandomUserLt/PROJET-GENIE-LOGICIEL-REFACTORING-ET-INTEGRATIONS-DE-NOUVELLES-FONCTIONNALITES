@@ -44,11 +44,12 @@ public final class Dwarf extends Player {
 
     public Dwarf(String playerName,
             String avatarName,
-            String avatarClass,
+            // String avatarClass,
             int money,
             ArrayList<String> inventory) {
 
-        super(playerName, avatarName, DWARF, money, inventory);
+        // super(playerName, avatarName, DWARF, money, inventory);
+        super(playerName, avatarName, money, inventory);
 
         initBaseAbilities(LEVEL_ABILITIES);
     }

@@ -25,9 +25,9 @@ public class AffichageTest {
 
     private Player creerJoueur(String nom, String avatar, String classe) {
         return switch (classe.toUpperCase()) {
-            case "ADVENTURER" -> new Adventurer(nom, avatar, classe, 0, emptyInv());
-            case "ARCHER" -> new Archer(nom, avatar, classe, 0, emptyInv());
-            case "DWARF" -> new Dwarf(nom, avatar, classe, 0, emptyInv());
+            case "ADVENTURER" -> new Adventurer(nom, avatar, 0, emptyInv());
+            case "ARCHER" -> new Archer(nom, avatar, 0, emptyInv());
+            case "DWARF" -> new Dwarf(nom, avatar, 0, emptyInv());
             default -> throw new IllegalArgumentException("Classe inconnue : " + classe);
         };
     }
@@ -45,7 +45,7 @@ public class AffichageTest {
     @DisplayName("afficherJoueur : format de base avec xp=20, inventaire vide")
     void testAffichageBase() {
         ArrayList<String> inv = new ArrayList<>();
-        Adventurer p = new Adventurer("Florian", "Gnognak le Barbare", "ADVENTURER", 0, inv);
+        Adventurer p = new Adventurer("Florian", "Gnognak le Barbare", 0, inv);
         p.addXp(20);
         p.getInventory().clear();
         String actual = p.toString();
@@ -81,7 +81,7 @@ public class AffichageTest {
         ArrayList<String> inv = new ArrayList<>();
         inv.add("Torch");
         inv.add("Magic Bow");
-        Archer p = new Archer("Alice", "Ranger", "ARCHER", 0, inv);
+        Archer p = new Archer("Alice", "Ranger", 0, inv);
         String s = p.toString();
 
         assertTrue(s.contains("\n\nInventaire :"));

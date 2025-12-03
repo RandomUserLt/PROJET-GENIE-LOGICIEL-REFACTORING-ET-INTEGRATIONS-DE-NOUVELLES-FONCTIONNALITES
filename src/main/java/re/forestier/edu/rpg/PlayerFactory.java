@@ -21,11 +21,14 @@ public final class PlayerFactory {
         String t = userType.trim().toUpperCase(Locale.ROOT);
         switch (t) {
             case ARCHER:
-                return new Archer(playerName, avatarName, ARCHER, money, inventory);
+                // return new Archer(playerName, avatarName, ARCHER, money, inventory);
+                return new Archer(playerName, avatarName, money, inventory);
             case ADVENTURER:
-                return new Adventurer(playerName, avatarName, ADVENTURER, money, inventory);
+                // return new Adventurer(playerName, avatarName, ADVENTURER, money, inventory);
+                return new Adventurer(playerName, ADVENTURER, money, inventory);
             case DWARF:
-                return new Dwarf(playerName, avatarName, DWARF, money, inventory);
+                // return new Dwarf(playerName, avatarName, DWARF, money, inventory);
+                return new Dwarf(playerName, avatarName, money, inventory);
             default:
                 return null;
         }

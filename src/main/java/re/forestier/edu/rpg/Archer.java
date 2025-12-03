@@ -54,11 +54,12 @@ public final class Archer extends Player {
 
     public Archer(String playerName,
             String avatarName,
-            String avatarClass,
+            // String avatarClass,
             int money,
             ArrayList<String> inventory) {
 
-        super(playerName, avatarName, ARCHER, money, inventory);
+        // super(playerName, avatarName, ARCHER, money, inventory);
+        super(playerName, avatarName, money, inventory);
         initBaseAbilities(LEVEL_ABILITIES);
     }
 
