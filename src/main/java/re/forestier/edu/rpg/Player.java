@@ -33,7 +33,7 @@ public abstract class Player {
         this.money = money;
         this.inventory = (inventory != null) ? inventory : new ArrayList<>();
         this.abilities = new HashMap<>();
-        this.level = obtenirNiveauDepuisXp(this.xp);
+        this.level = LevelProgression.obtenirNiveauDepuisXp(this.xp);
     }
 
     protected void initBaseAbilities(Map<Integer, ? extends Map<String, Integer>> levelAbilities) {
@@ -43,7 +43,7 @@ public abstract class Player {
             getAbilities().putAll(baseAbilities);
         }
 
-        int current = obtenirNiveauDepuisXp(getXp());
+        int current = LevelProgression.obtenirNiveauDepuisXp(getXp());
         for (int lvl = 2; lvl <= current; lvl++) {
             onLevelUp(lvl);
         }
@@ -217,27 +217,8 @@ public abstract class Player {
         return inventory;
     }
 
-    // --- TABLE XP NIVEAU -----------------------------------------------------
-
-    private static final java.util.NavigableMap<Integer, Integer> XP_TO_LEVEL = new java.util.TreeMap<>();
-
-    static {
-        enregistrerPalier(0, 1);
-        enregistrerPalier(10, 2);
-        enregistrerPalier(27, 3);
-        enregistrerPalier(57, 4);
-        enregistrerPalier(111, 5);
-    }
-
-    private static void enregistrerPalier(int xpMinInclus, int niveau) {
-        XP_TO_LEVEL.put(xpMinInclus, niveau);
-    }
-
-    public static int obtenirNiveauDepuisXp(int xp) {
-        return XP_TO_LEVEL.floorEntry(Math.max(0, xp)).getValue();
-    }
-
     public int retrieveLevel() {
-        return obtenirNiveauDepuisXp(this.xp);
+        return LevelProgression.obtenirNiveauDepuisXp(this.xp);
     }
+
 }
