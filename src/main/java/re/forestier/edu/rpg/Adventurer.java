@@ -5,44 +5,54 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-//import static re.forestier.edu.rpg.Literaux.*;
+import re.forestier.edu.rpg.Ability;
+
 import static re.forestier.edu.rpg.Objects.*;
 import static re.forestier.edu.rpg.Ability.*;
+import static re.forestier.edu.rpg.AdventurerAbilityConfig.*;
 
 public final class Adventurer extends Player {
+
+    private record AbilityValue(Ability ability, int points) {
+
+    }
+
+    private record LevelConfig(int level, AbilityValue... abilities) {
+
+    }
 
     private static final HashMap<Integer, HashMap<String, Integer>> LEVEL_ABILITIES = new HashMap<>();
 
     static {
         LEVEL_ABILITIES.put(1, new HashMap<>() {
             {
-                put(INTELLIGENCE.name(), 1);
-                put(DEFENSE.name(), 1);
-                put(ATTACK.name(), 3);
-                put(CHANCE.name(), 2);
+                put(INTELLIGENCE.name(), Level_1_INTELLIGENCE.value());
+                put(DEFENSE.name(), Level_1_DEFENSE.value());
+                put(ATTACK.name(), Level_1_ATTACK.value());
+                put(CHANCE.name(), Level_1_CHANCE.value());
             }
         });
         LEVEL_ABILITIES.put(2, new HashMap<>() {
             {
-                put(INTELLIGENCE.name(), 2);
-                put(CHANCE.name(), 3);
+                put(INTELLIGENCE.name(), Level_2_INTELLIGENCE.value());
+                put(CHANCE.name(), Level_2_CHANCE.value());
             }
         });
         LEVEL_ABILITIES.put(3, new HashMap<>() {
             {
-                put(ATTACK.name(), 5);
-                put(ALCHEMY.name(), 1);
+                put(ATTACK.name(), Level_3_ATTACK.value());
+                put(ALCHEMY.name(), Level_3_ALCHEMY.value());
             }
         });
         LEVEL_ABILITIES.put(4, new HashMap<>() {
             {
-                put(DEFENSE.name(), 3);
+                put(DEFENSE.name(), Level_4_DEFENSE.value());
             }
         });
         LEVEL_ABILITIES.put(5, new HashMap<>() {
             {
-                put(VISION.name(), 1);
-                put(DEFENSE.name(), 4);
+                put(VISION.name(), Level_5_VISION.value());
+                put(DEFENSE.name(), Level_5_DEFENSE.value());
             }
         });
     }

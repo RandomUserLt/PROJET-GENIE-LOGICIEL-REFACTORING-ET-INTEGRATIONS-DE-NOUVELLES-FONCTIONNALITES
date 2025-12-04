@@ -5,10 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-//import static re.forestier.edu.rpg.Literaux.*;
-//import static re.forestier.edu.rpg.AvatarClass.*;
 import static re.forestier.edu.rpg.Objects.*;
 import static re.forestier.edu.rpg.Ability.*;
+import static re.forestier.edu.rpg.DwarfAbilityConfig.*;
 
 public final class Dwarf extends Player {
 
@@ -17,30 +16,30 @@ public final class Dwarf extends Player {
     static {
         LEVEL_ABILITIES.put(1, new HashMap<>() {
             {
-                put(ALCHEMY.name(), 4);
-                put(INTELLIGENCE.name(), 1);
-                put(ATTACK.name(), 3);
+                put(ALCHEMY.name(), Level_1_ALCHEMY.value());
+                put(INTELLIGENCE.name(), Level_1_INTELLIGENCE.value());
+                put(ATTACK.name(), Level_1_ATTACK.value());
             }
         });
         LEVEL_ABILITIES.put(2, new HashMap<>() {
             {
-                put(DEFENSE.name(), 1);
-                put(ALCHEMY.name(), 5);
+                put(DEFENSE.name(), Level_2_DEFENSE.value());
+                put(ALCHEMY.name(), Level_2_ALCHEMY.value());
             }
         });
         LEVEL_ABILITIES.put(3, new HashMap<>() {
             {
-                put(ATTACK.name(), 4);
+                put(ATTACK.name(), Level_3_ATTACK.value());
             }
         });
         LEVEL_ABILITIES.put(4, new HashMap<>() {
             {
-                put(DEFENSE.name(), 2);
+                put(DEFENSE.name(), Level_4_DEFENSE.value());
             }
         });
         LEVEL_ABILITIES.put(5, new HashMap<>() {
             {
-                put(CHANCE.name(), 1);
+                put(CHANCE.name(), Level_5_CHANCE.value());
             }
         });
     }

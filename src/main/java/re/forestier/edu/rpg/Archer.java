@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-//import static re.forestier.edu.rpg.Literaux.*;
 import static re.forestier.edu.rpg.Objects.*;
 import static re.forestier.edu.rpg.Ability.*;
+import static re.forestier.edu.rpg.ArcherAbilityConfig.*;
 
 public final class Archer extends Player {
 
@@ -16,35 +16,35 @@ public final class Archer extends Player {
     static {
         LEVEL_ABILITIES.put(1, new HashMap<>() {
             {
-                put(INTELLIGENCE.name(), 1);
-                put(ATTACK.name(), 3);
-                put(CHANCE.name(), 1);
-                put(VISION.name(), 3);
+                put(INTELLIGENCE.name(), Level_1_INTELLIGENCE.value());
+                put(ATTACK.name(), Level_1_ATTACK.value());
+                put(CHANCE.name(), Level_1_CHANCE.value());
+                put(VISION.name(), Level_1_VISION.value());
             }
         });
 
         LEVEL_ABILITIES.put(2, new HashMap<>() {
             {
-                put(DEFENSE.name(), 1);
-                put(CHANCE.name(), 2);
+                put(DEFENSE.name(), Level_2_DEFENSE.value());
+                put(CHANCE.name(), Level_2_CHANCE.value());
             }
         });
 
         LEVEL_ABILITIES.put(3, new HashMap<>() {
             {
-                put(ATTACK.name(), 3);
+                put(ATTACK.name(), Level_3_ATTACK.value());
             }
         });
 
         LEVEL_ABILITIES.put(4, new HashMap<>() {
             {
-                put(DEFENSE.name(), 2);
+                put(DEFENSE.name(), Level_4_DEFENSE.value());
             }
         });
 
         LEVEL_ABILITIES.put(5, new HashMap<>() {
             {
-                put(ATTACK.name(), 4);
+                put(ATTACK.name(), Level_5_ATTACK.value());
             }
         });
     }

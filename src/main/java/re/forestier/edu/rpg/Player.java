@@ -22,14 +22,11 @@ public abstract class Player {
 
     public Player(String playerName,
             String avatarName,
-            // String avatarClass,
             int money,
             ArrayList<String> inventory) {
 
         this.playerName = playerName;
         this.avatarName = avatarName;
-        // this.avatarClass = avatarClass;
-
         this.money = money;
         this.inventory = (inventory != null) ? inventory : new ArrayList<>();
         this.abilities = new HashMap<>();
@@ -83,9 +80,7 @@ public abstract class Player {
         Random random = new Random();
         Objects[] possible = Objects.values();
         Objects randomObject = possible[random.nextInt(possible.length)];
-        getInventory().add(randomObject.getLabel()); // ou randomObject.name() //REVERIFIER CETTE LIGNE
-        // getInventory().add(OBJECT_LIST[random.nextInt(OBJECT_LIST.length)]);
-
+        getInventory().add(randomObject.getLabel());
         Map<String, Integer> abilitiesToAdd = getSubClassLevelAbilities(lvl);
         if (abilitiesToAdd != null) {
             abilitiesToAdd.forEach((ability, value) -> getAbilities().put(ability, value));
@@ -151,12 +146,6 @@ public abstract class Player {
     public String getAvatarName() {
         return avatarName;
     }
-
-    /*
-     * public String getAvatarClass() {
-     * return avatarClass;
-     * }
-     */
 
     public Integer getMoney() {
         return money;
