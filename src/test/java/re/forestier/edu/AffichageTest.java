@@ -17,12 +17,6 @@ public class AffichageTest {
         return new ArrayList<>();
     }
 
-    /*
-     * private Player creerJoueur(String nom, String avatar, String classe) {
-     * return new Player(nom, avatar, classe, 0, emptyInv());
-     * }
-     */
-
     private Player creerJoueur(String nom, String avatar, String classe) {
         return switch (classe.toUpperCase()) {
             case "ADVENTURER" -> new Adventurer(nom, avatar, 0, emptyInv());
@@ -50,17 +44,6 @@ public class AffichageTest {
         p.getInventory().clear();
         String actual = p.toString();
 
-        /*
-         * String expected = "Joueur Gnognak le Barbare joué par Florian" +
-         * "\nNiveau : 2 (XP totale : 20)" +
-         * "\n\nCapacités :" +
-         * "\n   DEFENSE : 1" +
-         * "\n   ATTACK : 3" +
-         * "\n   CHANCE : 3" +
-         * "\n   INTELLIGENCE : 2" +
-         * "\n\nInventaire :";
-         */
-
         String expected = "Joueur Gnognak le Barbare joué par Florian" +
                 "\nNiveau : 2 (XP totale : 20)" +
                 "\n\nCapacités :" +
@@ -69,7 +52,6 @@ public class AffichageTest {
                 "\n   ATTACK : 3" +
                 "\n   CHANCE : 3" +
                 "\n\nInventaire :";
-        // System.out.println(actual);
         assertEquals(expected, actual);
     }
 

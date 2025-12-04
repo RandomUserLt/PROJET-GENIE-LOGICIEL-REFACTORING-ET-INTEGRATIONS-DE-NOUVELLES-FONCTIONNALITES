@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static re.forestier.edu.rpg.Literaux.*;
+//import static re.forestier.edu.rpg.Literaux.*;
+//import static re.forestier.edu.rpg.AvatarClass.*;
+import static re.forestier.edu.rpg.Objects.*;
+import static re.forestier.edu.rpg.Ability.*;
 
 public final class Dwarf extends Player {
 
@@ -14,41 +17,39 @@ public final class Dwarf extends Player {
     static {
         LEVEL_ABILITIES.put(1, new HashMap<>() {
             {
-                put(ALCHEMY, 4);
-                put(INTELLIGENCE, 1);
-                put(ATTACK, 3);
+                put(ALCHEMY.name(), 4);
+                put(INTELLIGENCE.name(), 1);
+                put(ATTACK.name(), 3);
             }
         });
         LEVEL_ABILITIES.put(2, new HashMap<>() {
             {
-                put(DEFENSE, 1);
-                put(ALCHEMY, 5);
+                put(DEFENSE.name(), 1);
+                put(ALCHEMY.name(), 5);
             }
         });
         LEVEL_ABILITIES.put(3, new HashMap<>() {
             {
-                put(ATTACK, 4);
+                put(ATTACK.name(), 4);
             }
         });
         LEVEL_ABILITIES.put(4, new HashMap<>() {
             {
-                put(DEFENSE, 2);
+                put(DEFENSE.name(), 2);
             }
         });
         LEVEL_ABILITIES.put(5, new HashMap<>() {
             {
-                put(CHANCE, 1);
+                put(CHANCE.name(), 1);
             }
         });
     }
 
     public Dwarf(String playerName,
             String avatarName,
-            // String avatarClass,
             int money,
             ArrayList<String> inventory) {
 
-        // super(playerName, avatarName, DWARF, money, inventory);
         super(playerName, avatarName, money, inventory);
 
         initBaseAbilities(LEVEL_ABILITIES);
@@ -62,7 +63,7 @@ public final class Dwarf extends Player {
     @Override
     public int calculGainFinDeTour() {
         int gain = 1;
-        if (getInventory().contains(OBJECT_HOLY_ELIXIR)) {
+        if (getInventory().contains(HOLY_ELIXIR.getLabel())) {
             gain += 1;
         }
         return gain;

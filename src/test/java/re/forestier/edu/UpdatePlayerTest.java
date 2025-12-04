@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 
 import re.forestier.edu.rpg.*;
 import re.forestier.edu.rpg.Literaux.*;
+import static re.forestier.edu.rpg.Objects.*;
+import static re.forestier.edu.rpg.Ability.*;
 
 public class UpdatePlayerTest {
     private ArrayList<String> inv;
@@ -22,11 +24,6 @@ public class UpdatePlayerTest {
         return new ArrayList<>();
     }
 
-    /*
-     * private Player creerJoueur(String nom, String avatar, String classe) {
-     * return new Player(nom, avatar, classe, 0, emptyInv());
-     * }
-     */
     private Player creerJoueur(String nom, String avatar, String classe) {
         return switch (classe.toUpperCase()) {
             case "ADVENTURER" -> new Adventurer(nom, avatar, 0, emptyInv());
@@ -74,30 +71,6 @@ public class UpdatePlayerTest {
 
     // Vérifie l’affichage de base avec xp=20 et inventaire vide
 
-    /*
-     * @Test
-     * 
-     * @DisplayName("abilitiesPerTypeAndLevel : niveau 1 présent pour toutes les classes"
-     * )
-     * void testAbilitiesNiveau1Present() {
-     * // Mock local des abilities par type et niveau
-     * HashMap<String, HashMap<Integer, HashMap<String, Integer>>> map = new
-     * HashMap<>();
-     * 
-     * map.put("ADVENTURER", new Adventurer("", "", "", 0, new
-     * ArrayList<>()).getAbilities());
-     * map.put("ARCHER", new Archer("", "", "", 0, new
-     * ArrayList<>()).getAbilities());
-     * map.put("DWARF", new Dwarf("", "", "", 0, new ArrayList<>()).getAbilities());
-     * 
-     * assertNotNull(map.get("ADVENTURER"));
-     * assertNotNull(map.get("ARCHER"));
-     * assertNotNull(map.get("DWARF"));
-     * assertNotNull(map.get("ADVENTURER").get(1));
-     * assertNotNull(map.get("ARCHER").get(1));
-     * assertNotNull(map.get("DWARF").get(1));
-     * }
-     */
     @Test
     @DisplayName("niveau 1 présent pour toutes les classes")
     void testAbilitiesNiveau1Present() {
@@ -115,23 +88,6 @@ public class UpdatePlayerTest {
         assertNotNull(dwarf.getLevelAbilities(1));
         assertFalse(dwarf.getLevelAbilities(1).isEmpty());
     }
-
-    /*
-     * @Test
-     * 
-     * @DisplayName("abilitiesPerTypeAndLevel : niveau 1 présent pour toutes les classes"
-     * )
-     * void testAbilitiesNiveau1Present() {
-     * HashMap<String, HashMap<Integer, HashMap<String, Integer>>> map =
-     * UpdatePlayer.abilitiesPerTypeAndLevel();
-     * assertNotNull(map.get("ADVENTURER"));
-     * assertNotNull(map.get("ARCHER"));
-     * assertNotNull(map.get("DWARF"));
-     * assertNotNull(map.get("ADVENTURER").get(1));
-     * assertNotNull(map.get("ARCHER").get(1));
-     * assertNotNull(map.get("DWARF").get(1));
-     * }
-     */
 
     // Vérifie qu’ajouter de l’XP sans franchir de seuil renvoie false et ne modifie
     // pas l’inventaire
@@ -151,29 +107,7 @@ public class UpdatePlayerTest {
     // item
     // refonte du test, conservation de la logique juste adaptation aux nouvelles
     // classes et hiérarchies introduites
-    /*
-     * @Test
-     * 
-     * @DisplayName("addXp : montée au niveau 2 → true, niveau=2, inventaire+1")
-     * void testAddXpMonteeNiveau2() {
-     * Adventurer p = new Adventurer("Bee", "B", Literaux.ADVENTURER, 0, new
-     * ArrayList<>());
-     * 
-     * int inv0 = p.getInventory().size();
-     * boolean leveled = p.addXpWithLevelCheck(10); // ajoute XP et update abilities
-     * 
-     * assertTrue(leveled);
-     * assertEquals(2, p.retrieveLevel());
-     * assertEquals(inv0 + 1, p.getInventory().size());
-     * 
-     * // Vérifie que les abilities du niveau 2 sont présentes dans le joueur
-     * Map<String, Integer> lvl2 = Adventurer.LEVEL_ABILITIES.get(2);
-     * for (String ability : lvl2.keySet()) {
-     * assertTrue(p.getAbilities().containsKey(ability));
-     * assertEquals(lvl2.get(ability), p.getAbilities().get(ability));
-     * }
-     * }
-     */
+
     @Test
     @DisplayName("addXp : montée au niveau 2 → true, niveau=2, inventaire+1")
     void testAddXpMonteeNiveau2() {
@@ -193,22 +127,6 @@ public class UpdatePlayerTest {
             assertEquals(lvl2.get(ability), p.getAbilities().get(ability));
         }
     }
-
-    /*
-     * @Test
-     * 
-     * @DisplayName("addXp : montée au niveau 2 → true, niveau=2, inventaire+1")
-     * void testAddXpMonteeNiveau2() {
-     * Player p = creerJoueur("B", "Bee", "ADVENTURER");
-     * int inv0 = p.getInventory().size();
-     * boolean leveled = p.addXpWithLevelCheck(10);
-     * assertTrue(leveled);
-     * assertEquals(2, p.retrieveLevel());
-     * assertEquals(inv0 + 1, p.getInventory().size());
-     * assertNotNull(UpdatePlayer.abilitiesPerTypeAndLevel().get(p.getAvatarClass())
-     * .get(2));
-     * }
-     */
 
     // Vérifie que majFinDeTour affiche "KO" si le joueur est à 0 PV
 
@@ -405,23 +323,6 @@ public class UpdatePlayerTest {
     // Vérifie que abilitiesPerTypeAndLevel contient bien les entrées jusqu’au
     // niveau 5
 
-    /*
-     * @Test
-     * 
-     * @DisplayName("abilitiesPerTypeAndLevel : entrées présentes jusqu’au niveau 5"
-     * )
-     * void testAbilitiesNiveaux1a5() {
-     * var map = UpdatePlayer.abilitiesPerTypeAndLevel();
-     * for (String cls : new String[] { "ADVENTURER", "ARCHER", "DWARF" }) {
-     * assertNotNull(map.get(cls));
-     * assertNotNull(map.get(cls).get(1));
-     * assertNotNull(map.get(cls).get(2));
-     * assertNotNull(map.get(cls).get(3));
-     * assertNotNull(map.get(cls).get(4));
-     * assertNotNull(map.get(cls).get(5));
-     * }
-     * }
-     */
     @Test
     @DisplayName("abilities : entrées présentes jusqu’au niveau 5")
     void testAbilitiesNiveaux1a5() {
@@ -441,7 +342,6 @@ public class UpdatePlayerTest {
         }
     }
 
-    // Pour essayer d'augmenter avec PIT
     // 1) Archer à 50% PV AVEC Arc magique : ne soigne pas (tue < -> <=)
 
     @Test
@@ -602,5 +502,4 @@ public class UpdatePlayerTest {
         assertEquals(5, p.retrieveLevel()); // 111+ → niv.5
     }
 
-} // fin de code
-  // }
+}

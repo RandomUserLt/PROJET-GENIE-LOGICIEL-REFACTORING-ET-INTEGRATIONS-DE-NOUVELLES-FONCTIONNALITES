@@ -3,7 +3,15 @@ package re.forestier.edu.rpg;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static re.forestier.edu.rpg.Literaux.*;
+import re.forestier.edu.rpg.Adventurer;
+import re.forestier.edu.rpg.Archer;
+import re.forestier.edu.rpg.Dwarf;
+import re.forestier.edu.rpg.Player;
+
+//import re.forestier.edu.rpg.AvatarClass.*;
+
+//import static re.forestier.edu.rpg.Literaux.*;
+import static re.forestier.edu.rpg.AvatarClass.*;
 
 public final class PlayerFactory {
 
@@ -19,15 +27,13 @@ public final class PlayerFactory {
             return null;
 
         String t = userType.trim().toUpperCase(Locale.ROOT);
-        switch (t) {
+        AvatarClass type = AvatarClass.valueOf(t);
+        switch (type) {
             case ARCHER:
-                // return new Archer(playerName, avatarName, ARCHER, money, inventory);
                 return new Archer(playerName, avatarName, money, inventory);
             case ADVENTURER:
-                // return new Adventurer(playerName, avatarName, ADVENTURER, money, inventory);
-                return new Adventurer(playerName, ADVENTURER, money, inventory);
+                return new Adventurer(playerName, avatarName, money, inventory);
             case DWARF:
-                // return new Dwarf(playerName, avatarName, DWARF, money, inventory);
                 return new Dwarf(playerName, avatarName, money, inventory);
             default:
                 return null;

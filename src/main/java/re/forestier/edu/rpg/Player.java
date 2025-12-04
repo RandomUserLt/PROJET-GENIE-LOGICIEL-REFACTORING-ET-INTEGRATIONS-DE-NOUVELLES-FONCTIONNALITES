@@ -10,7 +10,6 @@ import static re.forestier.edu.rpg.Literaux.*;
 public abstract class Player {
     private String playerName;
     private String avatarName;
-    // private String avatarClass; // Est peut-etre devenu obsolète
     private Integer money;
     protected int level;
     private int xp;
@@ -82,7 +81,10 @@ public abstract class Player {
 
     protected void onLevelUp(int lvl) {
         Random random = new Random();
-        getInventory().add(OBJECT_LIST[random.nextInt(OBJECT_LIST.length)]);
+        Objects[] possible = Objects.values();
+        Objects randomObject = possible[random.nextInt(possible.length)];
+        getInventory().add(randomObject.getLabel()); // ou randomObject.name() //REVERIFIER CETTE LIGNE
+        // getInventory().add(OBJECT_LIST[random.nextInt(OBJECT_LIST.length)]);
 
         Map<String, Integer> abilitiesToAdd = getSubClassLevelAbilities(lvl);
         if (abilitiesToAdd != null) {

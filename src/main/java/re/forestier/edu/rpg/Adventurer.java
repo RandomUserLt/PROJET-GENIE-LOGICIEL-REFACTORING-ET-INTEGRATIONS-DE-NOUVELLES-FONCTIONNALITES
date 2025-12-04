@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static re.forestier.edu.rpg.Literaux.*;
+//import static re.forestier.edu.rpg.Literaux.*;
+import static re.forestier.edu.rpg.Objects.*;
+import static re.forestier.edu.rpg.Ability.*;
 
 public final class Adventurer extends Player {
 
@@ -14,44 +16,42 @@ public final class Adventurer extends Player {
     static {
         LEVEL_ABILITIES.put(1, new HashMap<>() {
             {
-                put(INTELLIGENCE, 1);
-                put(DEFENSE, 1);
-                put(ATTACK, 3);
-                put(CHANCE, 2);
+                put(INTELLIGENCE.name(), 1);
+                put(DEFENSE.name(), 1);
+                put(ATTACK.name(), 3);
+                put(CHANCE.name(), 2);
             }
         });
         LEVEL_ABILITIES.put(2, new HashMap<>() {
             {
-                put(INTELLIGENCE, 2);
-                put(CHANCE, 3);
+                put(INTELLIGENCE.name(), 2);
+                put(CHANCE.name(), 3);
             }
         });
         LEVEL_ABILITIES.put(3, new HashMap<>() {
             {
-                put(ATTACK, 5);
-                put(ALCHEMY, 1);
+                put(ATTACK.name(), 5);
+                put(ALCHEMY.name(), 1);
             }
         });
         LEVEL_ABILITIES.put(4, new HashMap<>() {
             {
-                put(DEFENSE, 3);
+                put(DEFENSE.name(), 3);
             }
         });
         LEVEL_ABILITIES.put(5, new HashMap<>() {
             {
-                put(VISION, 1);
-                put(DEFENSE, 4);
+                put(VISION.name(), 1);
+                put(DEFENSE.name(), 4);
             }
         });
     }
 
     public Adventurer(String playerName,
             String avatarName,
-            // String avatarClass,
             int money,
             ArrayList<String> inventory) {
 
-        // super(playerName, avatarName, ADVENTURER, money, inventory);
         super(playerName, avatarName, money, inventory);
         initBaseAbilities(LEVEL_ABILITIES);
     }

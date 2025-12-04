@@ -11,21 +11,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import re.forestier.edu.rpg.*;
+import static re.forestier.edu.rpg.Objects.*;
+import static re.forestier.edu.rpg.Ability.*;
 
 public class GlobalTest {
 
     @Test
     void testAffichageBase() {
-        // Création du joueur
         Adventurer player = new Adventurer("Florian", "Gnognak le Barbare", 200, new ArrayList<>());
         player.setXp(200);
         player.addXp(100);
         player.setInventory(new ArrayList<>());
 
-        // Valeur réelle
         String actual = player.toString();
 
-        // Chaîne attendue
         String expected = "Joueur Gnognak le Barbare joué par Florian\n" +
                 "Niveau : 5 (XP totale : 300)\n\n" +
                 "Capacités :\n" +
@@ -34,7 +33,6 @@ public class GlobalTest {
                 "   ATTACK : 3\n" +
                 "   CHANCE : 2\n\n" +
                 "Inventaire :";
-        // Normaliser les chaînes : trim et suppression des lignes vides superflues
         String normalizedActual = Arrays.stream(actual.split("\\R"))
                 .map(String::trim)
                 .filter(line -> !line.isEmpty())
@@ -45,7 +43,6 @@ public class GlobalTest {
                 .filter(line -> !line.isEmpty())
                 .collect(Collectors.joining("\n"));
 
-        // Vérification
         assertEquals(normalizedExpected, normalizedActual);
     }
 
@@ -57,7 +54,6 @@ public class GlobalTest {
     void scenarioMonteeNiveauJusqua4EtAffichage() {
         Adventurer p = new Adventurer("Alice", "Héroïne", 0, new ArrayList<>());
 
-        // 57 XP : seuils 10, 27, 57 → arrive niveau 4
         p.addXp(57);
         assertEquals(4, p.retrieveLevel(), "Le joueur doit être niveau 4");
 
@@ -75,19 +71,18 @@ public class GlobalTest {
     void scenarioArcherArcMagiqueSoinEtAffichage() {
         Archer p = new Archer("Robin", "Ranger", 0, new ArrayList<>());
         p.setHealthpoints(100);
-        p.setCurrenthealthpoints(40); // < 50%
-        p.getInventory().add("Magic Bow");
+        p.setCurrenthealthpoints(40);
+        p.getInventory().add(MAGIC_BOW.getLabel());
 
-        p.addXp(10); // passage au niveau 2 et ajout d’un objet
+        p.addXp(10);
         p.majFinDeTour();
 
-        // 40 -> +1 (archer) + (40/8 - 1) = +5 → 45
         assertEquals(45, p.getCurrenthealthpoints());
 
         String out = p.toString();
         assertTrue(out.contains("Niveau : 2"), "L'affichage doit indiquer le niveau 2");
         assertTrue(out.contains("\n\nInventaire :"));
-        assertTrue(out.contains("Magic Bow"), "L'inventaire doit contenir Magic Bow");
+        assertTrue(out.contains(MAGIC_BOW.getLabel()), "L'inventaire doit contenir Magic Bow");
     }
 
     // Vérifie qu’un nain avec < 50% de PV et équipé d’un Élixir sacré gagne bien +2
@@ -97,17 +92,15 @@ public class GlobalTest {
     void scenarioNainElixirSoin() {
         Dwarf p = new Dwarf("Gimli", "Nain", 0, new ArrayList<>());
         p.setHealthpoints(41);
-        p.setCurrenthealthpoints(19); // < 41/2 = 20
-        p.getInventory().add("Holy Elixir");
-
-        p.addXp(10); // passage niveau 2
+        p.setCurrenthealthpoints(19);
+        p.getInventory().add(HOLY_ELIXIR.getLabel());
+        p.addXp(10);
         p.majFinDeTour();
 
-        // +1 (élixir) +1 (bonus nain) = +2 → 21
         assertEquals(21, p.getCurrenthealthpoints());
 
         String out = p.toString();
-        assertTrue(out.contains("Holy Elixir"));
+        assertTrue(out.contains(HOLY_ELIXIR.getLabel()));
         assertTrue(out.contains("Niveau : 2"));
     }
 
@@ -118,7 +111,7 @@ public class GlobalTest {
     void scenarioClampPvAuMax() {
         Adventurer p = new Adventurer("Any", "Héros", 0, new ArrayList<>());
         p.setHealthpoints(50);
-        p.setCurrenthealthpoints(60); // déjà au-dessus du max
+        p.setCurrenthealthpoints(60);
 
         p.majFinDeTour();
 

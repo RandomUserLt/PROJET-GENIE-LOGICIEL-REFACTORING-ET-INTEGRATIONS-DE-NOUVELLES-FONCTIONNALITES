@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static re.forestier.edu.rpg.Literaux.*;
+//import static re.forestier.edu.rpg.Literaux.*;
+import static re.forestier.edu.rpg.Objects.*;
+import static re.forestier.edu.rpg.Ability.*;
 
 public final class Archer extends Player {
 
@@ -14,35 +16,35 @@ public final class Archer extends Player {
     static {
         LEVEL_ABILITIES.put(1, new HashMap<>() {
             {
-                put(INTELLIGENCE, 1);
-                put(ATTACK, 3);
-                put(CHANCE, 1);
-                put(VISION, 3);
+                put(INTELLIGENCE.name(), 1);
+                put(ATTACK.name(), 3);
+                put(CHANCE.name(), 1);
+                put(VISION.name(), 3);
             }
         });
 
         LEVEL_ABILITIES.put(2, new HashMap<>() {
             {
-                put(DEFENSE, 1);
-                put(CHANCE, 2);
+                put(DEFENSE.name(), 1);
+                put(CHANCE.name(), 2);
             }
         });
 
         LEVEL_ABILITIES.put(3, new HashMap<>() {
             {
-                put(ATTACK, 3);
+                put(ATTACK.name(), 3);
             }
         });
 
         LEVEL_ABILITIES.put(4, new HashMap<>() {
             {
-                put(DEFENSE, 2);
+                put(DEFENSE.name(), 2);
             }
         });
 
         LEVEL_ABILITIES.put(5, new HashMap<>() {
             {
-                put(ATTACK, 4);
+                put(ATTACK.name(), 4);
             }
         });
     }
@@ -54,11 +56,9 @@ public final class Archer extends Player {
 
     public Archer(String playerName,
             String avatarName,
-            // String avatarClass,
             int money,
             ArrayList<String> inventory) {
 
-        // super(playerName, avatarName, ARCHER, money, inventory);
         super(playerName, avatarName, money, inventory);
         initBaseAbilities(LEVEL_ABILITIES);
     }
@@ -68,7 +68,7 @@ public final class Archer extends Player {
         int hpApresPlusUn = getCurrenthealthpoints() + 1;
         int gain = 1;
 
-        if (getInventory().contains(OBJECT_MAGIC_BOW)) {
+        if (getInventory().contains(MAGIC_BOW.getLabel())) {
             gain += (hpApresPlusUn / 8) - 1;
         }
 
