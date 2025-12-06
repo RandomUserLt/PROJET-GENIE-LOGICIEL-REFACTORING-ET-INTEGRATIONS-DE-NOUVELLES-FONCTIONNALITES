@@ -1,0 +1,6 @@
+java -cp build/classes/java/main re.forestier.edu.Main   
+./gradlew build 
+./gradlew run
+./gradlew test
+./gradlew jacocoTestReport
+./gradlew pitest 

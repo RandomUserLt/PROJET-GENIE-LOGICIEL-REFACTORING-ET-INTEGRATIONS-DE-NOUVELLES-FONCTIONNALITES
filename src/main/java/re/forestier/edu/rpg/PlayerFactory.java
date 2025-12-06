@@ -8,9 +8,6 @@ import re.forestier.edu.rpg.Archer;
 import re.forestier.edu.rpg.Dwarf;
 import re.forestier.edu.rpg.Player;
 
-//import re.forestier.edu.rpg.AvatarClass.*;
-
-//import static re.forestier.edu.rpg.Literaux.*;
 import static re.forestier.edu.rpg.AvatarClass.*;
 
 public final class PlayerFactory {

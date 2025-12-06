@@ -1,4 +1,4 @@
-package re.forestier.edu.rpg;
+package re.forestier.edu.rpg.models;
 
 public enum Objects {
     LOOKOUT_RING("Lookout Ring", "Prevents surprise attacks"),

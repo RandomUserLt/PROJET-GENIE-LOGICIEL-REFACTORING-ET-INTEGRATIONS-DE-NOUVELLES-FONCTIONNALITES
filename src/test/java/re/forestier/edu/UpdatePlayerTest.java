@@ -13,9 +13,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import re.forestier.edu.rpg.*;
-import re.forestier.edu.rpg.Literaux.*;
-import static re.forestier.edu.rpg.Objects.*;
-import static re.forestier.edu.rpg.Ability.*;
+import re.forestier.edu.rpg.view.Literaux.*;
+import static re.forestier.edu.rpg.models.Objects.*;
+import static re.forestier.edu.rpg.models.Ability.*;
 
 public class UpdatePlayerTest {
     private ArrayList<String> inv;

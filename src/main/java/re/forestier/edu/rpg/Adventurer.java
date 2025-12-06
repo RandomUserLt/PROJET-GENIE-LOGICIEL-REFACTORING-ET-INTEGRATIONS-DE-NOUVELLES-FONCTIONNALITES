@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import re.forestier.edu.rpg.Ability;
-
-import static re.forestier.edu.rpg.Objects.*;
-import static re.forestier.edu.rpg.Ability.*;
-import static re.forestier.edu.rpg.AdventurerAbilityConfig.*;
+//import re.forestier.edu.rpg.Ability;
+import re.forestier.edu.rpg.models.Ability;
+import static re.forestier.edu.rpg.models.Objects.*;
+import static re.forestier.edu.rpg.models.Ability.*;
+import static re.forestier.edu.rpg.config.AdventurerAbilityConfig.*;
 
 public final class Adventurer extends Player {
 

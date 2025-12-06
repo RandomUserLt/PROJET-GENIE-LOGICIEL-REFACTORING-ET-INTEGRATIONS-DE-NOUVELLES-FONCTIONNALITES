@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static re.forestier.edu.rpg.Objects.*;
-import static re.forestier.edu.rpg.Ability.*;
-import static re.forestier.edu.rpg.DwarfAbilityConfig.*;
+import static re.forestier.edu.rpg.models.Objects.*;
+import static re.forestier.edu.rpg.models.Ability.*;
+import static re.forestier.edu.rpg.config.DwarfAbilityConfig.*;
 
 public final class Dwarf extends Player {
 

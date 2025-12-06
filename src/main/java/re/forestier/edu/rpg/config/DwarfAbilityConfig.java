@@ -1,4 +1,4 @@
-package re.forestier.edu.rpg;
+package re.forestier.edu.rpg.config;
 
 public final class DwarfAbilityConfig {
 

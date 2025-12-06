@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
-import static re.forestier.edu.rpg.Literaux.*;
+import re.forestier.edu.rpg.models.Objects;
+import re.forestier.edu.rpg.models.Ability;
+import static re.forestier.edu.rpg.view.Literaux.*;
+import static re.forestier.edu.rpg.models.Objects.*;
+import re.forestier.edu.rpg.progression.*;
+import re.forestier.edu.rpg.progression.LevelProgression;
+import static re.forestier.edu.rpg.models.Ability.*;
+//import re.forestier.edu.rpg.models.Ability;
 
 public abstract class Player {
     private String playerName;
@@ -20,10 +26,7 @@ public abstract class Player {
 
     // --- CONSTRUCTEUR ----------------------------------------------------------
 
-    public Player(String playerName,
-            String avatarName,
-            int money,
-            ArrayList<String> inventory) {
+    public Player(String playerName, String avatarName, int money, ArrayList<String> inventory) {
 
         this.playerName = playerName;
         this.avatarName = avatarName;

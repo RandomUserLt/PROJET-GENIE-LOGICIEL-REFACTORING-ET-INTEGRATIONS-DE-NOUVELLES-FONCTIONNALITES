@@ -1,4 +1,4 @@
-package re.forestier.edu.rpg;
+package re.forestier.edu.rpg.progression;
 
 import java.util.List;
 import java.util.NavigableMap;

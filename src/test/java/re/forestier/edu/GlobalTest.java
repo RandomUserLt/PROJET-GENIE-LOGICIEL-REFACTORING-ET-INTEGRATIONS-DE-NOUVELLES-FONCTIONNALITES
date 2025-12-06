@@ -11,8 +11,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import re.forestier.edu.rpg.*;
-import static re.forestier.edu.rpg.Objects.*;
-import static re.forestier.edu.rpg.Ability.*;
+import static re.forestier.edu.rpg.models.Objects.*;
+import static re.forestier.edu.rpg.models.Ability.*;
 
 public class GlobalTest {
 

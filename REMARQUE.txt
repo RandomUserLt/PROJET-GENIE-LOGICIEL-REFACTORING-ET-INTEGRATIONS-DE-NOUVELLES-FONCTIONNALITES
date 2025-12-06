@@ -1,3 +1,0 @@
-Si téléchargé depuis  GitHub, pour une certaine raison, le fichier player aura un p minuscule au lieu de majuscule ce qui génèrera une erreur au lancement. 
-Considérer  le dépôt zip.
-
