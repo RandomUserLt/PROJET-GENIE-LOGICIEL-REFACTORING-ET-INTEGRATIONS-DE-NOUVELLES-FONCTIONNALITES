@@ -32,6 +32,8 @@ public final class PlayerFactory {
                 return new Adventurer(playerName, avatarName, money, inventory);
             case DWARF:
                 return new Dwarf(playerName, avatarName, money, inventory);
+            case GOBLIN:
+                return new Goblin(playerName, avatarName, money, inventory);
             default:
                 return null;
         }

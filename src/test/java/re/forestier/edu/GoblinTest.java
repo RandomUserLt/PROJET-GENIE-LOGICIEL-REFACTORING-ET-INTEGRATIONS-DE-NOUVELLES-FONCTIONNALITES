@@ -110,7 +110,7 @@ class GoblinTest {
         @DisplayName("Niveau 5 (XP total 300) : DEF=2, ATK=4, acquis conservés")
         void level5() {
             Player p = newGoblin();
-            p.setXp(200);
+            p.addXp(200);
             p.addXp(100);
             assertEquals(5, p.retrieveLevel());
 
