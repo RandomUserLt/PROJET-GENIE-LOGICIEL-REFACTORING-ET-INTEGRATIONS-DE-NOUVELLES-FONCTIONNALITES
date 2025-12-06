@@ -11,7 +11,6 @@ import static re.forestier.edu.rpg.models.Objects.*;
 import re.forestier.edu.rpg.progression.*;
 import re.forestier.edu.rpg.progression.LevelProgression;
 import static re.forestier.edu.rpg.models.Ability.*;
-//import re.forestier.edu.rpg.models.Ability;
 
 public abstract class Player {
     private String playerName;

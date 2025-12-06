@@ -40,7 +40,12 @@ public final class PlayerFactory {
     public static boolean isSupported(String userType) {
         if (userType == null)
             return false;
-        String t = userType.trim().toUpperCase(Locale.ROOT);
-        return ARCHER.equals(t) || ADVENTURER.equals(t) || DWARF.equals(t);
+        try {
+            AvatarClass.valueOf(userType.trim().toUpperCase(Locale.ROOT));
+            return true;
+        } catch (IllegalArgumentException ex) {
+            return false;
+        }
     }
+
 }
