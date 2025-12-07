@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import re.forestier.edu.rpg.Player;
+
 import static re.forestier.edu.rpg.config.GoblinAbilityConfig.*;
 import static re.forestier.edu.rpg.models.Ability.*;
 
@@ -61,7 +63,12 @@ public final class Goblin extends Player {
     }
 
     @Override
-    public int calculGainFinDeTour() { // non spécifiée
-        return 1;
+    public int calculGainFinDeTour() { // logique non spécifiée dans l'énoncé
+        int gain = 2; // on reprend donc la logique de l'adventurer qui semble etre une logique par
+                      // défaut
+        if (retrieveLevel() < 3) { // ne prenant pas en compte le contenu de l'inventaire du joueur
+            gain -= 1;
+        }
+        return gain;
     }
 }
