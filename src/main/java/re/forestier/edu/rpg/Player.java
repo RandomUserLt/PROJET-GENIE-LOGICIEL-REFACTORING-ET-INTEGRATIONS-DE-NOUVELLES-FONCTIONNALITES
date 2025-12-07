@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import re.forestier.edu.rpg.models.Objects;
 import re.forestier.edu.rpg.models.Ability;
+import re.forestier.edu.rpg.models.GameObject;
+import re.forestier.edu.rpg.models.GameObjectCatalog;
+import static re.forestier.edu.rpg.models.GameObjectCatalog.*;
+
 import static re.forestier.edu.rpg.view.Literaux.*;
-import static re.forestier.edu.rpg.models.Objects.*;
+import re.forestier.edu.rpg.models.GameObject;
 import re.forestier.edu.rpg.progression.*;
 import re.forestier.edu.rpg.progression.LevelProgression;
 import static re.forestier.edu.rpg.models.Ability.*;
@@ -21,11 +24,12 @@ public abstract class Player {
     private int healthpoints;
     private int currenthealthpoints;
     protected HashMap<String, Integer> abilities;
-    protected ArrayList<String> inventory;
+    protected ArrayList<GameObject> inventory = new ArrayList<>();
+    private int maxCarryWeight = Integer.MAX_VALUE;
 
     // --- CONSTRUCTEUR ----------------------------------------------------------
 
-    public Player(String playerName, String avatarName, int money, ArrayList<String> inventory) {
+    public Player(String playerName, String avatarName, int money, ArrayList<GameObject> inventory) {
 
         this.playerName = playerName;
         this.avatarName = avatarName;
@@ -33,6 +37,29 @@ public abstract class Player {
         this.inventory = (inventory != null) ? inventory : new ArrayList<>();
         this.abilities = new HashMap<>();
         this.level = LevelProgression.obtenirNiveauDepuisXp(this.xp);
+    }
+
+    public void addItem(GameObject o) {
+        if (o == null) {
+            throw new IllegalArgumentException("item is null");
+        }
+        int newWeight = getInventoryWeight() + o.getWeight();
+        if (newWeight > getMaxCarryWeight()) {
+            throw new IllegalArgumentException("Max weight exceeded");
+        }
+        inventory.add(o);
+    }
+
+    public void sell(GameObject o) {
+        if (o == null) {
+            throw new IllegalArgumentException("item is null");
+        }
+        int pos = inventory.indexOf(o);
+        if (pos < 0) {
+            throw new java.util.NoSuchElementException("item not in inventory");
+        }
+        GameObject removed = inventory.remove(pos);
+        addMoney(removed.getValue());
     }
 
     protected void initBaseAbilities(Map<Integer, ? extends Map<String, Integer>> levelAbilities) {
@@ -79,15 +106,16 @@ public abstract class Player {
     }
 
     protected void onLevelUp(int lvl) {
-        Random random = new Random();
-        Objects[] possible = Objects.values();
-        Objects randomObject = possible[random.nextInt(possible.length)];
-        getInventory().add(randomObject.getLabel());
+        GameObject loot = GameObjectCatalog.random();
+        try {
+            addItem(loot);
+        } catch (IllegalArgumentException ignore) {
+        }
+
         Map<String, Integer> abilitiesToAdd = getSubClassLevelAbilities(lvl);
         if (abilitiesToAdd != null) {
             abilitiesToAdd.forEach((ability, value) -> getAbilities().put(ability, value));
         }
-
         setLevel(lvl);
     }
 
@@ -140,6 +168,31 @@ public abstract class Player {
     }
 
     /*----------------------------GETTERS ET SETTERS ---------------------------------------------*/
+
+    public ArrayList<GameObject> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(ArrayList<GameObject> inventory) {
+        this.inventory = (inventory != null) ? inventory : new ArrayList<>();
+    }
+
+    public int getMaxCarryWeight() {
+        return maxCarryWeight;
+    }
+
+    public void setMaxCarryWeight(int w) {
+        if (w < 0)
+            throw new IllegalArgumentException("maxCarryWeight must be >= 0");
+        this.maxCarryWeight = w;
+    }
+
+    public int getInventoryWeight() {
+        int sum = 0;
+        for (var it : inventory)
+            sum += it.getWeight();
+        return sum;
+    }
 
     public String getPlayerName() {
         return playerName;
@@ -196,16 +249,8 @@ public abstract class Player {
         this.level = lvl;
     }
 
-    public void setInventory(ArrayList<String> inventory) {
-        this.inventory = inventory;
-    }
-
     public HashMap<String, Integer> getAbilities() {
         return abilities;
-    }
-
-    public ArrayList<String> getInventory() {
-        return inventory;
     }
 
     public int retrieveLevel() {

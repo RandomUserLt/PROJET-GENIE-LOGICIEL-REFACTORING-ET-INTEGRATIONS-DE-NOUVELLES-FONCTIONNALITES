@@ -7,6 +7,7 @@ import re.forestier.edu.rpg.Adventurer;
 import re.forestier.edu.rpg.Archer;
 import re.forestier.edu.rpg.Dwarf;
 import re.forestier.edu.rpg.Player;
+import re.forestier.edu.rpg.models.GameObject;
 
 import static re.forestier.edu.rpg.AvatarClass.*;
 
@@ -19,7 +20,7 @@ public final class PlayerFactory {
             String playerName,
             String avatarName,
             int money,
-            ArrayList<String> inventory) {
+            ArrayList<GameObject> inventory) {
         if (userType == null)
             return null;
 

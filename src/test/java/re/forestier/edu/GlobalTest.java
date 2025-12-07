@@ -11,8 +11,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import re.forestier.edu.rpg.*;
-import static re.forestier.edu.rpg.models.Objects.*;
+//import static re.forestier.edu.rpg.models.Objects.*;
 import static re.forestier.edu.rpg.models.Ability.*;
+import static re.forestier.edu.rpg.models.GameObjectCatalog.*;
+//import static re.forestier.edu.rpg.models.Objects.*;
 
 public class GlobalTest {
 
@@ -72,7 +74,7 @@ public class GlobalTest {
         Archer p = new Archer("Robin", "Ranger", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(40);
-        p.getInventory().add(MAGIC_BOW.getLabel());
+        p.getInventory().add(MAGIC_BOW);
 
         p.addXp(10);
         p.majFinDeTour();
@@ -82,7 +84,9 @@ public class GlobalTest {
         String out = p.toString();
         assertTrue(out.contains("Niveau : 2"), "L'affichage doit indiquer le niveau 2");
         assertTrue(out.contains("\n\nInventaire :"));
-        assertTrue(out.contains(MAGIC_BOW.getLabel()), "L'inventaire doit contenir Magic Bow");
+        assertTrue(out.contains(MAGIC_BOW.getName()), "L'inventaire doit contenir Magic Bow");
+        assertTrue(p.getInventory().contains(MAGIC_BOW));
+
     }
 
     // Vérifie qu’un nain avec < 50% de PV et équipé d’un Élixir sacré gagne bien +2
@@ -93,14 +97,15 @@ public class GlobalTest {
         Dwarf p = new Dwarf("Gimli", "Nain", 0, new ArrayList<>());
         p.setHealthpoints(41);
         p.setCurrenthealthpoints(19);
-        p.getInventory().add(HOLY_ELIXIR.getLabel());
+        p.getInventory().add(HOLY_ELIXIR);
         p.addXp(10);
         p.majFinDeTour();
 
         assertEquals(21, p.getCurrenthealthpoints());
 
         String out = p.toString();
-        assertTrue(out.contains(HOLY_ELIXIR.getLabel()));
+        assertTrue(out.contains(HOLY_ELIXIR.getName()));
+        assertTrue(p.getInventory().contains(HOLY_ELIXIR));
         assertTrue(out.contains("Niveau : 2"));
     }
 

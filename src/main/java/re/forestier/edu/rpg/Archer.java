@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static re.forestier.edu.rpg.models.Objects.*;
+import re.forestier.edu.rpg.models.GameObject;
 import static re.forestier.edu.rpg.models.Ability.*;
 import static re.forestier.edu.rpg.config.ArcherAbilityConfig.*;
+import static re.forestier.edu.rpg.models.GameObjectCatalog.*;
 
 public final class Archer extends Player {
 
@@ -57,7 +58,7 @@ public final class Archer extends Player {
     public Archer(String playerName,
             String avatarName,
             int money,
-            ArrayList<String> inventory) {
+            ArrayList<GameObject> inventory) {
 
         super(playerName, avatarName, money, inventory);
         initBaseAbilities(LEVEL_ABILITIES);
@@ -68,7 +69,7 @@ public final class Archer extends Player {
         int hpApresPlusUn = getCurrenthealthpoints() + 1;
         int gain = 1;
 
-        if (getInventory().contains(MAGIC_BOW.getLabel())) {
+        if (getInventory().contains(MAGIC_BOW)) {
             gain += (hpApresPlusUn / 8) - 1;
         }
 

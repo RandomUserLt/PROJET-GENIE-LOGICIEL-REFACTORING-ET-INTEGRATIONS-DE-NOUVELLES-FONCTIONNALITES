@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static re.forestier.edu.rpg.models.Objects.*;
+import re.forestier.edu.rpg.models.GameObject;
+import static re.forestier.edu.rpg.models.GameObjectCatalog.*;
 import static re.forestier.edu.rpg.models.Ability.*;
 import static re.forestier.edu.rpg.config.DwarfAbilityConfig.*;
 
@@ -47,7 +48,7 @@ public final class Dwarf extends Player {
     public Dwarf(String playerName,
             String avatarName,
             int money,
-            ArrayList<String> inventory) {
+            ArrayList<GameObject> inventory) {
 
         super(playerName, avatarName, money, inventory);
 
@@ -62,7 +63,7 @@ public final class Dwarf extends Player {
     @Override
     public int calculGainFinDeTour() {
         int gain = 1;
-        if (getInventory().contains(HOLY_ELIXIR.getLabel())) {
+        if (getInventory().contains(HOLY_ELIXIR)) {
             gain += 1;
         }
         return gain;

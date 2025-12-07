@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import re.forestier.edu.rpg.Player;
 import re.forestier.edu.rpg.PlayerFactory;
 import re.forestier.edu.rpg.AvatarClass;
+import re.forestier.edu.rpg.models.GameObject;
+import static re.forestier.edu.rpg.models.GameObjectCatalog.*;
 
 @DisplayName("Goblin  tests TDD")
 class GoblinTest {
@@ -21,7 +23,7 @@ class GoblinTest {
         return PlayerFactory.fromType(
                 AvatarClass.GOBLIN.name(),
                 "Gina", "GobAvatar", 0,
-                new ArrayList<String>());
+                new ArrayList<GameObject>());
     }
 
     @Nested

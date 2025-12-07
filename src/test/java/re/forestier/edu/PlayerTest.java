@@ -11,11 +11,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import re.forestier.edu.rpg.*;
+import re.forestier.edu.rpg.models.GameObject;
+import static re.forestier.edu.rpg.models.GameObjectCatalog.*;
 
 public class PlayerTest {
-    private ArrayList<String> inv;
+    private ArrayList<GameObject> inv;
 
-    private ArrayList<String> emptyInv() {
+    private ArrayList<GameObject> emptyInv() {
         return new ArrayList<>();
     }
 
@@ -37,8 +39,8 @@ public class PlayerTest {
     @BeforeEach
     void setUp() {
         inv = new ArrayList<>();
-        inv.add("Torch");
-        inv.add("Rope");
+        inv.add(DRAUPNIR);
+        inv.add(RUNE);
     }
 
     // Vérifie que le nom du joueur est correctement stocké

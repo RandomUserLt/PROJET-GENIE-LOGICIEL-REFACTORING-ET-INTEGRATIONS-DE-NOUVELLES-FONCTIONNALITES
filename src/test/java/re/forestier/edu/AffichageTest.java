@@ -9,11 +9,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import re.forestier.edu.rpg.*;
+import re.forestier.edu.rpg.models.GameObject;
+import static re.forestier.edu.rpg.models.GameObjectCatalog.*;
 
 public class AffichageTest {
-    private ArrayList<String> inv;
+    private ArrayList<GameObject> inv;
 
-    private ArrayList<String> emptyInv() {
+    private ArrayList<GameObject> emptyInv() {
         return new ArrayList<>();
     }
 
@@ -29,8 +31,8 @@ public class AffichageTest {
     @BeforeEach
     void setUp() {
         inv = new ArrayList<>();
-        inv.add("Torch");
-        inv.add("Rope");
+        inv.add(DRAUPNIR);
+        inv.add(RUNE);
     }
 
     // Vérifie que le nom du joueur est correctement stocké
@@ -38,7 +40,7 @@ public class AffichageTest {
     @Test
     @DisplayName("afficherJoueur : format de base avec xp=20, inventaire vide")
     void testAffichageBase() {
-        ArrayList<String> inv = new ArrayList<>();
+        ArrayList<GameObject> inv = new ArrayList<>();
         Adventurer p = new Adventurer("Florian", "Gnognak le Barbare", 0, inv);
         p.addXp(20);
         p.getInventory().clear();
@@ -60,15 +62,15 @@ public class AffichageTest {
     @Test
     @DisplayName("afficherJoueur : inventaire non vide → items affichés ligne par ligne")
     void testAffichageInventaire() {
-        ArrayList<String> inv = new ArrayList<>();
-        inv.add("Torch");
-        inv.add("Magic Bow");
+        ArrayList<GameObject> inv = new ArrayList<>();
+        inv.add(DRAUPNIR);
+        inv.add(MAGIC_BOW);
         Archer p = new Archer("Alice", "Ranger", 0, inv);
         String s = p.toString();
 
         assertTrue(s.contains("\n\nInventaire :"));
-        assertTrue(s.contains("\n   Torch"));
-        assertTrue(s.contains("\n   Magic Bow"));
+        assertTrue(s.contains("GameObject{name='Draupnir'"));
+        assertTrue(s.contains("GameObject{name='Magic Bow'"));
     }
 
 }

@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import re.forestier.edu.rpg.Player;
+import re.forestier.edu.rpg.models.GameObject;
 
 import static re.forestier.edu.rpg.config.GoblinAbilityConfig.*;
 import static re.forestier.edu.rpg.models.Ability.*;
+import static re.forestier.edu.rpg.models.GameObjectCatalog.*;
 
 public final class Goblin extends Player {
 
@@ -52,7 +54,7 @@ public final class Goblin extends Player {
     public Goblin(String playerName,
             String avatarName,
             int money,
-            ArrayList<String> inventory) {
+            ArrayList<GameObject> inventory) {
         super(playerName, avatarName, money, inventory);
         initBaseAbilities(LEVEL_ABILITIES);
     }

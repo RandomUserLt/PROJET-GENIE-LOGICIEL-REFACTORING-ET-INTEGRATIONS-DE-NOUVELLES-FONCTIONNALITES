@@ -14,13 +14,15 @@ import org.junit.jupiter.api.Test;
 
 import re.forestier.edu.rpg.*;
 import re.forestier.edu.rpg.view.Literaux.*;
-import static re.forestier.edu.rpg.models.Objects.*;
+//import static re.forestier.edu.rpg.models.Objects.*;
 import static re.forestier.edu.rpg.models.Ability.*;
+import re.forestier.edu.rpg.models.GameObject;
+import static re.forestier.edu.rpg.models.GameObjectCatalog.*;
 
 public class UpdatePlayerTest {
-    private ArrayList<String> inv;
+    private ArrayList<GameObject> inv;
 
-    private ArrayList<String> emptyInv() {
+    private ArrayList<GameObject> emptyInv() {
         return new ArrayList<>();
     }
 
@@ -36,8 +38,8 @@ public class UpdatePlayerTest {
     @BeforeEach
     void setUp() {
         inv = new ArrayList<>();
-        inv.add("Torch");
-        inv.add("Rope");
+        inv.add(DRAUPNIR);
+        inv.add(RUNE);
     }
 
     // Vérifie que le nom du joueur est correctement stocké
@@ -158,7 +160,7 @@ public class UpdatePlayerTest {
         Player p = creerJoueur("D", "Dee", "DWARF");
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(40);
-        p.getInventory().add("Holy Elixir");
+        p.getInventory().add(HOLY_ELIXIR);
         p.majFinDeTour();
         assertEquals(42, p.getCurrenthealthpoints());
     }
@@ -172,7 +174,7 @@ public class UpdatePlayerTest {
         Player p = creerJoueur("E", "Eee", "ARCHER");
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(40);
-        p.getInventory().add("Magic Bow");
+        p.getInventory().add(MAGIC_BOW);
         p.majFinDeTour();
         assertEquals(45, p.getCurrenthealthpoints());
     }
@@ -350,7 +352,7 @@ public class UpdatePlayerTest {
         Archer p = new Archer("A", "Archer", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(50); // exactement 50%
-        p.getInventory().add("Magic Bow");
+        p.getInventory().add(MAGIC_BOW);
         p.majFinDeTour();
         assertEquals(50, p.getCurrenthealthpoints());
     }
@@ -363,7 +365,7 @@ public class UpdatePlayerTest {
         Dwarf p = new Dwarf("D", "Dwarf", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(50);// exactement 50%
-        p.getInventory().add("Holy Elixir");
+        p.getInventory().add(HOLY_ELIXIR);
         p.majFinDeTour();
         assertEquals(50, p.getCurrenthealthpoints());
     }
@@ -408,7 +410,7 @@ public class UpdatePlayerTest {
         Archer p = new Archer("R", "Archer", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(48);
-        p.getInventory().add("Magic Bow");
+        p.getInventory().add(MAGIC_BOW);
         p.majFinDeTour();
         assertEquals(54, p.getCurrenthealthpoints()); // 48 + 1 + (6-1) = 54
     }
@@ -439,7 +441,7 @@ public class UpdatePlayerTest {
         Archer p = new Archer("R", "Archer", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(8); // < 50%
-        p.getInventory().add("Magic Bow");
+        p.getInventory().add(MAGIC_BOW);
         p.majFinDeTour();
         assertEquals(9, p.getCurrenthealthpoints());
     }
@@ -452,7 +454,7 @@ public class UpdatePlayerTest {
         Archer p = new Archer("R", "Archer", 0, new ArrayList<>());
         p.setHealthpoints(100);
         p.setCurrenthealthpoints(16);// < 50%
-        p.getInventory().add("Magic Bow");
+        p.getInventory().add(MAGIC_BOW);
         p.majFinDeTour();
         assertEquals(18, p.getCurrenthealthpoints());
     }

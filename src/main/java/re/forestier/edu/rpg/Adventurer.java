@@ -6,7 +6,8 @@ import java.util.Map;
 import java.util.Random;
 
 import re.forestier.edu.rpg.models.Ability;
-import static re.forestier.edu.rpg.models.Objects.*;
+import re.forestier.edu.rpg.models.GameObject;
+import static re.forestier.edu.rpg.models.GameObjectCatalog.*;
 import static re.forestier.edu.rpg.models.Ability.*;
 import static re.forestier.edu.rpg.config.AdventurerAbilityConfig.*;
 
@@ -59,7 +60,7 @@ public final class Adventurer extends Player {
     public Adventurer(String playerName,
             String avatarName,
             int money,
-            ArrayList<String> inventory) {
+            ArrayList<GameObject> inventory) {
 
         super(playerName, avatarName, money, inventory);
         initBaseAbilities(LEVEL_ABILITIES);
