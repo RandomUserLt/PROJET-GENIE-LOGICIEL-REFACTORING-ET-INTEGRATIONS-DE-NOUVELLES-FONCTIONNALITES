@@ -40,8 +40,30 @@ public abstract class Player {
     }
 
     public String toMarkdown() {
-        return "";
-    }; // à implémenter
+        StringBuilder md = new StringBuilder();
+        md.append("# ").append(this.getAvatarName()).append("\n");
+        md.append("_Joué par ").append(this.getPlayerName()).append("_\n\n");
+        md.append("## Niveau\n");
+        md.append(this.retrieveLevel())
+                .append(" (XP totale : ")
+                .append(this.getXp())
+                .append(")\n\n");
+
+        md.append("## Capacités\n");
+        this.getAbilities().forEach((name, level) -> {
+            md.append("* ").append(name).append(" : ").append(level).append("\n");
+        });
+        md.append("\n");
+        md.append("## Inventaire\n");
+        if (this.getInventory().isEmpty()) {
+            md.append("* _Aucun objet_\n");
+        } else {
+            this.getInventory().forEach(item -> {
+                md.append("* ").append(item.toString()).append("\n");
+            });
+        }
+        return md.toString();
+    }
 
     public void addItem(GameObject o) {
         if (o == null) {

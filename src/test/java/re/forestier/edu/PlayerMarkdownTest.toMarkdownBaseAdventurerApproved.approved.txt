@@ -1,0 +1,14 @@
+# Gnognak le Barbare
+_Joué par Florian_
+
+## Niveau
+2 (XP totale : 20)
+
+## Capacités
+* INTELLIGENCE : 2
+* DEFENSE : 1
+* ATTACK : 3
+* CHANCE : 3
+
+## Inventaire
+* _Aucun objet_
