@@ -39,6 +39,10 @@ public abstract class Player {
         this.level = LevelProgression.obtenirNiveauDepuisXp(this.xp);
     }
 
+    public String toMarkdown() {
+        return "";
+    }; // à implémenter
+
     public void addItem(GameObject o) {
         if (o == null) {
             throw new IllegalArgumentException("item is null");
