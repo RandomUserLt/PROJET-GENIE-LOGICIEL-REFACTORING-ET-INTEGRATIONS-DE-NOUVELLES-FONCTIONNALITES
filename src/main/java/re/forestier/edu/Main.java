@@ -3,11 +3,13 @@ package re.forestier.edu;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import re.forestier.edu.rpg.AvatarClass;
 import re.forestier.edu.rpg.PlayerFactory;
 import re.forestier.edu.rpg.models.GameObject;
+import static re.forestier.edu.rpg.models.GameObjectCatalog.*;
 import re.forestier.edu.rpg.Player;
 import re.forestier.edu.rpg.Archer;
 import re.forestier.edu.rpg.Dwarf;
@@ -15,8 +17,11 @@ import re.forestier.edu.rpg.Adventurer;
 
 public class Main {
 
-        public static void main(String[] args) {
+        public static void main(String[] args) { // CE MAIN NE CONTIENT PAS DE TESTS , IL S'AGIT JUSTE DE CODE EXEMPLE A
+                                                 // DES FINS DE VISUALISATION
 
+                System.out.println(
+                                "REMARQUE : CE MAIN NE CONTIENT PAS DE TESTS , IL S'AGIT JUSTE DE CODE EXEMPLE A DES FINS DE  VISUALISATION\n");
                 Adventurer player = new Adventurer("Florian", "Gnognak le Barbare", 200, new ArrayList<>());
                 player.setXp(200);
                 player.addXp(100);
@@ -98,6 +103,21 @@ public class Main {
                 System.out.println(
                                 "Du coup, PIT a moins de mutations pertinentes et davantage de mutants équivalents :");
                 System.out.println("la baisse du score vient de la simplification, pas d’une perte de qualité.\n");
+
+                var rng = new Random();
+
+                for (int k = 0; k < 3; k++) {
+                        GameObject item = random();
+                        int t = 0;
+                        while (player.getInventory().contains(item) && t < 50) {
+                                item = random();
+                                t++;
+                        }
+                        if (!player.getInventory().contains(item)) {
+                                player.addItem(item);
+                        }
+                }
+                System.out.println(player.toMarkdown());
 
         }
 }

@@ -59,7 +59,8 @@ public abstract class Player {
             md.append("* _Aucun objet_\n");
         } else {
             this.getInventory().forEach(item -> {
-                md.append("* ").append(item.toString()).append("\n");
+                // md.append("* ").append(item.toString()).append("\n");
+                md.append("* ").append(item.getName()).append("\n");
             });
         }
         return md.toString();
